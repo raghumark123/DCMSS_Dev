@@ -21,7 +21,7 @@
     <target name="deployPkg">
       <!-- Upload the contents of the "mypkg" package -->
       <!--<sf:deploy username="${sf1.username}" password="${sf1.password}" sessionId="${sf.sessionId}" serverurl="${sf.serverurl}" maxPoll="${sf.maxPoll}" deployRoot="retrievePkgOutput" rollbackOnError="true"/>-->
-	  <sf:deploy username="${sf1.username}" password="${sf1.password}" sessionId="${sf.sessionId}" serverurl="${sf.serverurl}" maxPoll="${sf.maxPoll}" deployRoot="src" rollbackOnError="true"/>
+	  <sf:deploy username="${sf1.username}" password="${sf1.password}" sessionId="${sf.sessionId}" serverurl="${sf.serverurl}" maxPoll="${sf.maxPoll}" deployRoot="Raghumark/src" rollbackOnError="true"/>
      <!--mkdir dir="retrieveOutput"/-->
       <!-- Retrieve the contents into another directory -->
       <!--sf:retrieve username="${sf1.username}" password="${sf1.password}" sessionId="${sf.sessionId}" serverurl="${sf.serverurl}" maxPoll="${sf.maxPoll}" retrieveTarget="retrieveOutput" packageNames="MyPkg"/-->
