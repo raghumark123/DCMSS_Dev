@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ApexPage xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>37.0</apiVersion>
+    <availableInTouch>false</availableInTouch>
+    <confirmationTokenRequired>false</confirmationTokenRequired>
+    <description>This page is used by Force.com site Membership website to first check if a Membership record already exists. If it does then it takes the user to the Temple Services page.</description>
+    <label>DCMSS Membership Registration</label>
+</ApexPage>
