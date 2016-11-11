@@ -9,6 +9,8 @@ public SearchContactControllerExtn(ApexPages.StandardController controller)
 
 Public String cid;                                                            // Stores Contact Id
 public List<cContact> contactList {get; set;}                                 // Wrapper class which stores contact data and a boolean flag.
+public List<PricebookEntry> PricebookEntryList{get; set;}                    //Wrapper class which stores a product selected from UI and returns its pricing
+Public List<Product2> prodList{get;set;}
 public Boolean selectAllCheckbox {get; set;}                                  // Stores checkbox data.
 public boolean errormsg=false;                                                // Error msg. When no contact has been selected.
 String ConId;
@@ -54,6 +56,9 @@ public void setuserinp(String userinp){this.userinp=userinp;}
 public String selectedServices;
 public String getselectedServices(){return selectedServices;}
 public void setselectedServices(String selectedServices){this.selectedServices=selectedServices;}
+public String selectedQty;
+public String getselectedQty(){return selectedQty;}
+public void setselectedQty(String selectedQty){this.selectedQty = selectedQty;}
 
 //public String getuserinput2(){return userinput2;}
 //public void setuserinput2(String userinput2){this.userinput2=userinput2;}
@@ -84,6 +89,19 @@ public List<Contact> contactsearch()
      }
 
  return null;
+}
+/* End of method */
+
+/* Method to Search the contact database to fetch the query results */
+public void getPriceMethod()
+{
+     List<Product2> prodList =[SELECT Id FROM Product2 WHERE Name =: selectedServices Limit 1];
+     String PBE_ID='01s4C000000LXBy';
+    // Boolean INTMPL=true;
+    // prodList = database.Query('select Id from Product2 where name = '+'\''+selectedServices+'\'');
+   // PricebookEntryList = database.Query('select UnitPrice from PriceBookEntry where Pricebook2Id =: PBE_ID AND Product2Id =: prodList AND InTemple__c =: INTMPL  LIMIT 1');
+    PricebookEntryList = database.Query('select ProductCode,UnitPrice from PriceBookEntry where Pricebook2Id =: PBE_ID AND Product2Id =: prodList LIMIT 1');
+    
 }
 /* End of method */
 
@@ -142,7 +160,7 @@ public PageReference processSelected()
      errormsg=false;
      //String id=System.currentpagereference().getparameters().get('id');
      Pagereference p=new Pagereference ('/apex/PS_TemplSvcs_Step3');
-     p.setRedirect(false);
+     p.setRedirect(true);
      return p;
  }
 
@@ -158,13 +176,35 @@ public List<SelectOption> getItems()
 public List<SelectOption> getTmplServOptions() {
         List<SelectOption> TmplServOptions = new List<SelectOption>();
       //  TmplServOptions.add(new SelectOption('','-None-'));
-        TmplServOptions.add(new SelectOption('ABHISHEKHAM','Abhisekham'));
+        TmplServOptions.add(new SelectOption('ABHISHEKAM','Abhishekam'));
         TmplServOptions.add(new SelectOption('PUSHPANJALI','Pushpanjali'));
-        TmplServOptions.add(new SelectOption('ASHTOTHARAM','Ashtotharam'));
+        TmplServOptions.add(new SelectOption('ASHTOTHARAM ARCHANA','Ashtotharam Archana'));
         TmplServOptions.add(new SelectOption('VEHICLE POOJA','Vehicle Pooja'));
-        TmplServOptions.add(new SelectOption('SATHYANARYANA POOJA','Sathyanarayana Pooja'));
+        TmplServOptions.add(new SelectOption('SATYANARAYANA POOJA','Satyanarayana Pooja'));
+        TmplServOptions.add(new SelectOption('TEMPLE SATYANARAYANA POOJA','Temple Satyanarayana Pooja'));
+        TmplServOptions.add(new SelectOption('NAAMAKARANAM','Naamakaranam'));
+        TmplServOptions.add(new SelectOption('NIRA PARA','Nira Para'));
+        TmplServOptions.add(new SelectOption('NISHCHITARTHAM','Nishchitartham'));
+        TmplServOptions.add(new SelectOption('PANNA PARA','Panna Para'));
+        TmplServOptions.add(new SelectOption('TEMPLE ABHISHEKAM','Temple Abhishekam'));
+        TmplServOptions.add(new SelectOption('TEMPLE VIDYAARAMBAM','Temple Vidyaarambam'));
+        TmplServOptions.add(new SelectOption('VIDYAARAMBAM','Vidyaarambam'));
+        TmplServOptions.add(new SelectOption('ANNAPRAASANAM','Annapraasanam'));
          
         return TmplServOptions;
+    }
+public List<SelectOption> getServQty() {
+        List<SelectOption> ServQty = new List<SelectOption>();
+      //  TmplServOptions.add(new SelectOption('','-None-'));
+        ServQty.add(new SelectOption('1','1'));
+        ServQty.add(new SelectOption('2','2'));
+        ServQty.add(new SelectOption('3','3'));
+        ServQty.add(new SelectOption('4','4'));
+        ServQty.add(new SelectOption('5','5'));
+        ServQty.add(new SelectOption('6','6'));
+        ServQty.add(new SelectOption('7','7'));
+        
+        return ServQty;
     }
 /* return error message if no contact is selected */
 public boolean geterrormsg()
@@ -188,7 +228,8 @@ public PageReference processPayment()
      p.setRedirect(false);
      return p;
 
-}   
+}  
+
 public PageReference processStep2()
 {
      //String id=System.currentpagereference().getparameters().get('id');

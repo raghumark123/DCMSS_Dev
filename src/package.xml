@@ -1,24 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>Backup_DEVRR</fullName>
-    <description>Backup date: Nov 6th Sunday 2016</description>
+    <fullName>Release 1%2E0 Sprint 1</fullName>
     <types>
         <members>SearchContactControllerExtn</members>
-        <members>customPickListInVFDemoController</members>
-        <members>sampleCon</members>
         <name>ApexClass</name>
     </types>
     <types>
-        <members>DCMSS_Contact_Detail_Page</members>
-        <members>DCMSS_Custom_VF_Picklist_2</members>
-        <members>DCMSS_Membership_Registration</members>
-        <members>DCMSS_Multi_Select_Picklist</members>
-        <members>New_Membership_Registration_Page</members>
-        <members>PS_TemplSvcs_Step1</members>
         <members>PS_TemplSvcs_Step2</members>
         <members>PS_TemplSvcs_Step3</members>
-        <members>PS_TemplSvcs_Step4</members>
-        <members>PS_TemplSvcs_Step5</members>
         <name>ApexPage</name>
     </types>
     <version>37.0</version>
