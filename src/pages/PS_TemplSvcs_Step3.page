@@ -14,24 +14,23 @@ j$(document).ready(function() {
 <!-- Div to give a colored box effect -->
 
 <div style="border-width:2px;border-style:solid;border-color:orange;">
-
+    <apex:outputLabel style="font-weight:bold;" value="For priest services in DC Metro Area, please contact xxx-xxx-xxxx" ></apex:outputLabel>
     <!-- Panel grid to display boxes o accept user input values -->
-    <apex:panelGrid columns="2">
+    <apex:panelGrid columns="4">
         <apex:outputLabel style="font-weight:bold;" value="E-mail" ></apex:outputLabel>
        <apex:outputText value="{!userinput}"/>
         <apex:outputLabel style="font-weight:bold;" value="Last Name" ></apex:outputLabel>
         <apex:outputText value="{!userinp}"/> 
-        <apex:outputLabel style="font-weight:bold;" value="For priest services in DC Metro Area, please contact xxx-xxx-xxxx" ></apex:outputLabel>
-        <BR/>
         <apex:outputLabel style="font-weight:bold;" value="Select an in-temple service : " ></apex:outputLabel>
         <apex:selectList value="{!selectedServices}" multiselect="false" size="1">
                 <apex:selectOptions value="{!TmplServOptions}"/>
                 <apex:actionSupport action="{!getPriceMethod}" event="onclick" reRender="outptText" />
             </apex:selectList>
-       <!-- <apex:selectList value="{!selectedQty}" multiselect="false" size="1">
+        <apex:outputLabel style="font-weight:bold;" value="Select Quantity : " ></apex:outputLabel>
+        <apex:selectList value="{!selectedQty}" multiselect="false" size="1">
                 <apex:selectOptions value="{!ServQty}"/>
-                <apex:actionSupport action="{!getTotalPriceMethod}" event="onclick" reRender="outptText" />
-            </apex:selectList> -->
+                <apex:actionSupport action="{!getPriceMethod}" event="onclick" reRender="outptText" />
+            </apex:selectList>
              
         <!--<apex:outputText value="{!Pymnt_Amt}"/>-->
         <!--
@@ -51,6 +50,9 @@ j$(document).ready(function() {
          <apex:column headervalue="Unit Price">
                 <apex:outputtext value="{!pbe.UnitPrice}"/>
             </apex:column>   
+          <apex:column headervalue="Total Price">
+          	<apex:outputtext value="{!pbe.TotPrice__c}"/>
+          </apex:column>
       </apex:pageblocktable>
     </apex:pageblock>
 

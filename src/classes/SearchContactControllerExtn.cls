@@ -12,7 +12,7 @@ public List<cContact> contactList {get; set;}                                 //
 public List<PricebookEntry> PricebookEntryList{get; set;}                    //Wrapper class which stores a product selected from UI and returns its pricing
 Public List<Product2> prodList{get;set;}
 public Boolean selectAllCheckbox {get; set;}                                  // Stores checkbox data.
-public boolean errormsg=false;                                                // Error msg. When no contact has been selected.
+public boolean errormsg=false;  												// Error msg. When no contact has been selected.                                            
 String ConId;
 String userinput;                                                             //Contact Email
 String userinp;                                                               //Contact Last Name
@@ -56,9 +56,9 @@ public void setuserinp(String userinp){this.userinp=userinp;}
 public String selectedServices;
 public String getselectedServices(){return selectedServices;}
 public void setselectedServices(String selectedServices){this.selectedServices=selectedServices;}
-public String selectedQty;
-public String getselectedQty(){return selectedQty;}
-public void setselectedQty(String selectedQty){this.selectedQty = selectedQty;}
+public Integer selectedQty;
+public Integer getselectedQty(){return selectedQty;}
+public void setselectedQty(Integer selectedQty){this.selectedQty = selectedQty;}
 
 //public String getuserinput2(){return userinput2;}
 //public void setuserinput2(String userinput2){this.userinput2=userinput2;}
@@ -100,8 +100,8 @@ public void getPriceMethod()
     // Boolean INTMPL=true;
     // prodList = database.Query('select Id from Product2 where name = '+'\''+selectedServices+'\'');
    // PricebookEntryList = database.Query('select UnitPrice from PriceBookEntry where Pricebook2Id =: PBE_ID AND Product2Id =: prodList AND InTemple__c =: INTMPL  LIMIT 1');
-    PricebookEntryList = database.Query('select ProductCode,UnitPrice from PriceBookEntry where Pricebook2Id =: PBE_ID AND Product2Id =: prodList LIMIT 1');
-    
+    PricebookEntryList = database.Query('select ProductCode,UnitPrice,TotPrice__c from PriceBookEntry where Pricebook2Id =: PBE_ID AND Product2Id =: prodList LIMIT 1');
+    PricebookEntryList[0].TotPrice__c=PricebookEntryList[0].UnitPrice*Integer.ValueOf(selectedQty);
 }
 /* End of method */
 

@@ -6,8 +6,11 @@
         <name>ApexClass</name>
     </types>
     <types>
+        <members>PS_TemplSvcs_Step1</members>
         <members>PS_TemplSvcs_Step2</members>
         <members>PS_TemplSvcs_Step3</members>
+        <members>PS_TemplSvcs_Step4</members>
+        <members>PS_TemplSvcs_Step5</members>
         <name>ApexPage</name>
     </types>
     <version>37.0</version>
