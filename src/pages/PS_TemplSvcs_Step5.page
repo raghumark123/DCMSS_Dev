@@ -1,0 +1,10 @@
+<apex:page standardcontroller="Contact" extensions="SearchContactControllerExtn" >
+ <apex:form >
+  <!-- Commandbutton to proceed to next screen -->
+  <div style="position:relative;left:75px;">
+      <apex:commandButton value="Finish" action="{!processStep2}"/>
+      <!--<apex:commandbutton value="Previous" action="{!processSelected}"/>-->
+  </div>
+<!-- End of Commandbutton -->
+</apex:form>
+</apex:page>
