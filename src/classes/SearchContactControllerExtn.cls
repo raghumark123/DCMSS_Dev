@@ -59,11 +59,24 @@ public void setselectedServices(String selectedServices){this.selectedServices=s
 public Integer selectedQty;
 public Integer getselectedQty(){return selectedQty;}
 public void setselectedQty(Integer selectedQty){this.selectedQty = selectedQty;}
-
-//public String getuserinput2(){return userinput2;}
-//public void setuserinput2(String userinput2){this.userinput2=userinput2;}
-
-
+public String selectedPT;
+public String getselectedPT(){return selectedPT;}
+public void setselectedPT(String selectedPT){this.selectedPT=selectedPT;}
+public String CCName;
+public String getCCName(){return CCName;}
+public void setCCName(String CCName){this.CCName=CCName;}
+public Integer CCNum; 
+public Integer getCCNum(){return CCNum;}
+public void setCCNum(Integer CCNum){this.CCNum=CCNum;}
+public Integer selectedExpMnth;
+public Integer getselectedExpMnth(){return selectedExpMnth;}
+public void setselectedExpMnth(Integer selectedExpMnth){this.selectedExpMnth=selectedExpMnth;}
+public Integer selectedExpYr;
+public Integer getselectedExpYr(){return selectedExpYr;}
+public void setselectedExpYr(Integer selectedExpYr){this.selectedExpYr=selectedExpYr;}
+public Integer CCCVC; 
+public Integer getCCCVC(){return CCCVC;}
+public void setCCCVC(Integer CCCVC){this.CCCVC=CCCVC;}
 /*End of Getter and Setter methods */
 
 
@@ -160,7 +173,7 @@ public PageReference processSelected()
      errormsg=false;
      //String id=System.currentpagereference().getparameters().get('id');
      Pagereference p=new Pagereference ('/apex/PS_TemplSvcs_Step3');
-     p.setRedirect(true);
+     p.setRedirect(false);
      return p;
  }
 
@@ -206,6 +219,46 @@ public List<SelectOption> getServQty() {
         
         return ServQty;
     }
+    
+public List<SelectOption> getTmplPTOptions()
+{
+ List<SelectOption> TmplPTOptions = new List<SelectOption>();
+  TmplPTOptions.add(new SelectOption('CREDIT CARD','CREDIT CARD'));
+  TmplPTOptions.add(new SelectOption('CASH','CASH'));
+  TmplPTOptions.add(new SelectOption('CHEQUE','CHEQUE'));
+ return TmplPTOptions;
+}
+
+public List<SelectOption> getTmplCEM() {
+        List<SelectOption> TmplCEM = new List<SelectOption>();
+        TmplCEM.add(new SelectOption('1','1'));
+        TmplCEM.add(new SelectOption('2','2'));
+        TmplCEM.add(new SelectOption('3','3'));
+        TmplCEM.add(new SelectOption('4','4'));
+        TmplCEM.add(new SelectOption('5','5'));
+        TmplCEM.add(new SelectOption('6','6'));
+        TmplCEM.add(new SelectOption('7','7'));
+        TmplCEM.add(new SelectOption('8','8'));
+        TmplCEM.add(new SelectOption('9','9'));
+        TmplCEM.add(new SelectOption('10','10'));
+        TmplCEM.add(new SelectOption('11','11'));
+        TmplCEM.add(new SelectOption('12','12'));
+        
+        return TmplCEM;
+    }
+public List<SelectOption> getTmplCEYOptions() {
+        List<SelectOption> TmplCEYOptions = new List<SelectOption>();
+        TmplCEYOptions.add(new SelectOption('','-None-'));
+        TmplCEYOptions.add(new SelectOption('16','16'));
+        TmplCEYOptions.add(new SelectOption('17','17'));
+        TmplCEYOptions.add(new SelectOption('18','18'));
+        TmplCEYOptions.add(new SelectOption('19','19'));
+        TmplCEYOptions.add(new SelectOption('20','20'));
+        TmplCEYOptions.add(new SelectOption('21','21'));
+        TmplCEYOptions.add(new SelectOption('22','22'));
+        
+        return TmplCEYOptions;
+    }    
 /* return error message if no contact is selected */
 public boolean geterrormsg()
 {
@@ -221,20 +274,34 @@ public Pagereference Cancel()
 }
  
 /* Method to fetch the selected records from Step 2 */
-public PageReference processPayment()
+public PageReference capturePayment()
 {
-     //String id=System.currentpagereference().getparameters().get('id');
-     Pagereference p=new Pagereference ('/apex/PS_TemplSvcs_Step5');
+    // Pagereference p=new Pagereference ('/apex/PS_TemplSvcs_Step4');
+     Pagereference p=page.PS_TemplSvcs_Step4;
+     
+     if(selectedPT=='CREDIT CARD') {
+    
+     }
+    if(selectedPT=='CHEQUE'){
+     p=page.PS_TemplSvcs_Step5;
+    
+     
+    	
+     }
+     if(selectedPT=='CASH'){
+     p=page.PS_TemplSvcs_Step6;
+     
+    	
+     }
      p.setRedirect(false);
      return p;
-
 }  
 
 public PageReference processStep2()
 {
      //String id=System.currentpagereference().getparameters().get('id');
      Pagereference p=new Pagereference ('/apex/PS_TemplSvcs_Step2');
-     p.setRedirect(true);
+     p.setRedirect(false);
      return p;
 
 }   

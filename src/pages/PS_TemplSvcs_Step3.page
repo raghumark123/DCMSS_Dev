@@ -1,12 +1,5 @@
 <apex:page standardcontroller="Contact" extensions="SearchContactControllerExtn" >
-<apex:includeScript value="{!URLFOR($Resource.jQuery, 'jquery-ui.min.js')}"  />
-<apex:stylesheet value="{!URLFOR($Resource.jQuery, 'jquery-ui.min.css')}"  />
-<script type="text/javascript">
-var j$ = jQuery.noConflict();
-j$(document).ready(function() {
-  
-   });
-</script>
+
 <apex:form >
 <apex:pageblock >
 <apex:pageBlockSection title="Choose a Service and enter Payment Information" columns="1"></apex:pageBlockSection>
@@ -32,12 +25,23 @@ j$(document).ready(function() {
                 <apex:actionSupport action="{!getPriceMethod}" event="onclick" reRender="outptText" />
             </apex:selectList>
              
-        <!--<apex:outputText value="{!Pymnt_Amt}"/>-->
-        <!--
-        <apex:outputLabel style="font-weight:bold;" value="Contact Mobile Phone" ></apex:outputLabel>
-        <apex:inputText value="{!userinput2}"/>-->
     </apex:panelGrid>
 </div>
+
+
+<div style="border-width:2px;border-style:solid;border-color:blue;">
+ <apex:outputLabel style="font-weight:bold;" value="How do you want to pay for this service?" ></apex:outputLabel>
+    <!-- Panel grid to display boxes to accept user Payment Type -->
+
+        <apex:outputLabel style="font-weight:bold;" value="Select Payment Type : " ></apex:outputLabel>
+        <apex:selectList value="{!selectedPT}" multiselect="false" size="1">
+                <apex:selectOptions value="{!TmplPTOptions}"/>
+               <!--    <apex:actionSupport action="{!dispPaymentFields}" event="onclick" reRender="CC,CHQDet" />-->
+                  
+            </apex:selectList>
+
+</div>
+
 <!-- Display error message -->
 <apex:pagemessage strength="2" title="Error!!" severity="error" detail="Please select a contact or enter email address to proceed" rendered="{!errormsg}"/>
 <!-- End of error message -->
@@ -54,11 +58,11 @@ j$(document).ready(function() {
           	<apex:outputtext value="{!pbe.TotPrice__c}"/>
           </apex:column>
       </apex:pageblocktable>
-    </apex:pageblock>
+</apex:pageblock>
 
   <!-- Commandbutton to proceed to next screen -->
   <div style="position:relative;left:75px;">
-      <apex:commandButton value="Next" action="{!processPayment}"/>
+      <apex:commandButton value="Enter Payment Information" action="{!capturePayment}"/>
       <apex:commandbutton value="Previous" action="{!processStep2}"/>
   </div>
 <!-- End of Commandbutton -->
