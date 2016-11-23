@@ -296,9 +296,9 @@ return ( math.mod( sum, 10) == 0 );
 public PageReference validatePayment()
 {
 	errormsg=false;
-   if(CCName == '' || CCNum == '' || CCCVC == ''){
+   if(CCName == '' || CCNum == '' || CCCVC == '' || selectedExpYr == null || selectedExpMnth == null){
    	errormsg=true;
-     ApexPages.addmessage(new ApexPages.message(ApexPages.severity.ERROR,'One of the required payment field is blank. Please provide information'));
+     ApexPages.addmessage(new ApexPages.message(ApexPages.severity.WARNING,'One or more of the required payment field(s) are blank. Please provide complete information'));
     
    }
      // if(CCValidation(string.valueof(CCNum)) == false)
@@ -309,25 +309,25 @@ public PageReference validatePayment()
       String s1=string.valueof(curr_year).right(2);
       Integer Year1= Integer.valueof(s1);
       
-      if(selectedExpYr <= Year1){
+      if(CCName != '' &&  CCNum != '' && CCCVC != '' && selectedExpYr <= Year1){
        if(selectedExpMnth < curr_month){
        	errormsg=true;
-       ApexPages.addmessage(new ApexPages.message(ApexPages.severity.ERROR,'Credit Card expired. Please enter another card number'));
+       ApexPages.addmessage(new ApexPages.message(ApexPages.severity.FATAL,'Credit Card expired. Please enter another card number'));
       }
       }
       Pattern p1 = Pattern.compile('(?:\\d[ -]?){16,16}');
       //Matcher pm1 = p1.matcher(string.valueof(CCNum));
       Matcher pm1 = p1.matcher(CCNum);
-      if(!pm1.matches()){
+      if(!pm1.matches() && CCNum != ''){
       	errormsg=true;
-       ApexPages.addmessage(new ApexPages.message(ApexPages.severity.WARNING,'Credit card number is not in proper format. Please re-enter'));
+       ApexPages.addmessage(new ApexPages.message(ApexPages.severity.ERROR,'Credit card number should be 16 digits only Dash and space in-between allowed. Please re-enter'));
       }
       Pattern p2 = Pattern.compile('(?:\\d[ -]?){3,3}');
       //Matcher pm2 = p2.matcher(string.valueof(CCCVC));
       Matcher pm2 = p2.matcher(CCCVC);
-      if(!pm2.matches()){
+      if(!pm2.matches() && CCCVC != ''){
       	errormsg=true;
-       ApexPages.addmessage(new ApexPages.message(ApexPages.severity.WARNING,'CVC Code should be 3 digits only'));
+       ApexPages.addmessage(new ApexPages.message(ApexPages.severity.ERROR,'CVC Code should be 3 digits only'));
       }
       if(errormsg==false){
      Pagereference p=new Pagereference ('/apex/PS_TemplSvcs_Step6');

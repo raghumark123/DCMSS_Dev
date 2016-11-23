@@ -31,13 +31,13 @@
 </apex:pageblock>
 
 <apex:pageBlockSection title="Enter CREDIT CARD INFORMATION" columns="1"></apex:pageBlockSection>
-<apex:outputPanel id="CC">
+<apex:panelgrid id="CC" columns="4">
  <!-- rendered="{IF(!selectedPT == 'CREDIT CARD', true, false)}" -->
       <apex:outputLabel style="font-weight:bold;" value="Name as in Credit Card"></apex:outputLabel>
        <apex:inputText value="{!CCName}"/>
        <!-- required="{!IF(CONTAINS(selectedPT,'CREDIT'),true,false)}" -->
       <apex:outputLabel style="font-weight:bold;" value="Card Number (16 Digits):"></apex:outputLabel>
-       <apex:inputText value="{!CCNum}" maxlength="16"/>
+       <apex:inputText value="{!CCNum}" maxlength="19"/>
        
       <apex:outputLabel style="font-weight:bold;" value="Card Exp Month : "></apex:outputLabel>
       <apex:selectList value="{!selectedExpMnth}" multiselect="false" size="1">
@@ -51,7 +51,7 @@
       </apex:selectList>    
      <apex:outputLabel style="font-weight:bold;" value="3 Digit Card CVC Code"></apex:outputLabel>
        <apex:inputText value="{!CCCVC}" maxlength="3"/>
- </apex:outputPanel> 
+ </apex:panelgrid> 
 
  
   <!-- Commandbutton to proceed to next screen -->
