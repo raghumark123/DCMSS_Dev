@@ -65,18 +65,18 @@ public void setselectedPT(String selectedPT){this.selectedPT=selectedPT;}
 public String CCName;
 public String getCCName(){return CCName;}
 public void setCCName(String CCName){this.CCName=CCName;}
-public Integer CCNum; 
-public Integer getCCNum(){return CCNum;}
-public void setCCNum(Integer CCNum){this.CCNum=CCNum;}
+public String CCNum; 
+public String getCCNum(){return CCNum;}
+public void setCCNum(String CCNum){this.CCNum=CCNum;}
 public Integer selectedExpMnth;
 public Integer getselectedExpMnth(){return selectedExpMnth;}
 public void setselectedExpMnth(Integer selectedExpMnth){this.selectedExpMnth=selectedExpMnth;}
 public Integer selectedExpYr;
 public Integer getselectedExpYr(){return selectedExpYr;}
 public void setselectedExpYr(Integer selectedExpYr){this.selectedExpYr=selectedExpYr;}
-public Integer CCCVC; 
-public Integer getCCCVC(){return CCCVC;}
-public void setCCCVC(Integer CCCVC){this.CCCVC=CCCVC;}
+public String CCCVC; 
+public String getCCCVC(){return CCCVC;}
+public void setCCCVC(String CCCVC){this.CCCVC=CCCVC;}
 /*End of Getter and Setter methods */
 
 
@@ -223,6 +223,7 @@ public List<SelectOption> getServQty() {
 public List<SelectOption> getTmplPTOptions()
 {
  List<SelectOption> TmplPTOptions = new List<SelectOption>();
+  TmplPTOptions.add(new SelectOption('NONE','-None-',true));
   TmplPTOptions.add(new SelectOption('CREDIT CARD','CREDIT CARD'));
   TmplPTOptions.add(new SelectOption('CASH','CASH'));
   TmplPTOptions.add(new SelectOption('CHEQUE','CHEQUE'));
@@ -231,6 +232,7 @@ public List<SelectOption> getTmplPTOptions()
 
 public List<SelectOption> getTmplCEM() {
         List<SelectOption> TmplCEM = new List<SelectOption>();
+        TmplCEM.add(new SelectOption('NONE','-None-',true));
         TmplCEM.add(new SelectOption('1','1'));
         TmplCEM.add(new SelectOption('2','2'));
         TmplCEM.add(new SelectOption('3','3'));
@@ -248,7 +250,7 @@ public List<SelectOption> getTmplCEM() {
     }
 public List<SelectOption> getTmplCEYOptions() {
         List<SelectOption> TmplCEYOptions = new List<SelectOption>();
-        TmplCEYOptions.add(new SelectOption('','-None-'));
+        TmplCEYOptions.add(new SelectOption('NONE','-None-',true));
         TmplCEYOptions.add(new SelectOption('16','16'));
         TmplCEYOptions.add(new SelectOption('17','17'));
         TmplCEYOptions.add(new SelectOption('18','18'));
@@ -272,6 +274,70 @@ public Pagereference Cancel()
         Pagereference p =new Pagereference('/'+cid);
         return p;
 }
+
+/*Lunh's algorithm for credit card validation
+public boolean CCValidation(String CCNumber){
+Integer sum = 0;
+Integer len = CCNumber.length();
+for(Integer i=len-1;i>=0;i--){
+Integer num = Integer.ValueOf(CCNumber.substring(i,i+1));
+if ( math.mod(i , 2) == math.mod(len, 2) )
+{
+Integer n = num * 2;
+sum += (n / 10) + ( math.mod(n, 10));
+}
+else{
+sum += num;
+}
+}
+return ( math.mod( sum, 10) == 0 );
+}*/
+
+public PageReference validatePayment()
+{
+	errormsg=false;
+   if(CCName == '' || CCNum == '' || CCCVC == ''){
+   	errormsg=true;
+     ApexPages.addmessage(new ApexPages.message(ApexPages.severity.ERROR,'One of the required payment field is blank. Please provide information'));
+    
+   }
+     // if(CCValidation(string.valueof(CCNum)) == false)
+     //  ApexPages.addmessage(new ApexPages.message(ApexPages.severity.ERROR,'Credit card number is not in proper format. Please re-enter'));
+ 
+      Integer curr_year =  Date.Today().Year();
+      Integer curr_month = Date.Today().Month();
+      String s1=string.valueof(curr_year).right(2);
+      Integer Year1= Integer.valueof(s1);
+      
+      if(selectedExpYr <= Year1){
+       if(selectedExpMnth < curr_month){
+       	errormsg=true;
+       ApexPages.addmessage(new ApexPages.message(ApexPages.severity.ERROR,'Credit Card expired. Please enter another card number'));
+      }
+      }
+      Pattern p1 = Pattern.compile('(?:\\d[ -]?){16,16}');
+      //Matcher pm1 = p1.matcher(string.valueof(CCNum));
+      Matcher pm1 = p1.matcher(CCNum);
+      if(!pm1.matches()){
+      	errormsg=true;
+       ApexPages.addmessage(new ApexPages.message(ApexPages.severity.WARNING,'Credit card number is not in proper format. Please re-enter'));
+      }
+      Pattern p2 = Pattern.compile('(?:\\d[ -]?){3,3}');
+      //Matcher pm2 = p2.matcher(string.valueof(CCCVC));
+      Matcher pm2 = p2.matcher(CCCVC);
+      if(!pm2.matches()){
+      	errormsg=true;
+       ApexPages.addmessage(new ApexPages.message(ApexPages.severity.WARNING,'CVC Code should be 3 digits only'));
+      }
+      if(errormsg==false){
+     Pagereference p=new Pagereference ('/apex/PS_TemplSvcs_Step6');
+     //Pagereference p=page.PS_TemplSvcs_Step6;
+     p.setRedirect(false);
+     return p;
+     }
+     else
+    return null;
+}  
  
 /* Method to fetch the selected records from Step 2 */
 public PageReference capturePayment()

@@ -34,23 +34,36 @@
 <apex:outputPanel id="CC">
  <!-- rendered="{IF(!selectedPT == 'CREDIT CARD', true, false)}" -->
       <apex:outputLabel style="font-weight:bold;" value="Name as in Credit Card"></apex:outputLabel>
-       <apex:inputText value="{!CCName}" required="{!IF(CONTAINS(selectedPT,'CREDIT'),true,false)}"/>
+       <apex:inputText value="{!CCName}"/>
+       <!-- required="{!IF(CONTAINS(selectedPT,'CREDIT'),true,false)}" -->
       <apex:outputLabel style="font-weight:bold;" value="Card Number (16 Digits):"></apex:outputLabel>
-       <apex:inputText value="{!CCNum}" required="{!IF(CONTAINS(selectedPT,'CREDIT'),true,false)}"/>
+       <apex:inputText value="{!CCNum}" maxlength="16"/>
        
       <apex:outputLabel style="font-weight:bold;" value="Card Exp Month : "></apex:outputLabel>
-      <apex:selectList value="{!selectedExpMnth}" multiselect="false" size="1" required="{!IF(CONTAINS(selectedPT,'CREDIT'),true,false)}">
+      <apex:selectList value="{!selectedExpMnth}" multiselect="false" size="1">
            <apex:selectOptions value="{!TmplCEM}"/>
           <!--   <apex:actionSupport action="{!getPaymentFields}" event="" reRender="" />-->
       </apex:selectList> 
       <apex:outputLabel style="font-weight:bold;" value="Card Exp Year : "></apex:outputLabel>
-     <apex:selectList value="{!selectedExpYr}" multiselect="false" size="1" required="{!IF(CONTAINS(selectedPT,'CREDIT'),true,false)}">
+     <apex:selectList value="{!selectedExpYr}" multiselect="false" size="1">
            <apex:selectOptions value="{!TmplCEYOptions}"/>
          <!--    <apex:actionSupport action="{!getPaymentFields}" event="" reRender="" />-->
       </apex:selectList>    
      <apex:outputLabel style="font-weight:bold;" value="3 Digit Card CVC Code"></apex:outputLabel>
-       <apex:inputText value="{!CCCVC}" required="{!IF(CONTAINS(selectedPT,'CREDIT'),true,false)}"/>
- </apex:outputPanel>  
+       <apex:inputText value="{!CCCVC}" maxlength="3"/>
+ </apex:outputPanel> 
+
+ 
+  <!-- Commandbutton to proceed to next screen -->
+  <div style="position:relative;left:75px;">
+      <apex:commandButton value="Submit Payment Information" action="{!validatePayment}"/>
+      <!-- rerender="showErrorMsg" -->
+      <apex:commandbutton value="Previous" action="{!processStep2}"/>
+  </div>
+   <!-- Display error message -->
+<apex:pagemessages id="showErrorMsg"></apex:pagemessages>
+<!-- End of error message -->
+<!-- End of Commandbutton -->
 </apex:pageblock>
 </apex:form>
 </apex:page>
