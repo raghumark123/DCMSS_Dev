@@ -61,10 +61,11 @@
       <!-- rerender="showErrorMsg" -->
       <apex:commandbutton value="Previous" action="{!processStep2}"/>
   </div>
+  <!-- End of Commandbutton -->
    <!-- Display error message -->
 <apex:pagemessages id="showErrorMsg"></apex:pagemessages>
 <!-- End of error message -->
-<!-- End of Commandbutton -->
+
 </apex:pageblock>
 </apex:form>
 </apex:page>

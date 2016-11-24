@@ -1,6 +1,6 @@
 <apex:page standardcontroller="Contact" extensions="SearchContactControllerExtn" >
  <apex:form >
- <apex:sectionHeader title="Step 5" subtitle="Ready to process payment - Please confirm !!!"/>
+ <apex:sectionHeader title="Step 5" subtitle="Credit Card Payment - Please confirm to process the charge"/>
   <apex:pageblock >
   <!-- Div to give a colored box effect -->
 
@@ -57,6 +57,9 @@
       <!--<apex:commandbutton value="Previous" action="{!processSelected}"/>-->
   </div>
 <!-- End of Commandbutton -->
+   <!-- Display error message -->
+<apex:pagemessages id="showErrorMsg"></apex:pagemessages>
+<!-- End of error message -->
 </apex:pageblock>
 </apex:form>
 </apex:page>

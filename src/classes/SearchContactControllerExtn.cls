@@ -23,7 +23,7 @@ String MailingAddr;
 String Membership_ID;                                                             
 String Devotee_ID;                                                               
 String Pymnt_Type;                                                             
-Decimal Pymnt_Amt;                                                             
+public Decimal Pymnt_Amt;                                                             
 Integer Pymnt_Qty;                                                                
 String Pymnt_Chq_No;                                                             
 Date Pymnt_Dt;                                                             
@@ -115,6 +115,7 @@ public void getPriceMethod()
    // PricebookEntryList = database.Query('select UnitPrice from PriceBookEntry where Pricebook2Id =: PBE_ID AND Product2Id =: prodList AND InTemple__c =: INTMPL  LIMIT 1');
     PricebookEntryList = database.Query('select ProductCode,UnitPrice,TotPrice__c from PriceBookEntry where Pricebook2Id =: PBE_ID AND Product2Id =: prodList LIMIT 1');
     PricebookEntryList[0].TotPrice__c=PricebookEntryList[0].UnitPrice*Integer.ValueOf(selectedQty);
+    Pymnt_Amt=PricebookEntryList[0].TotPrice__c;
 }
 /* End of method */
 
@@ -294,6 +295,62 @@ return ( math.mod( sum, 10) == 0 );
 }*/
 public PageReference submitPayment()
 {
+	// You need to select a Payment Gateway.
+        // It is important to set the paymentGatewayId property on all object instances.
+
+        bt_stripe__Payment_Gateway__c[] pgList = [SELECT Id
+                                                    FROM bt_stripe__Payment_Gateway__c
+                                                    WHERE bt_stripe__Default__c = true];
+
+
+        // It is a good practice to put your p360 action in a try block. If something goes wrong,
+        // the API throws a bt_stripe.P360_API_v1.P360_Exception exception
+
+        try {
+
+            // You can initialize object instances using factory methods.
+
+            bt_stripe.P360_API_v1.Customer c = bt_stripe.P360_API_v1.customerFactory();
+            c.paymentGatewayId = pgList[0].Id;
+            c.name = CCName;
+            c.email = userinput;
+
+            // After setting all the required properties you can call the action methods.
+
+            c.registerCustomer();
+
+            bt_stripe.P360_API_v1.PM pm = bt_stripe.P360_API_v1.paymentMethodFactory();
+            pm.paymentGatewayId = pgList[0].Id;
+
+            // Some properties are object instances. For example a bt_stripe.P360_API_v1.Customer object instance.
+
+            pm.customer = c;
+            pm.cardHolderName = CCName;
+            pm.cardNumber = CCNum;
+            pm.cardExpYear = string.valueof(selectedExpYr);
+            pm.cardExpMonth = string.valueof(selectedExpMnth);
+            pm.cvv = CCCVC;
+            pm.registerPM();
+
+
+            bt_stripe.P360_API_v1.Tra t = bt_stripe.P360_API_v1.transactionFactory();
+            t.paymentGatewayId = pgList[0].Id;
+            t.pm = pm;
+            t.amount = Pymnt_Amt;
+            t.capture();
+
+            // It is important to call the commitWork() method after calling the action methods.
+            // If you not call this method, the data IS NOT SAVED as SOQL in records.
+            // Also, as this is a DML action, you can not do any HTTP callouts after this point.
+
+            bt_stripe.P360_API_v1.commitWork();
+
+        } catch(bt_stripe.P360_API_v1.P360_Exception e) {
+            // Do something on errors
+            system.debug(e.getMessage());
+            ApexPages.addmessage(new ApexPages.message(ApexPages.severity.WARNING,e.getMessage()));
+        }
+         
 	Pagereference p=new Pagereference ('/apex/PS_TemplSvcs_Step7');
      //Pagereference p=page.PS_TemplSvcs_Step6;
      p.setRedirect(false);
