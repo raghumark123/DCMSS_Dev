@@ -1,5 +1,6 @@
 <apex:page standardcontroller="Contact" extensions="SearchContactControllerExtn">
 <apex:form >
+<apex:sectionHeader title="Step 4" subtitle="Capture Payment Information"/>
  <apex:pageblock >
  <!-- Div to give a colored box effect -->
 

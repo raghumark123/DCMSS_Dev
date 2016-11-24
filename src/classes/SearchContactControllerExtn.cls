@@ -292,7 +292,13 @@ sum += num;
 }
 return ( math.mod( sum, 10) == 0 );
 }*/
-
+public PageReference submitPayment()
+{
+	Pagereference p=new Pagereference ('/apex/PS_TemplSvcs_Step7');
+     //Pagereference p=page.PS_TemplSvcs_Step6;
+     p.setRedirect(false);
+     return p;
+}
 public PageReference validatePayment()
 {
 	errormsg=false;

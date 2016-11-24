@@ -13,7 +13,7 @@ function checkAll(cb)
 </script>
 <!-- End of Javascript function -->
 <apex:form >
-<apex:sectionHeader title="Step 1" subtitle="Membership Registration"/>
+<apex:sectionHeader title="Step 2" subtitle="Membership Registration"/>
 <apex:pageblock >
 <apex:pageBlockSection title="Member Search Page" columns="1"></apex:pageBlockSection>
 
