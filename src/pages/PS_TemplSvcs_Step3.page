@@ -13,8 +13,8 @@
     <apex:panelGrid columns="4">
         <apex:outputLabel style="font-weight:bold;" value="E-mail" ></apex:outputLabel>
        <apex:outputText value="{!userinput}"/>
-        <apex:outputLabel style="font-weight:bold;" value="Last Name" ></apex:outputLabel>
-        <apex:outputText value="{!userinp}"/> 
+        <apex:outputLabel style="font-weight:bold;" value="Full Name" ></apex:outputLabel>
+        <apex:outputText value="{!name}"/> 
         <apex:outputLabel style="font-weight:bold;" value="Select an in-temple service : " ></apex:outputLabel>
         <apex:selectList value="{!selectedServices}" multiselect="false" size="1">
                 <apex:selectOptions value="{!TmplServOptions}"/>

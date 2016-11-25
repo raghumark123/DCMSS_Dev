@@ -18,7 +18,7 @@ String userinput;                                                             //
 String userinp;                                                               //Contact Last Name
 String MobilePhone; 
 String Phone;                                                            
-String FirstName;                                                                                                                              
+public String FirstName;                                                                                                                             
 String MailingAddr;                                                             
 String Membership_ID;                                                             
 String Devotee_ID;                                                               
@@ -40,10 +40,10 @@ String Receipt_Num;
 
 
 
-Public boolean displayboxes;
+public boolean displayboxes;
 
-Public List<Contact> results = new List<Contact>();                                     // Contact search results.
-Public List<Contact> selectedContactsstep2 = new List<Contact>();                         // Selcted Contacts
+public List<Contact> results = new List<Contact>();                                     // Contact search results.
+public List<Contact> selectedContactsstep2 = new List<Contact>();                         // Selcted Contacts
 
 /* End of Variable declarations */
 
@@ -63,7 +63,9 @@ public String selectedPT;
 public String getselectedPT(){return selectedPT;}
 public void setselectedPT(String selectedPT){this.selectedPT=selectedPT;}
 public String CCName;
-public String getCCName(){return CCName;}
+public String getCCName(){
+	CCName=Name;
+	return CCName;}
 public void setCCName(String CCName){this.CCName=CCName;}
 public String CCNum; 
 public String getCCNum(){return CCNum;}
@@ -77,6 +79,9 @@ public void setselectedExpYr(Integer selectedExpYr){this.selectedExpYr=selectedE
 public String CCCVC; 
 public String getCCCVC(){return CCCVC;}
 public void setCCCVC(String CCCVC){this.CCCVC=CCCVC;}
+public String Name;  
+public String getName(){return Name;}
+public void setName(String Name){this.Name=Name;}
 /*End of Getter and Setter methods */
 
 
@@ -158,6 +163,7 @@ public PageReference processSelected()
         if(cCon.selected == true){
              selectedContacts.add(cCon.con);
              FirstName=selectedContacts[0].FirstName;
+             Name=selectedContacts[0].Name;
          }
      }
         
@@ -225,9 +231,9 @@ public List<SelectOption> getTmplPTOptions()
 {
  List<SelectOption> TmplPTOptions = new List<SelectOption>();
   TmplPTOptions.add(new SelectOption('NONE','-None-',true));
-  TmplPTOptions.add(new SelectOption('CREDIT CARD','CREDIT CARD'));
-  TmplPTOptions.add(new SelectOption('CASH','CASH'));
-  TmplPTOptions.add(new SelectOption('CHEQUE','CHEQUE'));
+  TmplPTOptions.add(new SelectOption('Credit Card','CREDIT CARD'));
+  TmplPTOptions.add(new SelectOption('Cash','CASH'));
+  TmplPTOptions.add(new SelectOption('Check','CHECK'));
  return TmplPTOptions;
 }
 
@@ -408,16 +414,16 @@ public PageReference capturePayment()
     // Pagereference p=new Pagereference ('/apex/PS_TemplSvcs_Step4');
      Pagereference p=page.PS_TemplSvcs_Step4;
      
-     if(selectedPT=='CREDIT CARD') {
+     if(selectedPT=='Credit CARD') {
     
      }
-    if(selectedPT=='CHEQUE'){
+    if(selectedPT=='Check'){
      p=page.PS_TemplSvcs_Step5;
     
      
     	
      }
-     if(selectedPT=='CASH'){
+     if(selectedPT=='Cash'){
      p=page.PS_TemplSvcs_Step6;
      
     	
