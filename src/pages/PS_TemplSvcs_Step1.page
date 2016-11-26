@@ -3,5 +3,6 @@
  <apex:image id="theImage" value="{!$Resource.sairam}" width="150" height="100"/>
  <apex:sectionHeader title="Welcome to DC Metro Sai Samsthan" subtitle="Temple POS"/>
  
+ 
  </apex:form>
 </apex:page>

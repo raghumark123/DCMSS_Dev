@@ -13,6 +13,8 @@
         <members>PS_TemplSvcs_Step5</members>
         <members>PS_TemplSvcs_Step6</members>
         <members>PS_TemplSvcs_Step7</members>
+        <members>PS_TemplSvcs_Step8</members>
+        <members>PS_TemplSvcs_Step9</members>
         <name>ApexPage</name>
     </types>
     <version>37.0</version>

@@ -82,6 +82,17 @@ public void setCCCVC(String CCCVC){this.CCCVC=CCCVC;}
 public String Name;  
 public String getName(){return Name;}
 public void setName(String Name){this.Name=Name;}
+public String BankName;
+public String getBankName(){
+	//CCName=Name;
+	return BankName;}
+public void setBankName(String BankName){this.BankName=BankName;}
+public String CHKNum; 
+public String getCHKNum(){return CHKNum;}
+public void setCHKNum(String CHKNum){this.CHKNum=CHKNum;}
+public String CHKDate; 
+public String getCHKDate(){return CHKDate;}
+public void setCHKDate(String CHKDate){this.CHKDate=CHKDate;}
 /*End of Getter and Setter methods */
 
 
@@ -356,8 +367,9 @@ public PageReference submitPayment()
             system.debug(e.getMessage());
             ApexPages.addmessage(new ApexPages.message(ApexPages.severity.WARNING,e.getMessage()));
         }
+    //Generate Receipt function call here
          
-	Pagereference p=new Pagereference ('/apex/PS_TemplSvcs_Step7');
+	Pagereference p=new Pagereference ('/apex/PS_TemplSvcs_Step9');
      //Pagereference p=page.PS_TemplSvcs_Step6;
      p.setRedirect(false);
      return p;
@@ -407,7 +419,14 @@ public PageReference validatePayment()
      else
     return null;
 }  
- 
+
+
+public PageReference genReceipt()
+{
+	
+return null;
+}
+
 /* Method to fetch the selected records from Step 2 */
 public PageReference capturePayment()
 {
@@ -424,14 +443,70 @@ public PageReference capturePayment()
     	
      }
      if(selectedPT=='Cash'){
-     p=page.PS_TemplSvcs_Step6;
+     p=page.PS_TemplSvcs_Step8;
      
     	
      }
      p.setRedirect(false);
      return p;
 }  
+private Date setStringToDateFormat(String myDate) {
+   String[] myDateOnly = myDate.split('/');
+  // String[] strDate = myDateOnly[0].split('/');
+   Integer myIntDate = integer.valueOf(myDateOnly[1]);
+   Integer myIntMonth = integer.valueOf(myDateOnly[0]);
+   Integer myIntYear = integer.valueOf(myDateOnly[2]);
+   Date d = Date.newInstance(myIntYear, myIntMonth, myIntDate);
+   return d;
+}
 
+public PageReference validateCheck()
+{
+	errormsg=false;
+   if(BankName == '' || CHKNum == '' || CHKDate == ''){
+   	errormsg=true;
+     ApexPages.addmessage(new ApexPages.message(ApexPages.severity.WARNING,'One or more of the required check field(s) are blank. Please provide complete information'));
+    
+   }
+  Pattern p1 = Pattern.compile('(0?[1-9]|1[012])/(0?[1-9]|[12][0-9]|3[01])/((19|20)\\d\\d)');
+      //Matcher pm1 = p1.matcher(string.valueof(CCNum));
+      Matcher pm1 = p1.matcher(CHKDate);
+      if(!pm1.matches() && CHKDate != ''){
+      	errormsg=true;
+       ApexPages.addmessage(new ApexPages.message(ApexPages.severity.ERROR,'Please provide the date with the format MM/DD/YYYY'));
+      }
+      
+      Date dt_CHKDt=setStringToDateFormat(CHKDate);
+      Integer daysahead=Date.today().daysBetween(dt_CHKDt);
+      Integer daysbehind=dt_CHKDt.daysBetween(Date.today());
+      
+      if(BankName != '' &&  CHKNum != '' && CHKDate != '' && (daysahead > 182) || daysbehind > 182){
+       	errormsg=true;
+       ApexPages.addmessage(new ApexPages.message(ApexPages.severity.FATAL,'Check date is back dated or front dated more than 6 months. Please correct the date'));
+      }
+     /* Pattern p1 = Pattern.compile('(?:\\d[ -]?){16,16}');
+      //Matcher pm1 = p1.matcher(string.valueof(CCNum));
+      Matcher pm1 = p1.matcher(CCNum);
+      if(!pm1.matches() && CCNum != ''){
+      	errormsg=true;
+       ApexPages.addmessage(new ApexPages.message(ApexPages.severity.ERROR,'Credit card number should be 16 digits only Dash and space in-between allowed. Please re-enter'));
+      }
+      Pattern p2 = Pattern.compile('(?:\\d[ -]?){3,3}');
+      //Matcher pm2 = p2.matcher(string.valueof(CCCVC));
+      Matcher pm2 = p2.matcher(CCCVC);
+      if(!pm2.matches() && CCCVC != ''){
+      	errormsg=true;
+       ApexPages.addmessage(new ApexPages.message(ApexPages.severity.ERROR,'CVC Code should be 3 digits only'));
+      }*/
+      if(errormsg==false){
+     Pagereference p=new Pagereference ('/apex/PS_TemplSvcs_Step7');
+     //Pagereference p=page.PS_TemplSvcs_Step6;
+     p.setRedirect(false);
+     return p;
+     }
+     else
+    return null;
+} 
 public PageReference processStep2()
 {
      //String id=System.currentpagereference().getparameters().get('id');

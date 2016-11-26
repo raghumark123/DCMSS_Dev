@@ -1,6 +1,6 @@
 <apex:page standardcontroller="Contact" extensions="SearchContactControllerExtn">
 <apex:form >
-<apex:sectionHeader title="Step 4" subtitle="Capture Payment Information"/>
+<apex:sectionHeader title="Step 4" subtitle="Capture Credit Card Information"/>
  <apex:pageblock >
  <!-- Div to give a colored box effect -->
 
@@ -15,6 +15,8 @@
         <apex:outputText value="{!selectedServices}"/>
         <apex:outputLabel style="font-weight:bold;" value="Select Quantity : " ></apex:outputLabel>
         <apex:outputText value="{!selectedQty}"/>
+        <apex:outputLabel style="font-weight:bold;" value="Payment Type : " ></apex:outputLabel>
+        <apex:outputText value="{!selectedPT}"/>
     </apex:panelGrid>
 </div>
 <apex:pageblock >
