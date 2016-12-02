@@ -23,7 +23,7 @@ String MailingAddr;
 String Membership_ID;                                                             
 String Devotee_ID;                                                               
 String Pymnt_Type;                                                             
-public Decimal Pymnt_Amt;                                                             
+public Decimal Pymnt_Amt;                                                           
 Integer Pymnt_Qty;                                                                
 String Pymnt_Chq_No;                                                             
 Date Pymnt_Dt;                                                             
@@ -37,7 +37,8 @@ Date Pymnt_Card_Exp_Dt;
 Integer Pymnt_Card_Cd;                                                                
 String Pymnt_Gateway;                                                             
 String Receipt_Num;                                                             
-
+public String ContactId;
+public String ConAcctId;
 
 
 public boolean displayboxes;
@@ -64,6 +65,7 @@ public String getselectedPT(){return selectedPT;}
 public void setselectedPT(String selectedPT){this.selectedPT=selectedPT;}
 public String CCName;
 public String getCCName(){
+	if(UserType=='Member')
 	CCName=Name;
 	return CCName;}
 public void setCCName(String CCName){this.CCName=CCName;}
@@ -93,6 +95,9 @@ public void setCHKNum(String CHKNum){this.CHKNum=CHKNum;}
 public String CHKDate; 
 public String getCHKDate(){return CHKDate;}
 public void setCHKDate(String CHKDate){this.CHKDate=CHKDate;}
+public String UserType;
+public String getUserType(){return UserType;}
+//public void setUserType(String UserType){this.UserType=UserType;}
 /*End of Getter and Setter methods */
 
 
@@ -101,22 +106,30 @@ public void setCHKDate(String CHKDate){this.CHKDate=CHKDate;}
 public List<Contact> contactsearch()
 {
      errormsg=false;
-     if(userinput == '' || userinp == '' || (userinput !='' && !Pattern.matches('[a-zA-Z0-9._-]+@[a-zA-Z]+.[a-zA-Z]{2,4}', userinput)) ) {
+     if(userinput == '' || userinp == '') {
 
         errormsg=true; 
 
-        ApexPages.addmessage(new ApexPages.message(ApexPages.severity.Error, 'Check your email format. Both email and last name are required.'));
+        ApexPages.addmessage(new ApexPages.message(ApexPages.severity.Error, 'Last Name and Email are required.'));
 
         return null;
 
    }
+   if (userinput !='' && !Pattern.matches('[a-zA-Z0-9._-]+@[a-zA-Z]+.[a-zA-Z]{2,4}', userinput)){
+   	ApexPages.addmessage(new ApexPages.message(ApexPages.severity.Error, 'Please enter proper email address'));
+   }
      contactList = new List<cContact>();
      //for(Contact c : [select Account.Name,Name,FirstName,LastName,Email,title,Id,MobilePhone from Contact where Email like :+'%'+userinput+'%'])
-     for(Contact c : [select Id,Name,FirstName,LastName,Email,MobilePhone,Phone,MailingAddress from Contact where LastName =: userinp AND Email =: userinput LIMIT 10])
+     for(Contact c : [select Id,Name,FirstName,LastName,Email,MobilePhone,Phone,MailingAddress,AccountId from Contact where LastName =: userinp AND Email =: userinput LIMIT 5])
      {
          contactList.add(new cContact(c));
      }
-
+     if(contactList.size()==0){
+     	for(Contact c : [select Id,Name,FirstName,LastName,Email,MobilePhone,Phone,MailingAddress,AccountId from Contact where LastName =: userinp OR Email =: userinput LIMIT 20])
+     	{
+         contactList.add(new cContact(c));
+     	}
+     }
  return null;
 }
 /* End of method */
@@ -175,6 +188,9 @@ public PageReference processSelected()
              selectedContacts.add(cCon.con);
              FirstName=selectedContacts[0].FirstName;
              Name=selectedContacts[0].Name;
+             ContactId=selectedContacts[0].Id;
+             ConAcctId=selectedContacts[0].AccountId;
+             
          }
      }
         
@@ -331,6 +347,10 @@ public PageReference submitPayment()
             c.paymentGatewayId = pgList[0].Id;
             c.name = CCName;
             c.email = userinput;
+          /*  if(ContactId != null)
+            c.contactId=ContactId;
+            if(ConAcctId != null)
+             c.accountId=ConAcctId;*/
 
             // After setting all the required properties you can call the action methods.
 
@@ -369,15 +389,16 @@ public PageReference submitPayment()
         }
     //Generate Receipt function call here
          
-	Pagereference p=new Pagereference ('/apex/PS_TemplSvcs_Step9');
+	Pagereference p=new Pagereference ('/apex/PS_TemplSvcs_Step8');
      //Pagereference p=page.PS_TemplSvcs_Step6;
      p.setRedirect(false);
      return p;
 }
-public PageReference validatePayment()
+public PageReference processPayment()
 {
 	errormsg=false;
-   if(CCName == '' || CCNum == '' || CCCVC == '' || selectedExpYr == null || selectedExpMnth == null){
+	if(selectedPT == 'Credit Card') {
+		if(CCName == '' || CCNum == '' || CCCVC == '' || selectedExpYr == null || selectedExpMnth == null){
    	errormsg=true;
      ApexPages.addmessage(new ApexPages.message(ApexPages.severity.WARNING,'One or more of the required payment field(s) are blank. Please provide complete information'));
     
@@ -411,59 +432,15 @@ public PageReference validatePayment()
        ApexPages.addmessage(new ApexPages.message(ApexPages.severity.ERROR,'CVC Code should be 3 digits only'));
       }
       if(errormsg==false){
+      	//submitPayment();
      Pagereference p=new Pagereference ('/apex/PS_TemplSvcs_Step6');
-     //Pagereference p=page.PS_TemplSvcs_Step6;
+     //Pagereference p=page.PS_TemplSvcs_Step8;
      p.setRedirect(false);
      return p;
      }
-     else
-    return null;
-}  
-
-
-public PageReference genReceipt()
-{
-	
-return null;
-}
-
-/* Method to fetch the selected records from Step 2 */
-public PageReference capturePayment()
-{
-    // Pagereference p=new Pagereference ('/apex/PS_TemplSvcs_Step4');
-     Pagereference p=page.PS_TemplSvcs_Step4;
-     
-     if(selectedPT=='Credit CARD') {
-    
-     }
-    if(selectedPT=='Check'){
-     p=page.PS_TemplSvcs_Step5;
-    
-     
-    	
-     }
-     if(selectedPT=='Cash'){
-     p=page.PS_TemplSvcs_Step8;
-     
-    	
-     }
-     p.setRedirect(false);
-     return p;
-}  
-private Date setStringToDateFormat(String myDate) {
-   String[] myDateOnly = myDate.split('/');
-  // String[] strDate = myDateOnly[0].split('/');
-   Integer myIntDate = integer.valueOf(myDateOnly[1]);
-   Integer myIntMonth = integer.valueOf(myDateOnly[0]);
-   Integer myIntYear = integer.valueOf(myDateOnly[2]);
-   Date d = Date.newInstance(myIntYear, myIntMonth, myIntDate);
-   return d;
-}
-
-public PageReference validateCheck()
-{
-	errormsg=false;
-   if(BankName == '' || CHKNum == '' || CHKDate == ''){
+	} //End of if(selectedPT == 'Credit Card')
+   if(selectedPT == 'Check') {
+   	if(BankName == '' || CHKNum == '' || CHKDate == ''){
    	errormsg=true;
      ApexPages.addmessage(new ApexPages.message(ApexPages.severity.WARNING,'One or more of the required check field(s) are blank. Please provide complete information'));
     
@@ -476,14 +453,17 @@ public PageReference validateCheck()
        ApexPages.addmessage(new ApexPages.message(ApexPages.severity.ERROR,'Please provide the date with the format MM/DD/YYYY'));
       }
       
-      Date dt_CHKDt=setStringToDateFormat(CHKDate);
+      if(CHKDate != '') {
+      	Date dt_CHKDt=setStringToDateFormat(CHKDate);
       Integer daysahead=Date.today().daysBetween(dt_CHKDt);
       Integer daysbehind=dt_CHKDt.daysBetween(Date.today());
       
-      if(BankName != '' &&  CHKNum != '' && CHKDate != '' && (daysahead > 182) || daysbehind > 182){
+      if(BankName != '' &&  CHKNum != '' && (daysahead > 182) || daysbehind > 182){
        	errormsg=true;
        ApexPages.addmessage(new ApexPages.message(ApexPages.severity.FATAL,'Check date is back dated or front dated more than 6 months. Please correct the date'));
       }
+      }
+      
      /* Pattern p1 = Pattern.compile('(?:\\d[ -]?){16,16}');
       //Matcher pm1 = p1.matcher(string.valueof(CCNum));
       Matcher pm1 = p1.matcher(CCNum);
@@ -499,14 +479,74 @@ public PageReference validateCheck()
        ApexPages.addmessage(new ApexPages.message(ApexPages.severity.ERROR,'CVC Code should be 3 digits only'));
       }*/
       if(errormsg==false){
-     Pagereference p=new Pagereference ('/apex/PS_TemplSvcs_Step7');
-     //Pagereference p=page.PS_TemplSvcs_Step6;
+     Pagereference p=new Pagereference ('/apex/PS_TemplSvcs_Step8');
+     //Pagereference p=page.PS_TemplSvcs_Step8;
      p.setRedirect(false);
      return p;
      }
-     else
+   }//end of if(selectedPT == 'Check')
+     
     return null;
-} 
+}  //end of processPayment()
+
+
+public PageReference genReceipt()
+{
+	
+return null;
+}
+
+/* Method to fetch the selected records from Step 2 */
+public PageReference capturePayment()
+{
+    // Pagereference p=new Pagereference ('/apex/PS_TemplSvcs_Step4');
+     Pagereference p=page.PS_TemplSvcs_Step4;
+     
+ /*    if(selectedPT=='Credit Card') {
+    
+     }
+    if(selectedPT=='Check'){
+    // p=page.PS_TemplSvcs_Step5;
+    p=page.PS_TemplSvcs_Step4;
+     
+    	
+     }*/
+     if(selectedPT=='Cash'){
+    p=page.PS_TemplSvcs_Step8;
+    // p=page.PS_TemplSvcs_Step4;
+    	
+     }
+     p.setRedirect(false);
+     return p;
+}  
+public PageReference gotoMemberReg()
+{
+	UserType='Member';
+	Pagereference p=new Pagereference ('/apex/PS_TemplSvcs_Step2');
+	//Pagereference p=page.PS_TemplSvcs_Step3;
+	p.setRedirect(false);
+     return p;
+}
+
+public PageReference gotoWalkIn()
+{
+	UserType='Devotee';
+	//Pagereference p=new Pagereference ('/apex/PS_TemplSvcs_Step10');
+	Pagereference p=new Pagereference ('/apex/PS_TemplSvcs_Step3');
+	//Pagereference p=page.PS_TemplSvcs_Step10;
+	p.setRedirect(false);
+     return p;
+}
+private Date setStringToDateFormat(String myDate) {
+   String[] myDateOnly = myDate.split('/');
+  // String[] strDate = myDateOnly[0].split('/');
+   Integer myIntDate = integer.valueOf(myDateOnly[1]);
+   Integer myIntMonth = integer.valueOf(myDateOnly[0]);
+   Integer myIntYear = integer.valueOf(myDateOnly[2]);
+   Date d = Date.newInstance(myIntYear, myIntMonth, myIntDate);
+   return d;
+}
+
 public PageReference processStep2()
 {
      //String id=System.currentpagereference().getparameters().get('id');

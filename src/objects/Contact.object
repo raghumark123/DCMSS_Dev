@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fields>
+        <fullName>Customer_ID__c</fullName>
+        <caseSensitive>false</caseSensitive>
+        <description>Unique External ID from Membership Database. Will be deprecated later.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Unique External ID from Membership Database. Will be deprecated later.</inlineHelpText>
+        <label>Customer ID</label>
+        <length>4</length>
+        <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
+        <type>Text</type>
+        <unique>true</unique>
+    </fields>
+    <fields>
+        <fullName>Gender__c</fullName>
+        <externalId>false</externalId>
+        <label>Gender</label>
+        <picklist>
+            <picklistValues>
+                <fullName>Male</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Female</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Other</fullName>
+                <default>false</default>
+            </picklistValues>
+            <sorted>false</sorted>
+        </picklist>
+        <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
+        <type>Picklist</type>
+    </fields>
+    <fields>
+        <fullName>Membership_ID__c</fullName>
+        <description>Unique Membership ID</description>
+        <displayFormat>DCMSS-{000000}</displayFormat>
+        <externalId>false</externalId>
+        <inlineHelpText>Unique Membership ID</inlineHelpText>
+        <label>Membership ID</label>
+        <type>AutoNumber</type>
+    </fields>
+    <fields>
+        <fullName>Spouse_Name__c</fullName>
+        <description>Spouse Name - Wife or Husband name apart from the Primary Member Name</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Spouse Name - Wife or Husband name apart from the Primary Member Name</inlineHelpText>
+        <label>Spouse Name</label>
+        <length>80</length>
+        <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+</CustomObject>

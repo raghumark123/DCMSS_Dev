@@ -10,11 +10,13 @@
 <div style="border-width:2px;border-style:solid;border-color:orange;">
     <apex:outputLabel style="font-weight:bold;" value="For priest services in DC Metro Area, please contact xxx-xxx-xxxx" ></apex:outputLabel>
     <!-- Panel grid to display boxes o accept user input values -->
-    <apex:panelGrid columns="4">
+    <apex:panelGrid columns="4" rendered="{!IF(CONTAINS(UserType,'Member'),true,false)}">
         <apex:outputLabel style="font-weight:bold;" value="E-mail" ></apex:outputLabel>
        <apex:outputText value="{!userinput}"/>
         <apex:outputLabel style="font-weight:bold;" value="Full Name" ></apex:outputLabel>
         <apex:outputText value="{!name}"/> 
+        </apex:panelGrid>
+     <apex:panelGrid columns="4">
         <apex:outputLabel style="font-weight:bold;" value="Select an in-temple service : " ></apex:outputLabel>
         <apex:selectList value="{!selectedServices}" multiselect="false" size="1">
                 <apex:selectOptions value="{!TmplServOptions}"/>

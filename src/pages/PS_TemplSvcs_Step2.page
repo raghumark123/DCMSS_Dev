@@ -43,7 +43,10 @@ function checkAll(cb)
 <!-- End of colored box div -->
     <br/>
 <!-- Display error message -->
-<apex:pagemessage strength="2" title="Error!!" severity="error" detail="Either Email or Last Name is not entered in search above or Email format is wrong. Else please ensure at least 1 contact is selected in search results below." rendered="{!errormsg}"/>
+<!--<apex:pagemessage strength="2" title="Error!!" severity="error" detail="Either Email or Last Name is not entered in search above or Email format is wrong. Else please ensure at least 1 contact is selected in search results below." rendered="{!errormsg}"/>  -->
+<!-- End of error message -->
+<!-- Display error message -->
+<apex:pagemessages id="showErrorMsg"></apex:pagemessages>
 <!-- End of error message -->
 
 <!-- Display search results -->

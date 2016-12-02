@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fields>
+        <fullName>DCMSS_Devotee_Id__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <description>Devotee</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Devotee</inlineHelpText>
+        <label>Devotee</label>
+        <referenceTo>DCMSS_Devotee__c</referenceTo>
+        <relationshipLabel>Opportunities</relationshipLabel>
+        <relationshipName>Opportunities</relationshipName>
+        <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Receipt__c</fullName>
+        <description>Receipt number for hundi and customer</description>
+        <displayFormat>RCPT#-{00000000}</displayFormat>
+        <externalId>false</externalId>
+        <inlineHelpText>Receipt number for hundi and customer</inlineHelpText>
+        <label>Receipt</label>
+        <trackTrending>false</trackTrending>
+        <type>AutoNumber</type>
+    </fields>
+    <fields>
+        <fullName>Type__c</fullName>
+        <description>Store whether the payment transaction is for donation or services or goods.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Store whether the payment transaction is for donation or services or goods.</inlineHelpText>
+        <label>Type</label>
+        <picklist>
+            <picklistValues>
+                <fullName>Donation</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Services</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Goods</fullName>
+                <default>false</default>
+            </picklistValues>
+            <restrictedPicklist>true</restrictedPicklist>
+            <sorted>false</sorted>
+        </picklist>
+        <required>true</required>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+    </fields>
+</CustomObject>

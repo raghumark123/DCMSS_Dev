@@ -1,8 +1,15 @@
-<apex:page >
+<apex:page standardcontroller="Contact" extensions="SearchContactControllerExtn">
 <apex:form >
  <apex:image id="theImage" value="{!$Resource.sairam}" width="150" height="100"/>
  <apex:sectionHeader title="Welcome to DC Metro Sai Samsthan" subtitle="Temple POS"/>
- 
- 
+<apex:pageblock >
+<apex:pageBlockSection title="Member or Walk In Devotee ? " columns="1"></apex:pageBlockSection>
+   <!-- Commandbutton to proceed to next screen -->
+  <div style="position:relative;left:75px;">
+      <apex:commandButton value="Member" action="{!gotoMemberReg}"/>
+      <apex:commandbutton value="Walk In Devotee" action="{!gotoWalkIn}"/>
+  </div>
+<!-- End of Commandbutton -->
+ </apex:pageblock>
  </apex:form>
 </apex:page>

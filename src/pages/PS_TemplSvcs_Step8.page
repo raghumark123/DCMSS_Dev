@@ -6,11 +6,13 @@
 
 <div style="border-width:2px;border-style:solid;border-color:orange;">
     <!-- Panel grid to display boxes o accept user input values -->
-    <apex:panelGrid columns="4">
+    <apex:panelGrid columns="4" rendered="{!IF(CONTAINS(UserType,'Member'),true,false)}">
         <apex:outputLabel style="font-weight:bold;" value="E-mail" ></apex:outputLabel>
        <apex:outputText value="{!userinput}"/>
         <apex:outputLabel style="font-weight:bold;" value="Full Name" ></apex:outputLabel>
         <apex:outputText value="{!name}"/> 
+       </apex:panelGrid>
+       <apex:panelGrid columns="4">
         <apex:outputLabel style="font-weight:bold;" value="In-temple service Selected: " ></apex:outputLabel>
         <apex:outputText value="{!selectedServices}"/>
         <apex:outputLabel style="font-weight:bold;" value="Quantity : " ></apex:outputLabel>
@@ -32,7 +34,40 @@
           </apex:column>
       </apex:pageblocktable>
 </apex:pageblock>
+<apex:pageBlockSection title="CHECK INFORMATION ENTERED" columns="1" rendered="{!IF(CONTAINS(selectedPT,'Check'),true,false)}"></apex:pageBlockSection>
+<!--<apex:pageBlockSection title="CREDIT CARD INFORMATION ENTERED" columns="1" rendered="{!IF(CONTAINS(selectedPT,'Credit'),true,false)}"></apex:pageBlockSection>  -->
+<apex:panelgrid id="CHK" columns="4" rendered="{!IF(CONTAINS(selectedPT,'Check'),true,false)}">
+ <!-- rendered="{IF(!selectedPT == 'CREDIT CARD', true, false)}" -->
+      <apex:outputLabel style="font-weight:bold;" value="Bank Name :"></apex:outputLabel>
+       <apex:outputText value="{!BankName}"/>
+       <!-- required="{!IF(CONTAINS(selectedPT,'CREDIT'),true,false)}" -->
+      <apex:outputLabel style="font-weight:bold;" value="Check Date (mm/dd/yyyy) :"></apex:outputLabel>
+       <apex:outputText value="{!CHKDate}"/>
+       
+      <apex:outputLabel style="font-weight:bold;" value="Check Number : "></apex:outputLabel>
+      <apex:outputText value="{!CHKNum}"/>
+ </apex:panelgrid> 
+ <apex:panelgrid id="CC" columns="4" rendered="{!IF(CONTAINS(selectedPT,'Credit'),true,false)}">
+      <apex:outputLabel style="font-weight:bold;" value="Name as in Credit Card"></apex:outputLabel>
+       <apex:outputText value="{!CCName}"/>
+      <apex:outputLabel style="font-weight:bold;" value="Card Number (16 Digits):"></apex:outputLabel>
+       <apex:outputText value="{!CCNum}"/>
+       
+      <apex:outputLabel style="font-weight:bold;" value="Card Exp Month : "></apex:outputLabel>
+      <apex:outputText value="{!selectedExpMnth}"/>
 
+      <apex:outputLabel style="font-weight:bold;" value="Card Exp Year : "></apex:outputLabel>
+     <apex:outputText value="{!selectedExpYr}"/>
+              
+     <apex:outputLabel style="font-weight:bold;" value="3 Digit Card CVC Code"></apex:outputLabel>
+       <apex:outputText value="{!CCCVC}"/>
+ </apex:panelgrid>
+ <!--  <apex:panelgrid>
+  	<apex:outputLabel style="font-weight:bold;" value="Transaction Id"></apex:outputLabel>
+       <apex:outputText value="{!TransactionId}"/>
+    <apex:outputLabel style="font-weight:bold;" value="Receipt No."></apex:outputLabel>
+       <apex:outputText value="{!ReceiptNo}"/>
+ </apex:panelgrid>-->
   <!-- Commandbutton to proceed to next screen -->
   <div style="position:relative;left:75px;">
       <apex:commandButton value="Generate Receipt" action="{!genReceipt}"/>

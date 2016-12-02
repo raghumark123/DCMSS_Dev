@@ -6,11 +6,13 @@
 
 <div style="border-width:2px;border-style:solid;border-color:orange;">
     <!-- Panel grid to display boxes o accept user input values -->
-    <apex:panelGrid columns="4">
+    <apex:panelGrid columns="4" rendered="{!IF(CONTAINS(UserType,'Member'),true,false)}">
         <apex:outputLabel style="font-weight:bold;" value="E-mail" ></apex:outputLabel>
        <apex:outputText value="{!userinput}"/>
         <apex:outputLabel style="font-weight:bold;" value="Full Name" ></apex:outputLabel>
         <apex:outputText value="{!name}"/> 
+     </apex:panelGrid>  
+     <apex:panelGrid columns="4">   
         <apex:outputLabel style="font-weight:bold;" value="In-temple service Selected: " ></apex:outputLabel>
         <apex:outputText value="{!selectedServices}"/>
         <apex:outputLabel style="font-weight:bold;" value="Select Quantity : " ></apex:outputLabel>
@@ -33,8 +35,10 @@
       </apex:pageblocktable>
 </apex:pageblock>
 
-<apex:pageBlockSection title="Enter CREDIT CARD INFORMATION" columns="1"></apex:pageBlockSection>
-<apex:panelgrid id="CC" columns="4">
+<apex:pageBlockSection title="Enter CREDIT CARD INFORMATION" columns="1" rendered="{!IF(CONTAINS(selectedPT,'Credit'),true,false)}"></apex:pageBlockSection>
+<apex:pageBlockSection title="Enter CHECK INFORMATION" columns="1" rendered="{!IF(CONTAINS(selectedPT,'Check'),true,false)}"></apex:pageBlockSection>
+
+<apex:panelgrid id="CC" columns="4" rendered="{!IF(CONTAINS(selectedPT,'Credit'),true,false)}">
  <!-- rendered="{IF(!selectedPT == 'CREDIT CARD', true, false)}" -->
       <apex:outputLabel style="font-weight:bold;" value="Name as in Credit Card"></apex:outputLabel>
        <apex:inputText value="{!CCName}"/>
@@ -55,13 +59,22 @@
      <apex:outputLabel style="font-weight:bold;" value="3 Digit Card CVC Code"></apex:outputLabel>
        <apex:inputText value="{!CCCVC}" maxlength="3"/>
  </apex:panelgrid> 
-
+<apex:panelgrid id="CHK" columns="4" rendered="{!IF(CONTAINS(selectedPT,'Check'),true,false)}">
+ <!-- rendered="{IF(!selectedPT == 'CREDIT CARD', true, false)}" -->
+      <apex:outputLabel style="font-weight:bold;" value="Check Number : "></apex:outputLabel>
+       <apex:inputText value="{!CHKNum}"/>
+       <!-- required="{!IF(CONTAINS(selectedPT,'CREDIT'),true,false)}" -->
+      <apex:outputLabel style="font-weight:bold;" value="Check Date (mm/dd/yyyy) :"></apex:outputLabel>
+       <apex:inputText value="{!CHKDate}"/> 
+     <apex:outputLabel style="font-weight:bold;" value="Bank Name :"></apex:outputLabel>
+       <apex:inputText value="{!BankName}"/>
+ </apex:panelgrid> 
  
   <!-- Commandbutton to proceed to next screen -->
   <div style="position:relative;left:75px;">
-      <apex:commandButton value="Submit Payment Information" action="{!validatePayment}"/>
+      <apex:commandButton value="Submit Payment Information" action="{!processPayment}"/>
       <!-- rerender="showErrorMsg" -->
-      <apex:commandbutton value="Previous" action="{!processStep2}"/>
+      <apex:commandbutton value="Previous" action="{!processStep2}" rendered="{!IF(CONTAINS(selectedPT,'Credit'),true,false)}"/>
   </div>
   <!-- End of Commandbutton -->
    <!-- Display error message -->
