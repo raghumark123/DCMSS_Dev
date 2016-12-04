@@ -3,11 +3,12 @@
  <apex:image id="theImage" value="{!$Resource.sairam}" width="150" height="100"/>
  <apex:sectionHeader title="Welcome to DC Metro Sai Samsthan" subtitle="Temple POS"/>
 <apex:pageblock >
-<apex:pageBlockSection title="Member or Walk In Devotee ? " columns="1"></apex:pageBlockSection>
+<apex:pageBlockSection title="Are you a Member or Non-Member ? " columns="1"></apex:pageBlockSection>
    <!-- Commandbutton to proceed to next screen -->
   <div style="position:relative;left:75px;">
-      <apex:commandButton value="Member" action="{!gotoMemberReg}"/>
-      <apex:commandbutton value="Walk In Devotee" action="{!gotoWalkIn}"/>
+     <!-- <apex:commandButton value="Member" action="{!gotoMemberReg}" style="bgcolor:white;background-image:url({!URLFOR($Resource.posimages,'images/Member.jpg')});height:35px;width:155px;border-width:0px;background-repeat:no-repeat;cursor:pointer;"/> --> 
+     <apex:commandButton value="Member" action="{!gotoMemberReg}" image="{!URLFOR($Resource.posimages,'images/Member.jpg')}"/>
+      <apex:commandbutton value="Non-Member" action="{!gotoWalkIn}" image="{!URLFOR($Resource.posimages,'images/Non-Member.jpg')}"/>
   </div>
 <!-- End of Commandbutton -->
  </apex:pageblock>

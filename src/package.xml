@@ -7,6 +7,7 @@
     </types>
     <types>
         <members>PS_TemplSvcs_Step1</members>
+        <members>PS_TemplSvcs_Step10</members>
         <members>PS_TemplSvcs_Step2</members>
         <members>PS_TemplSvcs_Step3</members>
         <members>PS_TemplSvcs_Step4</members>
@@ -42,6 +43,14 @@
         <name>CustomObject</name>
     </types>
     <types>
+        <members>PS_TemplSvcs_Step1</members>
+        <name>HomePageComponent</name>
+    </types>
+    <types>
+        <members>Temple POS</members>
+        <name>HomePageLayout</name>
+    </types>
+    <types>
         <members>DCMSS_Devotee__c-Devotee Layout</members>
         <members>OpportunityLineItem-Opportunity Product Layout</members>
         <members>Pricebook2-Price Book Layout</members>
@@ -50,6 +59,7 @@
     </types>
     <types>
         <members>jQuery</members>
+        <members>posimages</members>
         <members>sairam</members>
         <name>StaticResource</name>
     </types>

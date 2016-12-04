@@ -9,6 +9,7 @@ public SearchContactControllerExtn(ApexPages.StandardController controller)
 
 Public String cid;                                                            // Stores Contact Id
 public List<cContact> contactList {get; set;}                                 // Wrapper class which stores contact data and a boolean flag.
+public List<dDevotee> devoteeList {get; set;}
 public List<PricebookEntry> PricebookEntryList{get; set;}                    //Wrapper class which stores a product selected from UI and returns its pricing
 Public List<Product2> prodList{get;set;}
 public Boolean selectAllCheckbox {get; set;}                                  // Stores checkbox data.
@@ -18,7 +19,10 @@ String userinput;                                                             //
 String userinp;                                                               //Contact Last Name
 String MobilePhone; 
 String Phone;                                                            
-public String FirstName;                                                                                                                             
+public String FirstName;  
+public String DevoteeFirstName;   
+public String DevoteeLastName;   
+public String DevoteeName;                                                                                                               
 String MailingAddr;                                                             
 String Membership_ID;                                                             
 String Devotee_ID;                                                               
@@ -39,12 +43,17 @@ String Pymnt_Gateway;
 String Receipt_Num;                                                             
 public String ContactId;
 public String ConAcctId;
-
+public String DevoteeId;
+public String customerID;
+public String traID;
+public String pmID;
 
 public boolean displayboxes;
 
 public List<Contact> results = new List<Contact>();                                     // Contact search results.
 public List<Contact> selectedContactsstep2 = new List<Contact>();                         // Selcted Contacts
+public List<DCMSS_Devotee__c> dresults = new List<DCMSS_Devotee__c>();                                     // Devotee search results.
+public List<DCMSS_Devotee__c> selectedDevoteesstep2 = new List<DCMSS_Devotee__c>();                         // Selcted Devotees
 
 /* End of Variable declarations */
 
@@ -67,6 +76,8 @@ public String CCName;
 public String getCCName(){
 	if(UserType=='Member')
 	CCName=Name;
+	else if (UserType=='Devotee' && DevoteeLastName != '')
+	CCName=DevoteeName;
 	return CCName;}
 public void setCCName(String CCName){this.CCName=CCName;}
 public String CCNum; 
@@ -105,6 +116,7 @@ public String getUserType(){return UserType;}
 /* Method to Search the contact database to fetch the query results */
 public List<Contact> contactsearch()
 {
+	 
      errormsg=false;
      if(userinput == '' || userinp == '') {
 
@@ -133,10 +145,55 @@ public List<Contact> contactsearch()
  return null;
 }
 /* End of method */
+/* Method to Search the devotee database to fetch the query results */
+//public List<DCMSS_Devotee__c> devoteesearch()
+public PageReference devoteesearch()
+{
+     errormsg=false;
+     if(userinput == '' || userinp == '') {
 
-/* Method to Search the contact database to fetch the query results */
+        errormsg=true; 
+
+        ApexPages.addmessage(new ApexPages.message(ApexPages.severity.Error, 'Last Name and Email are required.'));
+
+        return null;
+
+   }
+   if (userinput !='' && !Pattern.matches('[a-zA-Z0-9._-]+@[a-zA-Z]+.[a-zA-Z]{2,4}', userinput)){
+   	errormsg=true; 
+   	ApexPages.addmessage(new ApexPages.message(ApexPages.severity.Error, 'Please enter proper email address'));
+   	return null;
+   }
+    // devoteeList = new List<dDevotee>();
+     //for(Contact c : [select Account.Name,Name,FirstName,LastName,Email,title,Id,MobilePhone from Contact where Email like :+'%'+userinput+'%'])
+     for(DCMSS_Devotee__c d : [select Id,First_Name__c,Last_Name__c,Email__c,Phone__c,Address__c from DCMSS_Devotee__c where Last_Name__c =: userinp AND Email__c =: userinput LIMIT 1])
+     {
+     	     DevoteeFirstName=d.First_Name__c;
+             DevoteeLastName=d.Last_Name__c;
+             DevoteeId=d.Id;
+             DevoteeName=DevoteeFirstName+' '+DevoteeLastName;
+         //devoteeList.add(new dDevotee(d));
+         
+     }
+   //  if(d.size()==0){
+     	/*for(DCMSS_Devotee__c d : [select Id,First_Name__c,Last_Name__c,Email__c,Phone__c,Address__c from DCMSS_Devotee__c where Last_Name__c =: userinp OR Email__c =: userinput LIMIT 20])
+     	{
+         devoteeList.add(new dDevotee(d));
+     	}*/
+    // errormsg=false;
+     //String id=System.currentpagereference().getparameters().get('id');
+     Pagereference p=new Pagereference ('/apex/PS_TemplSvcs_Step3');
+     p.setRedirect(false);
+     return p;
+   // }
+     
+// return null;
+}
+/* End of method */
+/* Method to Search the product database to fetch the price results */
 public void getPriceMethod()
 {
+	 selectedServices = apexpages.currentpage().getparameters().get('posselect'); 
      List<Product2> prodList =[SELECT Id FROM Product2 WHERE Name =: selectedServices Limit 1];
      String PBE_ID='01s4C000000LXBy';
     // Boolean INTMPL=true;
@@ -147,17 +204,28 @@ public void getPriceMethod()
     Pymnt_Amt=PricebookEntryList[0].TotPrice__c;
 }
 /* End of method */
-
+public void getPriceMethod2()
+{
+    PricebookEntryList[0].TotPrice__c=PricebookEntryList[0].UnitPrice*Integer.ValueOf(selectedQty);
+    Pymnt_Amt=PricebookEntryList[0].TotPrice__c;
+}
+/* End of method */
 
 /* Method for returning the contact search results to the UI */
 public List<cContact> getresults()
 {
-
  return contactList;
 
 }
 /* End of Method */
+/* Method for returning the devotee search results to the UI */
+public List<dDevotee> getdresults()
+{
 
+ return devoteeList;
+
+}
+/* End of Method */
 
 /* Wrapper class to contain contact record and a boolean flag */
 public class cContact
@@ -174,10 +242,24 @@ public class cContact
  }
 }
 /* end of Wrapper class */
+/* Wrapper class to contain devotee record and a boolean flag */
+public class dDevotee
+{
+ public DCMSS_Devotee__c dev {get; set;}
+ public Boolean selected {get; set;}
 
+ /*This is the contructor method. When we create a new cContact object we pass a
+ Contact that is set to the con property. We also set the selected value to false*/
+ public dDevotee(DCMSS_Devotee__c d)
+ {
+     dev = d;
+     selected = false;
+ }
+}
+/* end of Wrapper class */
 
-/* Method to fetch the selected records from Step 2 */
-public PageReference processSelected()
+/* Method to fetch the selected Member records from Step 2 */
+public PageReference processSelectedContact()
 {
 
   List<Contact> selectedContacts = new List<Contact>();
@@ -197,7 +279,42 @@ public PageReference processSelected()
      selectedContactsstep2=selectedContacts;
   }
  /* return error message if no contact is selected */
- if (selectedcontacts.size()==0)
+ if (selectedContacts.size()==0)
+ {
+     errormsg=true;
+     return null;
+ }
+ else
+ {
+     errormsg=false;
+     //String id=System.currentpagereference().getparameters().get('id');
+     Pagereference p=new Pagereference ('/apex/PS_TemplSvcs_Step3');
+     p.setRedirect(false);
+     return p;
+ }
+
+}
+/* Method to fetch the selected records from Step 2 */
+public PageReference processSelectedDevotee()
+{
+
+  List<DCMSS_Devotee__c> selectedDevotees = new List<DCMSS_Devotee__c>();
+  if (devoteeList!= null)
+  {
+     for(dDevotee dDev : getdresults()){
+        if(dDev.selected == true){
+             selectedDevotees.add(dDev.dev);
+             DevoteeFirstName=selectedDevotees[0].First_Name__c;
+             DevoteeLastName=selectedDevotees[0].Last_Name__c;
+             DevoteeId=selectedDevotees[0].Id;
+             
+         }
+     }
+        
+     selectedDevoteesstep2=selectedDevotees;
+  }
+ /* return error message if no contact is selected */
+ if (selectedDevotees.size()==0)
  {
      errormsg=true;
      return null;
@@ -381,6 +498,10 @@ public PageReference submitPayment()
             // Also, as this is a DML action, you can not do any HTTP callouts after this point.
 
             bt_stripe.P360_API_v1.commitWork();
+            //get Record Id
+            customerID = c.record.Id;
+            traID = t.record.Id;
+            pmID = pm.record.Id;
 
         } catch(bt_stripe.P360_API_v1.P360_Exception e) {
             // Do something on errors
@@ -531,8 +652,8 @@ public PageReference gotoMemberReg()
 public PageReference gotoWalkIn()
 {
 	UserType='Devotee';
-	//Pagereference p=new Pagereference ('/apex/PS_TemplSvcs_Step10');
-	Pagereference p=new Pagereference ('/apex/PS_TemplSvcs_Step3');
+	Pagereference p=new Pagereference ('/apex/PS_TemplSvcs_Step2');
+	//Pagereference p=new Pagereference ('/apex/PS_TemplSvcs_Step3');
 	//Pagereference p=page.PS_TemplSvcs_Step10;
 	p.setRedirect(false);
      return p;

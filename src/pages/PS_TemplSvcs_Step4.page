@@ -12,6 +12,12 @@
         <apex:outputLabel style="font-weight:bold;" value="Full Name" ></apex:outputLabel>
         <apex:outputText value="{!name}"/> 
      </apex:panelGrid>  
+      <apex:panelGrid columns="4" rendered="{!IF(CONTAINS(UserType,'Devotee'),true,false)}">
+        <apex:outputLabel style="font-weight:bold;" value="E-mail" ></apex:outputLabel>
+       <apex:outputText value="{!userinput}"/>
+        <apex:outputLabel style="font-weight:bold;" value="Last Name" ></apex:outputLabel>
+        <apex:outputText value="{!userinp}"/> 
+        </apex:panelGrid>
      <apex:panelGrid columns="4">   
         <apex:outputLabel style="font-weight:bold;" value="In-temple service Selected: " ></apex:outputLabel>
         <apex:outputText value="{!selectedServices}"/>
