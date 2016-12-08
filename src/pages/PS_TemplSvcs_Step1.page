@@ -1,4 +1,4 @@
-<apex:page standardcontroller="Contact" extensions="SearchContactControllerExtn">
+<apex:page standardcontroller="Contact" extensions="SearchContactControllerExtn" sidebar="false" showHeader="false">
 <apex:form >
  <apex:image id="theImage" value="{!$Resource.sairam}" width="150" height="100"/>
  <apex:sectionHeader title="Welcome to DC Metro Sai Samsthan" subtitle="Temple POS"/>

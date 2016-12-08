@@ -1,4 +1,4 @@
-<apex:page standardcontroller="Contact" extensions="SearchContactControllerExtn" >
+<apex:page standardcontroller="Contact" extensions="SearchContactControllerExtn" sidebar="false" showHeader="false">
 
 <apex:form >
 <apex:sectionHeader title="Step 3" subtitle="Capture Service required and Payment Type"/>
@@ -115,7 +115,8 @@
   <!-- Commandbutton to proceed to next screen -->
   <div style="position:relative;left:75px;">
       <apex:commandButton value="Enter Payment Information" action="{!capturePayment}"/>
-      <apex:commandbutton value="Previous" action="{!processStep2}"/>
+      <apex:commandbutton value="Back" action="{!processStep2}"/>
+      <apex:commandbutton value="Cancel" action="{!gotoStep1}"/>
   </div>
 <!-- End of Commandbutton -->
 </apex:pageblock>

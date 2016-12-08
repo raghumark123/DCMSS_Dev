@@ -1,4 +1,4 @@
-<apex:page standardcontroller="Contact" extensions="SearchContactControllerExtn" >
+<apex:page standardcontroller="Contact" extensions="SearchContactControllerExtn" sidebar="false" showHeader="false">
  <apex:form >
  <apex:sectionHeader title="Step 5" subtitle="Cash Payment - Please confirm to generate the Receipt"/>
   <apex:pageblock >
@@ -71,7 +71,8 @@
   <!-- Commandbutton to proceed to next screen -->
   <div style="position:relative;left:75px;">
       <apex:commandButton value="Generate Receipt" action="{!genReceipt}"/>
-      <!--<apex:commandbutton value="Previous" action="{!processSelected}"/>-->
+      <apex:commandbutton value="Previous" action="{!processStep3}" rendered="{!IF(CONTAINS(selectedPT,'Cash'),true,false)}"/>
+      <apex:commandbutton value="Previous" action="{!processStep4}" rendered="{!IF(CONTAINS(selectedPT,'Check'),true,false)}"/>
   </div>
 <!-- End of Commandbutton -->
    <!-- Display error message -->

@@ -40,13 +40,18 @@ String Pymnt_Card_Type;
 Date Pymnt_Card_Exp_Dt;                                                             
 Integer Pymnt_Card_Cd;                                                                
 String Pymnt_Gateway;                                                             
-String Receipt_Num;                                                             
+public String Receipt_Num;                                                             
 public String ContactId;
+public String ContactEmail;
 public String ConAcctId;
 public String DevoteeId;
 public String customerID;
 public String traID;
 public String pmID;
+public Id OptyId;
+public Date dt_CHKDt;
+public Id PymntId;
+public Id transID;
 
 public boolean displayboxes;
 
@@ -132,12 +137,12 @@ public List<Contact> contactsearch()
    }
      contactList = new List<cContact>();
      //for(Contact c : [select Account.Name,Name,FirstName,LastName,Email,title,Id,MobilePhone from Contact where Email like :+'%'+userinput+'%'])
-     for(Contact c : [select Id,Name,FirstName,LastName,Email,MobilePhone,Phone,MailingAddress,AccountId from Contact where LastName =: userinp AND Email =: userinput LIMIT 5])
+     for(Contact c : [select Id,Name,FirstName,LastName,Email,MobilePhone,Phone,MailingAddress,npo02__Household__c from Contact where LastName =: userinp AND Email =: userinput LIMIT 5])
      {
          contactList.add(new cContact(c));
      }
      if(contactList.size()==0){
-     	for(Contact c : [select Id,Name,FirstName,LastName,Email,MobilePhone,Phone,MailingAddress,AccountId from Contact where LastName =: userinp OR Email =: userinput LIMIT 20])
+     	for(Contact c : [select Id,Name,FirstName,LastName,Email,MobilePhone,Phone,MailingAddress,npo02__Household__c from Contact where LastName =: userinp OR Email =: userinput LIMIT 20])
      	{
          contactList.add(new cContact(c));
      	}
@@ -173,8 +178,7 @@ public PageReference devoteesearch()
              DevoteeId=d.Id;
              DevoteeName=DevoteeFirstName+' '+DevoteeLastName;
          //devoteeList.add(new dDevotee(d));
-         
-     }
+      }
    //  if(d.size()==0){
      	/*for(DCMSS_Devotee__c d : [select Id,First_Name__c,Last_Name__c,Email__c,Phone__c,Address__c from DCMSS_Devotee__c where Last_Name__c =: userinp OR Email__c =: userinput LIMIT 20])
      	{
@@ -271,8 +275,8 @@ public PageReference processSelectedContact()
              FirstName=selectedContacts[0].FirstName;
              Name=selectedContacts[0].Name;
              ContactId=selectedContacts[0].Id;
-             ConAcctId=selectedContacts[0].AccountId;
-             
+             ConAcctId=selectedContacts[0].npo02__Household__c;
+             ContactEmail=selectedContacts[0].Email;
          }
      }
         
@@ -498,10 +502,8 @@ public PageReference submitPayment()
             // Also, as this is a DML action, you can not do any HTTP callouts after this point.
 
             bt_stripe.P360_API_v1.commitWork();
-            //get Record Id
-            customerID = c.record.Id;
-            traID = t.record.Id;
-            pmID = pm.record.Id;
+            //get Transaction Record Id
+            transID = t.record.Id;
 
         } catch(bt_stripe.P360_API_v1.P360_Exception e) {
             // Do something on errors
@@ -575,7 +577,7 @@ public PageReference processPayment()
       }
       
       if(CHKDate != '') {
-      	Date dt_CHKDt=setStringToDateFormat(CHKDate);
+      dt_CHKDt=setStringToDateFormat(CHKDate);
       Integer daysahead=Date.today().daysBetween(dt_CHKDt);
       Integer daysbehind=dt_CHKDt.daysBetween(Date.today());
       
@@ -613,9 +615,141 @@ public PageReference processPayment()
 
 public PageReference genReceipt()
 {
+	Id RecId = [Select Id, Name from RecordType where name = 'Membership' limit 1].Id;
+	if(UserType=='Devotee'){
+		
+		if(DevoteeId==null){
+			//Insert a new Devotee record
+			DCMSS_Devotee__c newDevot = new DCMSS_Devotee__c(
+		    Last_Name__c = userinp,
+		    Email__c = userinput);
+			insert newDevot;
+			Id DevotId=newDevot.Id;
+			//Insert a new Opportunity Record
+			Opportunity newOpp = new Opportunity(
+		    DCMSS_Devotee_Id__c = DevotId,
+		    Name = userinp + '-Temple Services'+System.today(),
+		    CloseDate = System.today(),
+		    StageName = 'Posted',
+		    RecordTypeId = RecId,
+		    Type__c ='Services',
+		    Amount = Pymnt_Amt);
+			insert newOpp;
+			OptyId=newOpp.Id;
+	        Receipt_Num=newOpp.Receipt__c;
+			//PymntId = [Select Id from npe01__OppPayment__c where npe01__Opportunity__c =: OptyId limit 1].Id;
+			}
+		else {
+			
+			//Insert a new Opportunity Record
+			Opportunity newOpp = new Opportunity(
+		    DCMSS_Devotee_Id__c = DevoteeId,
+		    Name = DevoteeFirstName+' '+ + DevoteeLastName+'-Temple Services'+System.today(),
+		    CloseDate = system.today(),
+		    StageName = 'Posted',
+		    RecordTypeId = RecId,
+		    Type__c ='Services',
+		    Amount = Pymnt_Amt);
+			insert newOpp;
+			OptyId=newOpp.Id;
+	        Receipt_Num=newOpp.Receipt__c;
+	       // PymntId = [Select Id from npe01__OppPayment__c where npe01__Opportunity__c =: OptyId limit 1].Id;
+		}
+	}		    
+	else {
+	//Member record operations 
+	//Insert a new Opportunity Record
+	Opportunity newOpp = new Opportunity(
+    npsp__Primary_Contact__c = ContactId,
+    AccountId=ConAcctId,
+    Name = Name + '-Temple Services'+System.today(),
+    CloseDate = system.today(),
+    StageName = 'Posted',
+    RecordTypeId = RecId,
+    Type__c ='Services',
+    Amount = Pymnt_Amt);
+	insert newOpp;
+	OptyId=newOpp.Id;
+	Receipt_Num=newOpp.Receipt__c;
+	if(ContactEmail ==''){
+		Contact conRec=[Select Id,Email from Contact where Id =:ContactId limit 1];
+		conRec.Email=userinput;
+		}
+	}
 	
-return null;
-}
+	
+	
+	
+	if(selectedPT=='Cash'){
+		if(UserType=='Devotee'){
+		//Insert the Cash Payment Record
+		npe01__OppPayment__c PymntRec = new npe01__OppPayment__c(
+		npe01__Opportunity__c=OptyId,
+		npe01__Payment_Method__c='Cash',
+		npe01__Payment_Date__c=system.today(),
+		npe01__Payment_Amount__c=Pymnt_Amt,
+		npe01__Paid__c=Boolean.valueOf('true')
+		);
+		    insert PymntRec;
+			PymntId=PymntRec.Id;
+			}
+		else {
+		   PymntId = [Select Id from npe01__OppPayment__c where npe01__Opportunity__c =: OptyId limit 1].Id;
+		
+		 }	
+	}
+	else if(selectedPT=='Check'){
+		  if(UserType=='Devotee'){
+		    //Insert the Check Payment Record
+			npe01__OppPayment__c PymntRec = new npe01__OppPayment__c(	
+			npe01__Payment_Method__c='Check',
+			npe01__Opportunity__c=OptyId,
+			npe01__Payment_Date__c=System.today(),
+			npe01__Check_Reference_Number__c=CHKNum,
+			npe01__Custom_Payment_Field__c=BankName,
+			DCMSS_Check_Date__c=dt_CHKDt,
+			npe01__Payment_Amount__c=Pymnt_Amt,
+			npe01__Paid__c=Boolean.valueOf('true')
+			);
+			insert PymntRec;
+			PymntId=PymntRec.Id;
+			}
+		else {
+			npe01__OppPayment__c pymntRec = [Select Id,npe01__Payment_Method__c from npe01__OppPayment__c where npe01__Opportunity__c =: OptyId limit 1];
+			PymntId=pymntRec.Id;
+			pymntRec.npe01__Payment_Method__c='Check';
+			update pymntRec;
+		}
+		}
+	else {
+		if(UserType=='Devotee'){
+			//Insert the Credit Card Payment Record
+			npe01__OppPayment__c PymntRec = new npe01__OppPayment__c(
+			npe01__Payment_Method__c='Credit Card',
+			npe01__Opportunity__c=OptyId,
+			npe01__Payment_Date__c=System.today(),
+			npe01__Payment_Amount__c=Pymnt_Amt,
+			npe01__Paid__c=Boolean.valueOf('true')
+			);
+			insert PymntRec;
+			PymntId=PymntRec.Id;
+			}
+			else {
+			npe01__OppPayment__c pymntRec = [Select Id,npe01__Payment_Method__c from npe01__OppPayment__c where npe01__Opportunity__c =: OptyId limit 1];
+			PymntId=pymntRec.Id;
+			pymntRec.npe01__Payment_Method__c='Credit Card';
+			update pymntRec;	
+			}
+	}	
+			//Fetch the Transaction record to associate with payment record.
+			bt_stripe__Transaction__c transRec =[Select Id,DCMSS_Payment__c from bt_stripe__Transaction__c where  Id =: transID limit 1];
+			transRec.DCMSS_Payment__c=PymntId;
+			update transRec;
+	Pagereference p=new Pagereference ('/apex/PS_TemplSvcs_Step9');
+     p.setRedirect(false);
+     return p;		
+	//return null;
+}//end genReceipt() function
 
 /* Method to fetch the selected records from Step 2 */
 public PageReference capturePayment()
@@ -676,5 +810,28 @@ public PageReference processStep2()
      return p;
 
 }   
+public PageReference processStep3()
+{
+     //String id=System.currentpagereference().getparameters().get('id');
+     Pagereference p=new Pagereference ('/apex/PS_TemplSvcs_Step3');
+     p.setRedirect(false);
+     return p;
 
+} 
+public PageReference processStep4()
+{
+     //String id=System.currentpagereference().getparameters().get('id');
+     Pagereference p=new Pagereference ('/apex/PS_TemplSvcs_Step4');
+     p.setRedirect(false);
+     return p;
+
+}
+public PageReference gotoStep1()
+{
+     //String id=System.currentpagereference().getparameters().get('id');
+     Pagereference p=new Pagereference ('/apex/PS_TemplSvcs_Step1');
+     p.setRedirect(true);
+     return p;
+
+}   
 }

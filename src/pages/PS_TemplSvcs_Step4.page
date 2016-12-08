@@ -1,4 +1,4 @@
-<apex:page standardcontroller="Contact" extensions="SearchContactControllerExtn">
+<apex:page standardcontroller="Contact" extensions="SearchContactControllerExtn" sidebar="false" showHeader="false">
 <apex:form >
 <apex:sectionHeader title="Step 4" subtitle="Capture Credit Card Information"/>
  <apex:pageblock >
@@ -80,7 +80,8 @@
   <div style="position:relative;left:75px;">
       <apex:commandButton value="Submit Payment Information" action="{!processPayment}"/>
       <!-- rerender="showErrorMsg" -->
-      <apex:commandbutton value="Previous" action="{!processStep2}" rendered="{!IF(CONTAINS(selectedPT,'Credit'),true,false)}"/>
+      <apex:commandbutton value="Previous" action="{!processStep3}"/>
+      <!-- rendered="{!IF(CONTAINS(selectedPT,'Credit'),true,false)}" -->
   </div>
   <!-- End of Commandbutton -->
    <!-- Display error message -->

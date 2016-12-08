@@ -1,4 +1,4 @@
-<apex:page standardcontroller="Contact" extensions="SearchContactControllerExtn" >
+<apex:page standardcontroller="Contact" extensions="SearchContactControllerExtn" sidebar="false" showHeader="false">
  <apex:form >
  <apex:sectionHeader title="Step 5" subtitle="Credit Card Payment - Please confirm to process the charge"/>
   <apex:pageblock >
@@ -55,8 +55,9 @@
  </apex:panelgrid> 
   <!-- Commandbutton to proceed to next screen -->
   <div style="position:relative;left:75px;">
+      <apex:outputLabel style="font-weight:bold;" value="By clicking on the - Confirm and Process button-, I hereby authorize DC Metro Sai Samsthan to charge my Credit Card."></apex:outputLabel>
       <apex:commandButton value="Confirm & Process Payment" action="{!submitPayment}"/>
-      <!--<apex:commandbutton value="Previous" action="{!processSelected}"/>-->
+      <apex:commandbutton value="Previous" action="{!processStep4}"/>
   </div>
 <!-- End of Commandbutton -->
    <!-- Display error message -->

@@ -1,4 +1,4 @@
-<apex:page standardcontroller="Contact" extensions="SearchContactControllerExtn" >
+<apex:page standardcontroller="Contact" extensions="SearchContactControllerExtn" sidebar="false" showHeader="false">
 <!-- Javascript function to check all rows in the table -->
 <script>
 function checkAll(cb)
@@ -40,6 +40,7 @@ function checkAll(cb)
         <div style="position:relative;left:75px;">
              <apex:commandButton value="Next" action="{!devoteesearch}" rendered="{!IF(CONTAINS(UserType,'Devotee'),true,false)}"/>
         </div>
+        
     <!-- End of div -->
         <br/>
 </div>
@@ -78,37 +79,19 @@ function checkAll(cb)
     </apex:outputpanel>
 </apex:pageblocksection>
 <!-- End of search results -->
-<!-- Display search results 
-<apex:pageblocksection columns="1" title="Search results" rendered="{!NOT(ISNULL(dresults))}" >
-  <apex:outputpanel id="Devoteelist">
-
-        <apex:pageBlockTable value="{!dresults}" var="devotees">
-             <apex:column >
-                <apex:facet name="header">
-                    <apex:inputCheckbox onclick="checkAll(this)"/>
-                </apex:facet>
-                    <apex:inputCheckbox value="{!devotees.dev.selected}" id="selectLine1"/>
-            </apex:column>
-            <apex:column headervalue="Devotee Last Name">
-                <apex:outputtext value="{!devotees.dev.Last_Name__c}"/>
-            </apex:column>
-            <apex:column headervalue="Email Address">
-                <apex:outputtext value="{!devotees.dev.Email__c}"/>
-            </apex:column>
-            <apex:column headervalue="Phone">
-                <apex:outputtext value="{!devotees.dev.Phone__c}"/>
-            </apex:column>
-        </apex:pageBlockTable>  <br/><br/>
-
-    </apex:outputpanel>
-</apex:pageblocksection>
- End of search results -->
 <!-- Commandbutton to proceed to next screen -->
-  <div style="position:relative;left:75px;" rendered="{!IF(CONTAINS(UserType,'Member') && NOT(ISNULL(results)),true,false)}">
+  <div style="position:relative;left:75px;">
+  <!-- rendered="{!IF(CONTAINS(UserType,'Member') && NOT(ISNULL(results)),true,false)}" -->
       <apex:commandButton value="Next" action="{!processSelectedContact}" rendered="{!IF(CONTAINS(UserType,'Member') && NOT(ISNULL(results)),true,false)}"/>
       <!-- CONTAINS(UserSelected,'yes') -->
      <!-- <apex:commandbutton value="Cancel" action="{!Cancel}"/>-->
   </div>
+  <div style="position:relative;left:75px;">
+
+             <apex:commandButton value="Back" action="{!gotoStep1}"/>
+             <!-- rendered="{!IF(CONTAINS(UserType,'Member'),true,false)}" -->
+
+        </div>
    <!--  <div style="position:relative;left:75px;" rendered="{!IF(CONTAINS(UserType,'Devotee'),true,false)}">
       <apex:commandButton value="Next" action="{!processSelectedDevotee}"/>
      <apex:commandbutton value="Cancel" action="{!Cancel}"/>
