@@ -1,5 +1,12 @@
 <apex:page standardcontroller="Contact" extensions="SearchContactControllerExtn" sidebar="false" showHeader="false">
  <apex:form >
+ <head>
+<style>
+div.pbSubheader{
+font-size:20px;
+}
+</style>
+</head>
  <apex:sectionHeader title="Step 5" subtitle="Credit Card Payment - Please confirm to process the charge"/>
   <apex:pageblock >
   <!-- Div to give a colored box effect -->
@@ -58,6 +65,7 @@
       <apex:outputLabel style="font-weight:bold;" value="By clicking on the - Confirm and Process button-, I hereby authorize DC Metro Sai Samsthan to charge my Credit Card."></apex:outputLabel>
       <apex:commandButton value="Confirm & Process Payment" action="{!submitPayment}"/>
       <apex:commandbutton value="Previous" action="{!processStep4}"/>
+      <apex:commandbutton value="Cancel" action="{!gotoStep1}"/>
   </div>
 <!-- End of Commandbutton -->
    <!-- Display error message -->

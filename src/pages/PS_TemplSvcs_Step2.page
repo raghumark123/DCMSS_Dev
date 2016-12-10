@@ -13,32 +13,57 @@ function checkAll(cb)
 </script>
 <!-- End of Javascript function -->
 <apex:form >
+<style>
+        
+        
+        .bPageTitle h2 {
+            font-family: arial,"Times New Roman", Georgia, Serif;
+            font-size: 20px !important;
+        }
+        
+        .bPageTitle h1{
+            font-style: italic;
+            font-size: 40px !important;
+        }
+        
+ </style>
 <apex:sectionHeader title="Step 2" subtitle="In order to record your purchases we need this information." rendered="{!IF(CONTAINS(UserType,'Devotee'),true,false)}"/>
 <apex:sectionHeader title="Step 2" subtitle="Member Record Search..." rendered="{!IF(CONTAINS(UserType,'Member'),true,false)}"/>
 <apex:pageblock >
+<head>
+<style>
+div.pbSubheader{
+font-size:20px;
+}
+</style>
+</head>
 <apex:pageBlockSection title="Please provide basic information below :" columns="1"></apex:pageBlockSection>
 
 <!-- Div to give a colored box effect -->
 
 <div style="border-width:2px;border-style:solid;border-color:orange;">
-
+<br/><br/>
     <!-- Panel grid to display boxes o accept user input values -->
     <apex:panelGrid columns="2">
-        <apex:outputLabel style="font-weight:bold;" value="E-mail" ></apex:outputLabel>
+        <apex:outputLabel style="font-weight:bold;font-size: 20px;" value="E-mail" ></apex:outputLabel>
        <apex:inputText value="{!userinput}"/>
-        <apex:outputLabel style="font-weight:bold;" value="Last Name" ></apex:outputLabel>
+       <apex:outputLabel style="font-weight:bold;" value=" " ></apex:outputLabel>
+       <apex:outputLabel style="font-weight:bold;" value=" " ></apex:outputLabel>
+        <apex:outputLabel style="font-weight:bold;font-size: 20px;" value="Last Name" ></apex:outputLabel>
         <apex:inputText value="{!userinp}"/> 
         <!--
         <apex:outputLabel style="font-weight:bold;" value="Contact Mobile Phone" ></apex:outputLabel>
         <apex:inputText value="{!userinput2}"/>-->
     </apex:panelGrid>
     <!-- End of panelgrid -->
+<br/><br/>
     <!-- Div to position the commandbutton appropriately -->
         <div style="position:relative;left:75px;">
              <apex:commandButton value="Search Member" action="{!contactsearch}" rendered="{!IF(CONTAINS(UserType,'Member'),true,false)}"/>
         </div>
         <div style="position:relative;left:75px;">
              <apex:commandButton value="Next" action="{!devoteesearch}" rendered="{!IF(CONTAINS(UserType,'Devotee'),true,false)}"/>
+              
         </div>
         
     <!-- End of div -->
@@ -83,12 +108,22 @@ function checkAll(cb)
   <div style="position:relative;left:75px;">
   <!-- rendered="{!IF(CONTAINS(UserType,'Member') && NOT(ISNULL(results)),true,false)}" -->
       <apex:commandButton value="Next" action="{!processSelectedContact}" rendered="{!IF(CONTAINS(UserType,'Member') && NOT(ISNULL(results)),true,false)}"/>
+              &nbsp;
+     		  &nbsp;
+     		  &nbsp;
+   			  &nbsp;
+      <apex:commandButton value="Back" action="{!gotoStep1}"/>
+              &nbsp;
+     		  &nbsp;
+     		  &nbsp;
+   			  &nbsp;
+      <apex:commandbutton value="Cancel" action="{!gotoStep1}"/>
       <!-- CONTAINS(UserSelected,'yes') -->
      <!-- <apex:commandbutton value="Cancel" action="{!Cancel}"/>-->
   </div>
   <div style="position:relative;left:75px;">
 
-             <apex:commandButton value="Back" action="{!gotoStep1}"/>
+             
              <!-- rendered="{!IF(CONTAINS(UserType,'Member'),true,false)}" -->
 
         </div>

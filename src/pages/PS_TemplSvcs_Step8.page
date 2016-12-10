@@ -1,5 +1,12 @@
 <apex:page standardcontroller="Contact" extensions="SearchContactControllerExtn" sidebar="false" showHeader="false">
  <apex:form >
+ <head>
+<style>
+div.pbSubheader{
+font-size:20px;
+}
+</style>
+</head>
  <apex:sectionHeader title="Step 5" subtitle="Cash Payment - Please confirm to generate the Receipt"/>
   <apex:pageblock >
   <!-- Div to give a colored box effect -->
@@ -73,6 +80,7 @@
       <apex:commandButton value="Generate Receipt" action="{!genReceipt}"/>
       <apex:commandbutton value="Previous" action="{!processStep3}" rendered="{!IF(CONTAINS(selectedPT,'Cash'),true,false)}"/>
       <apex:commandbutton value="Previous" action="{!processStep4}" rendered="{!IF(CONTAINS(selectedPT,'Check'),true,false)}"/>
+      <apex:commandbutton value="Cancel" action="{!gotoStep1}"/>
   </div>
 <!-- End of Commandbutton -->
    <!-- Display error message -->

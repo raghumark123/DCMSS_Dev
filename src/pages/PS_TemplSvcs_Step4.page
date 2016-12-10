@@ -1,5 +1,12 @@
 <apex:page standardcontroller="Contact" extensions="SearchContactControllerExtn" sidebar="false" showHeader="false">
 <apex:form >
+<head>
+<style>
+div.pbSubheader{
+font-size:20px;
+}
+</style>
+</head>
 <apex:sectionHeader title="Step 4" subtitle="Capture Credit Card Information"/>
  <apex:pageblock >
  <!-- Div to give a colored box effect -->
@@ -82,6 +89,7 @@
       <!-- rerender="showErrorMsg" -->
       <apex:commandbutton value="Previous" action="{!processStep3}"/>
       <!-- rendered="{!IF(CONTAINS(selectedPT,'Credit'),true,false)}" -->
+      <apex:commandbutton value="Cancel" action="{!gotoStep1}"/>
   </div>
   <!-- End of Commandbutton -->
    <!-- Display error message -->

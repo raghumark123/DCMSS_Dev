@@ -71,9 +71,9 @@ public void setuserinp(String userinp){this.userinp=userinp;}
 public String selectedServices;
 public String getselectedServices(){return selectedServices;}
 public void setselectedServices(String selectedServices){this.selectedServices=selectedServices;}
-public Integer selectedQty;
-public Integer getselectedQty(){return selectedQty;}
-public void setselectedQty(Integer selectedQty){this.selectedQty = selectedQty;}
+public String selectedQty;
+public String getselectedQty(){return selectedQty;}
+public void setselectedQty(String selectedQty){this.selectedQty = selectedQty;}
 public String selectedPT;
 public String getselectedPT(){return selectedPT;}
 public void setselectedPT(String selectedPT){this.selectedPT=selectedPT;}
@@ -197,21 +197,29 @@ public PageReference devoteesearch()
 /* Method to Search the product database to fetch the price results */
 public void getPriceMethod()
 {
+	
+	
 	 selectedServices = apexpages.currentpage().getparameters().get('posselect'); 
+	 //selectedQty = apexpages.currentpage().getparameters().get('selq');
+	 if(selectedQty == null || selectedQty== ''){selectedQty='1';}
+	 System.Debug('selectedQty is ::' + selectedQty);
      List<Product2> prodList =[SELECT Id FROM Product2 WHERE Name =: selectedServices Limit 1];
      String PBE_ID='01s4C000000LXBy';
     // Boolean INTMPL=true;
     // prodList = database.Query('select Id from Product2 where name = '+'\''+selectedServices+'\'');
    // PricebookEntryList = database.Query('select UnitPrice from PriceBookEntry where Pricebook2Id =: PBE_ID AND Product2Id =: prodList AND InTemple__c =: INTMPL  LIMIT 1');
-    PricebookEntryList = database.Query('select ProductCode,UnitPrice,TotPrice__c from PriceBookEntry where Pricebook2Id =: PBE_ID AND Product2Id =: prodList LIMIT 1');
+    PricebookEntryList = database.Query('select ProductCode,UnitPrice,TotPrice__c,Qty__c from PriceBookEntry where Pricebook2Id =: PBE_ID AND Product2Id =: prodList LIMIT 1');
     PricebookEntryList[0].TotPrice__c=PricebookEntryList[0].UnitPrice*Integer.ValueOf(selectedQty);
+    PricebookEntryList[0].Qty__c=Integer.ValueOf(selectedQty);
     Pymnt_Amt=PricebookEntryList[0].TotPrice__c;
 }
 /* End of method */
 public void getPriceMethod2()
 {
+	selectedQty = apexpages.currentpage().getparameters().get('selq');
     PricebookEntryList[0].TotPrice__c=PricebookEntryList[0].UnitPrice*Integer.ValueOf(selectedQty);
     Pymnt_Amt=PricebookEntryList[0].TotPrice__c;
+    PricebookEntryList[0].Qty__c=Integer.ValueOf(selectedQty);
 }
 /* End of method */
 
