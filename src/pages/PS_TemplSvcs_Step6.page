@@ -63,6 +63,7 @@ font-size:20px;
   <!-- Commandbutton to proceed to next screen -->
   <div style="position:relative;left:75px;">
       <apex:outputLabel style="font-weight:bold;" value="By clicking on the - Confirm and Process button-, I hereby authorize DC Metro Sai Samsthan to charge my Credit Card."></apex:outputLabel>
+      <br/>
       <apex:commandButton value="Confirm & Process Payment" action="{!submitPayment}"/>
       <apex:commandbutton value="Previous" action="{!processStep4}"/>
       <apex:commandbutton value="Cancel" action="{!gotoStep1}"/>

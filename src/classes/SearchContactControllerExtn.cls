@@ -81,8 +81,10 @@ public String CCName;
 public String getCCName(){
 	if(UserType=='Member')
 	CCName=Name;
-	else if (UserType=='Devotee' && DevoteeLastName != '')
+	else if (UserType=='Devotee' && DevoteeId != null)
 	CCName=DevoteeName;
+	//else
+	//CCName= userinp;
 	return CCName;}
 public void setCCName(String CCName){this.CCName=CCName;}
 public String CCNum; 
@@ -201,8 +203,8 @@ public void getPriceMethod()
 	
 	 selectedServices = apexpages.currentpage().getparameters().get('posselect'); 
 	 //selectedQty = apexpages.currentpage().getparameters().get('selq');
-	 if(selectedQty == null || selectedQty== ''){selectedQty='1';}
-	 System.Debug('selectedQty is ::' + selectedQty);
+	 if(selectedQty == null || selectedQty == ''){selectedQty='1';}
+	 //System.Debug('selectedQty is ::' + selectedQty);
      List<Product2> prodList =[SELECT Id FROM Product2 WHERE Name =: selectedServices Limit 1];
      String PBE_ID='01s4C000000LXBy';
     // Boolean INTMPL=true;
@@ -216,10 +218,21 @@ public void getPriceMethod()
 /* End of method */
 public void getPriceMethod2()
 {
+	errormsg=false; 
 	selectedQty = apexpages.currentpage().getparameters().get('selq');
+	if(selectedServices == null || selectedServices == ''){
+	 errormsg=true; 
+
+        ApexPages.addmessage(new ApexPages.message(ApexPages.severity.Error, 'Please select a service first.'));
+
+       // return null;
+	
+	}
+	else {
     PricebookEntryList[0].TotPrice__c=PricebookEntryList[0].UnitPrice*Integer.ValueOf(selectedQty);
     Pymnt_Amt=PricebookEntryList[0].TotPrice__c;
     PricebookEntryList[0].Qty__c=Integer.ValueOf(selectedQty);
+	}
 }
 /* End of method */
 
@@ -689,8 +702,9 @@ public PageReference genReceipt()
 	
 	
 	if(selectedPT=='Cash'){
-		if(UserType=='Devotee'){
+	/*	if(UserType=='Devotee'){
 		//Insert the Cash Payment Record
+		if(DevoteeId==null){
 		npe01__OppPayment__c PymntRec = new npe01__OppPayment__c(
 		npe01__Opportunity__c=OptyId,
 		npe01__Payment_Method__c='Cash',
@@ -700,14 +714,25 @@ public PageReference genReceipt()
 		);
 		    insert PymntRec;
 			PymntId=PymntRec.Id;
-			}
-		else {
-		   PymntId = [Select Id from npe01__OppPayment__c where npe01__Opportunity__c =: OptyId limit 1].Id;
-		
-		 }	
-	}
+			}//if(DevoteeId==null)
+		else {//Existing Devotee
+			npe01__OppPayment__c pymntRec = [Select Id,npe01__Payment_Method__c,npe01__Check_Reference_Number__c,npe01__Custom_Payment_Field__c,DCMSS_Check_Date__c from npe01__OppPayment__c where npe01__Opportunity__c =: OptyId limit 1];
+			PymntId=pymntRec.Id;
+			pymntRec.npe01__Payment_Method__c='Cash';
+			update pymntRec;
+		}//End of Existing Devotee
+		}//if(UserType=='Devotee')	
+		else {//Member*/
+		   npe01__OppPayment__c pymntRec = [Select Id,npe01__Payment_Method__c,npe01__Check_Reference_Number__c,npe01__Custom_Payment_Field__c,DCMSS_Check_Date__c from npe01__OppPayment__c where npe01__Opportunity__c =: OptyId limit 1];
+			PymntId=pymntRec.Id;
+			pymntRec.npe01__Payment_Method__c='Cash';
+			update pymntRec;	
+		   
+	//	 }	//Member
+	}//if(selectedPT=='Cash')
 	else if(selectedPT=='Check'){
-		  if(UserType=='Devotee'){
+	/*	  if(UserType=='Devotee'){
+		  	if(DevoteeId==null){
 		    //Insert the Check Payment Record
 			npe01__OppPayment__c PymntRec = new npe01__OppPayment__c(	
 			npe01__Payment_Method__c='Check',
@@ -721,16 +746,33 @@ public PageReference genReceipt()
 			);
 			insert PymntRec;
 			PymntId=PymntRec.Id;
-			}
-		else {
-			npe01__OppPayment__c pymntRec = [Select Id,npe01__Payment_Method__c from npe01__OppPayment__c where npe01__Opportunity__c =: OptyId limit 1];
+			}//if(DevoteeId==null)
+			else {//Existing Devotee
+			npe01__OppPayment__c pymntRec = [Select Id,npe01__Payment_Method__c,npe01__Check_Reference_Number__c,npe01__Custom_Payment_Field__c,DCMSS_Check_Date__c from npe01__OppPayment__c where npe01__Opportunity__c =: OptyId limit 1];
 			PymntId=pymntRec.Id;
 			pymntRec.npe01__Payment_Method__c='Check';
+			pymntRec.npe01__Check_Reference_Number__c=CHKNum;
+			pymntRec.npe01__Custom_Payment_Field__c=BankName;
+			pymntRec.DCMSS_Check_Date__c=dt_CHKDt;
+			update pymntRec;	
+			
+			}//Existing Devotee
+			
+		  }//if(UserType=='Devotee')
+		else {*/
+			npe01__OppPayment__c pymntRec = [Select Id,npe01__Payment_Method__c,npe01__Check_Reference_Number__c,npe01__Custom_Payment_Field__c,DCMSS_Check_Date__c from npe01__OppPayment__c where npe01__Opportunity__c =: OptyId limit 1];
+			PymntId=pymntRec.Id;
+			pymntRec.npe01__Payment_Method__c='Check';
+			pymntRec.npe01__Check_Reference_Number__c=CHKNum;
+			pymntRec.npe01__Custom_Payment_Field__c=BankName;
+			pymntRec.DCMSS_Check_Date__c=dt_CHKDt;
 			update pymntRec;
-		}
-		}
+	//	}
+		}//if(selectedPT=='Check')
 	else {
-		if(UserType=='Devotee'){
+		//selectedPT=='Credit Card'
+	/*	if(UserType=='Devotee'){
+			if(DevoteeId==null){//new Devotee in system
 			//Insert the Credit Card Payment Record
 			npe01__OppPayment__c PymntRec = new npe01__OppPayment__c(
 			npe01__Payment_Method__c='Credit Card',
@@ -741,18 +783,28 @@ public PageReference genReceipt()
 			);
 			insert PymntRec;
 			PymntId=PymntRec.Id;
+			}//if(DevoteeId==null)
+			else {//Existing Devotee
+		     npe01__OppPayment__c pymntRec = [Select Id,npe01__Payment_Method__c from npe01__OppPayment__c where npe01__Opportunity__c =: OptyId limit 1];
+			PymntId=pymntRec.Id;
+			pymntRec.npe01__Payment_Method__c='Credit Card';
+			update pymntRec;	
+				
 			}
-			else {
+			
+			}//End of if(UserType=='Devotee')
+			else {//if(UserType=='Member')*/
 			npe01__OppPayment__c pymntRec = [Select Id,npe01__Payment_Method__c from npe01__OppPayment__c where npe01__Opportunity__c =: OptyId limit 1];
 			PymntId=pymntRec.Id;
 			pymntRec.npe01__Payment_Method__c='Credit Card';
 			update pymntRec;	
-			}
-	}	
-			//Fetch the Transaction record to associate with payment record.
+		//	}//End of if(UserType=='Member')
+		    //Fetch the Transaction record to associate with payment record.
 			bt_stripe__Transaction__c transRec =[Select Id,DCMSS_Payment__c from bt_stripe__Transaction__c where  Id =: transID limit 1];
 			transRec.DCMSS_Payment__c=PymntId;
 			update transRec;
+			
+	}	
 	Pagereference p=new Pagereference ('/apex/PS_TemplSvcs_Step9');
      p.setRedirect(false);
      return p;		
@@ -762,6 +814,16 @@ public PageReference genReceipt()
 /* Method to fetch the selected records from Step 2 */
 public PageReference capturePayment()
 {
+	errormsg=false;
+     if(selectedServices == null || selectedQty == null) {
+
+        errormsg=true; 
+
+        ApexPages.addmessage(new ApexPages.message(ApexPages.severity.Error, 'Services or Quantity is missing. Please select.'));
+
+        return null;
+
+   }
     // Pagereference p=new Pagereference ('/apex/PS_TemplSvcs_Step4');
      Pagereference p=page.PS_TemplSvcs_Step4;
      

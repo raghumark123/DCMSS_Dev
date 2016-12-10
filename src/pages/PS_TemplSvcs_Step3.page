@@ -133,11 +133,14 @@ font-size:20px;
                 <apex:selectOptions value="{!ServQty}"/>
                 <apex:actionSupport action="{!getPriceMethod2}" event="onclick" reRender="outptText" />
             </apex:selectList>-->
+     <apex:outputLabel style="font-weight:bold;" value=" " ></apex:outputLabel>
+       <apex:outputLabel style="font-weight:bold;" value=" " ></apex:outputLabel>
+       <apex:outputLabel style="font-weight:bold;" value=" " ></apex:outputLabel>
+       <apex:outputLabel style="font-weight:bold;" value=" " ></apex:outputLabel> 
      <apex:commandButton value="1" action="{!getPriceMethod2}" style="height:50px; width:50px;" image="{!URLFOR($Resource.posimages,'images/One.jpg')}" reRender="outptText">
         <apex:param name="selq" value="1"/>
         </apex:commandButton>
-         
-      <apex:commandButton value="2" action="{!getPriceMethod2}" style="height:50px; width:50px;" image="{!URLFOR($Resource.posimages,'images/two.jpg')}" reRender="outptText">
+        <apex:commandButton value="2" action="{!getPriceMethod2}" style="height:50px; width:50px;" image="{!URLFOR($Resource.posimages,'images/two.jpg')}" reRender="outptText">
         <apex:param name="selq" value="2"/> 
         </apex:commandButton>
 
@@ -162,6 +165,7 @@ font-size:20px;
 
 
 <div style="border-width:2px;border-style:solid;border-color:blue;">
+<apex:panelGrid columns="4">
 <apex:outputLabel style="font-weight:bold;" value=" " ></apex:outputLabel>
        <apex:outputLabel style="font-weight:bold;" value=" " ></apex:outputLabel>
        <apex:outputLabel style="font-weight:bold;" value=" " ></apex:outputLabel>
@@ -171,7 +175,6 @@ font-size:20px;
     <apex:outputLabel style="font-weight:bold;" value=" " ></apex:outputLabel>
        <apex:outputLabel style="font-weight:bold;" value=" " ></apex:outputLabel>
        <apex:outputLabel style="font-weight:bold;" value=" " ></apex:outputLabel>
-       <apex:outputLabel style="font-weight:bold;" value=" " ></apex:outputLabel>
 
         <apex:outputLabel style="font-weight:bold;font-size: 20px;" value="Select Payment Type : " ></apex:outputLabel>
         <apex:selectList value="{!selectedPT}" multiselect="false" size="1">
@@ -179,13 +182,14 @@ font-size:20px;
                <!--    <apex:actionSupport action="{!dispPaymentFields}" event="onclick" reRender="CC,CHQDet" />-->
                   
             </apex:selectList>
-<apex:outputLabel style="font-weight:bold;" value=" " ></apex:outputLabel>
+       <apex:outputLabel style="font-weight:bold;" value=" " ></apex:outputLabel>
        <apex:outputLabel style="font-weight:bold;" value=" " ></apex:outputLabel>
        <apex:outputLabel style="font-weight:bold;" value=" " ></apex:outputLabel>
        <apex:outputLabel style="font-weight:bold;" value=" " ></apex:outputLabel> 
+</apex:panelGrid>
 </div>
 
-<!-- Display error message -->
+<!-- Display error message
 <apex:pagemessage strength="2" title="Error!!" severity="error" detail="Please select a contact or enter email address to proceed" rendered="{!errormsg}"/>
 <!-- End of error message -->
 <apex:outputLabel style="font-weight:bold;" value=" " ></apex:outputLabel>
@@ -208,6 +212,10 @@ font-size:20px;
           </apex:column>
       </apex:pageblocktable>
 </apex:pageblock>
+
+<!-- Display error message -->
+<apex:pagemessages id="showErrorMsg"></apex:pagemessages>
+<!-- End of error message -->
 <apex:outputLabel style="font-weight:bold;" value=" " ></apex:outputLabel>
        <apex:outputLabel style="font-weight:bold;" value=" " ></apex:outputLabel>
        <apex:outputLabel style="font-weight:bold;" value=" " ></apex:outputLabel>
