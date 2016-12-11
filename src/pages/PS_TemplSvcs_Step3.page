@@ -143,15 +143,12 @@ font-size:20px;
         <apex:commandButton value="2" action="{!getPriceMethod2}" style="height:50px; width:50px;" image="{!URLFOR($Resource.posimages,'images/two.jpg')}" reRender="outptText">
         <apex:param name="selq" value="2"/> 
         </apex:commandButton>
-
       <apex:commandButton value="3" action="{!getPriceMethod2}" style="height:50px; width:50px;" image="{!URLFOR($Resource.posimages,'images/three.jpg')}" reRender="outptText">
         <apex:param name="selq" value="3"/> 
         </apex:commandButton>
-
       <apex:commandButton value="4" action="{!getPriceMethod2}" style="height:50px; width:50px;" image="{!URLFOR($Resource.posimages,'images/Four.jpg')}" reRender="outptText">
         <apex:param name="selq" value="4"/> 
         </apex:commandButton>
-
       <apex:commandButton value="5" action="{!getPriceMethod2}" style="height:50px; width:50px;" image="{!URLFOR($Resource.posimages,'images/Five.jpg')}" reRender="outptText">
         <apex:param name="selq" value="5"/> 
         </apex:commandButton>

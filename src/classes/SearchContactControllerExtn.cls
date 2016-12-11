@@ -117,8 +117,13 @@ public String UserType;
 public String getUserType(){return UserType;}
 //public void setUserType(String UserType){this.UserType=UserType;}
 /*End of Getter and Setter methods */
-
-
+public String getReceipt_Num(){return Receipt_Num;}
+//public void setReceipt_Num(String Receipt_Num){this.Receipt_Num=Receipt_Num;}
+public String stripeTransId;
+public String getstripeTransId(){return stripeTransId;}
+//public void setstripeTransId(String stripeTransId){this.stripeTransId=stripeTransId;}
+public String lfourdigit;
+public String getlfourdigit(){return lfourdigit;}
   
 /* Method to Search the contact database to fetch the query results */
 public List<Contact> contactsearch()
@@ -525,6 +530,7 @@ public PageReference submitPayment()
             bt_stripe.P360_API_v1.commitWork();
             //get Transaction Record Id
             transID = t.record.Id;
+            stripeTransId=t.record.bt_stripe__Transaction_Id__c;
 
         } catch(bt_stripe.P360_API_v1.P360_Exception e) {
             // Do something on errors
@@ -577,6 +583,7 @@ public PageReference processPayment()
       }
       if(errormsg==false){
       	//submitPayment();
+      lfourdigit='**** **** ****'+CCNum.right(4);
      Pagereference p=new Pagereference ('/apex/PS_TemplSvcs_Step6');
      //Pagereference p=page.PS_TemplSvcs_Step8;
      p.setRedirect(false);
@@ -657,7 +664,8 @@ public PageReference genReceipt()
 		    Amount = Pymnt_Amt);
 			insert newOpp;
 			OptyId=newOpp.Id;
-	        Receipt_Num=newOpp.Receipt__c;
+	        opportunity OptyRec =[Select Receipt__c from Opportunity where Id =:OptyId limit 1];
+	        Receipt_Num=OptyRec.Receipt__c;
 			//PymntId = [Select Id from npe01__OppPayment__c where npe01__Opportunity__c =: OptyId limit 1].Id;
 			}
 		else {
@@ -673,7 +681,8 @@ public PageReference genReceipt()
 		    Amount = Pymnt_Amt);
 			insert newOpp;
 			OptyId=newOpp.Id;
-	        Receipt_Num=newOpp.Receipt__c;
+	        opportunity OptyRec =[Select Receipt__c from Opportunity where Id =:OptyId limit 1];
+	        Receipt_Num=OptyRec.Receipt__c;
 	       // PymntId = [Select Id from npe01__OppPayment__c where npe01__Opportunity__c =: OptyId limit 1].Id;
 		}
 	}		    
@@ -691,7 +700,8 @@ public PageReference genReceipt()
     Amount = Pymnt_Amt);
 	insert newOpp;
 	OptyId=newOpp.Id;
-	Receipt_Num=newOpp.Receipt__c;
+	opportunity OptyRec =[Select Receipt__c from Opportunity where Id =:OptyId limit 1];
+	Receipt_Num=OptyRec.Receipt__c;
 	if(ContactEmail ==''){
 		Contact conRec=[Select Id,Email from Contact where Id =:ContactId limit 1];
 		conRec.Email=userinput;
