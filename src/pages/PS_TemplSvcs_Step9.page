@@ -1,4 +1,19 @@
 <apex:page standardcontroller="Contact" extensions="SearchContactControllerExtn" sidebar="false" showHeader="false">
+ <script>      
+        window.onload = function() { 
+            window.print();
+        }
+    </script>
+    <style>
+        @media print{
+            h1{
+                font-size:120px;
+            }
+            p{
+                font-size: 70px;
+            }
+        }
+    </style>
  <apex:form >
  <head>
 <style>
@@ -28,7 +43,7 @@ font-size:10px;
         <apex:outputLabel style="font-weight:bold;" value="Full Name" ></apex:outputLabel>
         <apex:outputText value="{!userinp}"/> 
        </apex:panelGrid>
-       <apex:panelGrid columns="4">
+       <apex:panelGrid columns="2">
         <apex:outputLabel style="font-weight:bold;" value="In-temple service Selected: " ></apex:outputLabel>
         <apex:outputText value="{!selectedServices}"/>
         <apex:outputLabel style="font-weight:bold;" value="Quantity : " ></apex:outputLabel>
@@ -55,7 +70,7 @@ font-size:10px;
 </apex:pageblock>
 <apex:pageBlockSection title="CHECK INFORMATION ENTERED" columns="1" rendered="{!IF(CONTAINS(selectedPT,'Check'),true,false)}"></apex:pageBlockSection>
 <!--<apex:pageBlockSection title="CREDIT CARD INFORMATION ENTERED" columns="1" rendered="{!IF(CONTAINS(selectedPT,'Credit'),true,false)}"></apex:pageBlockSection>  -->
-<apex:panelgrid id="CHK" columns="4" rendered="{!IF(CONTAINS(selectedPT,'Check'),true,false)}">
+<apex:panelgrid id="CHK" columns="2" rendered="{!IF(CONTAINS(selectedPT,'Check'),true,false)}">
  <!-- rendered="{IF(!selectedPT == 'CREDIT CARD', true, false)}" -->
       <apex:outputLabel style="font-weight:bold;" value="Bank Name :"></apex:outputLabel>
        <apex:outputText value="{!BankName}"/>
@@ -66,7 +81,7 @@ font-size:10px;
       <apex:outputLabel style="font-weight:bold;" value="Check Number : "></apex:outputLabel>
       <apex:outputText value="{!CHKNum}"/>
  </apex:panelgrid> 
- <apex:panelgrid id="CC" columns="4" rendered="{!IF(CONTAINS(selectedPT,'Credit'),true,false)}">
+ <apex:panelgrid id="CC" columns="2" rendered="{!IF(CONTAINS(selectedPT,'Credit'),true,false)}">
       <apex:outputLabel style="font-weight:bold;" value="Name as in Credit Card"></apex:outputLabel>
        <apex:outputText value="{!CCName}"/>
       <apex:outputLabel style="font-weight:bold;" value="Card Number (Last Four Digits):"></apex:outputLabel>
