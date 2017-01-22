@@ -124,7 +124,7 @@ public String getstripeTransId(){return stripeTransId;}
 //public void setstripeTransId(String stripeTransId){this.stripeTransId=stripeTransId;}
 public String lfourdigit;
 public String getlfourdigit(){return lfourdigit;}
-  
+
 /* Method to Search the contact database to fetch the query results */
 public List<Contact> contactsearch()
 {
@@ -201,6 +201,7 @@ public PageReference devoteesearch()
 // return null;
 }
 /* End of method */
+
 /* Method to Search the product database to fetch the price results */
 public void getPriceMethod()
 {

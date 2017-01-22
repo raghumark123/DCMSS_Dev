@@ -1,7 +1,7 @@
-<apex:page standardcontroller="Contact" extensions="SearchContactControllerExtn" sidebar="false" showHeader="false">
+<apex:page standardcontroller="Contact" extensions="SearchContactControllerExtn" id="thepage" sidebar="false" showHeader="false">
 <script src="{!URLFOR($Resource.jquery1_7, 'js/jquery-1.7.2.min.js')}"/>
 <script src="{!URLFOR($Resource.cardreader, 'dist/jquery.cardswipe.js')}"/>
-<apex:form >
+<apex:form id="theform">
 <head>
 <style>
 div.pbSubheader{
@@ -53,13 +53,15 @@ font-size:20px;
 <apex:pageBlockSection title="Enter CREDIT CARD INFORMATION" columns="1" rendered="{!IF(CONTAINS(selectedPT,'Credit'),true,false)}"></apex:pageBlockSection>
 <apex:pageBlockSection title="Enter CHECK INFORMATION" columns="1" rendered="{!IF(CONTAINS(selectedPT,'Check'),true,false)}"></apex:pageBlockSection>
 
+  
 <apex:panelgrid id="CC" columns="4" rendered="{!IF(CONTAINS(selectedPT,'Credit'),true,false)}">
  <!-- rendered="{IF(!selectedPT == 'CREDIT CARD', true, false)}" -->
       <apex:outputLabel style="font-weight:bold;" value="Name as in Credit Card"></apex:outputLabel>
        <apex:inputText value="{!CCName}" id="lastName"/>
        <!-- required="{!IF(CONTAINS(selectedPT,'CREDIT'),true,false)}" -->
       <apex:outputLabel style="font-weight:bold;" value="Card Number (16 Digits):"></apex:outputLabel>
-       <apex:inputText value="{!CCNum}" id="account" maxlength="19"/>
+       <apex:inputText value="{!CCNum}" id="CRNUM" maxlength="19"/>
+     <!--    <apex:outputText value="{!JSStart}account{!JSEnd}" escape="false"/>-->
        
       <apex:outputLabel style="font-weight:bold;" value="Card Exp Month : "></apex:outputLabel>
       <apex:selectList value="{!selectedExpMnth}" id="expMonth" multiselect="false" size="1">
@@ -74,6 +76,7 @@ font-size:20px;
      <apex:outputLabel style="font-weight:bold;" value="3 Digit Card CVC Code"></apex:outputLabel>
        <apex:inputText value="{!CCCVC}" maxlength="3"/>
  </apex:panelgrid> 
+ 
 <apex:panelgrid id="CHK" columns="4" rendered="{!IF(CONTAINS(selectedPT,'Check'),true,false)}">
  <!-- rendered="{IF(!selectedPT == 'CREDIT CARD', true, false)}" -->
       <apex:outputLabel style="font-weight:bold;" value="Check Number : "></apex:outputLabel>
@@ -98,9 +101,8 @@ font-size:20px;
 <apex:pagemessages id="showErrorMsg"></apex:pagemessages>
 <!-- End of error message -->
 </apex:pageblock>
-</apex:form>
 <!-- A modal-style message that appears while scanning -->
-	<div id="overlay">
+ 	<div id="overlay">
 		<div id="scanning" class="dialog">
 			<p>Scanning...</p>
 		</div>
@@ -116,7 +118,9 @@ font-size:20px;
 		<div id="properties">
 
 		</div>
-	</div>
+	</div> 
+</apex:form>
+
 <script type="text/javascript">
 
 		// Called by plugin on a successful scan.
@@ -127,14 +131,19 @@ font-size:20px;
 				return;
 
 			// Copy data fields to form
-			//$("#firstName").val(data.firstName);
-			document.getElementById(lastName).value = val(data.lastName);
-			//$("#lastName").val(data.lastName);
-			//$("#fullName").val(data.fullName);
-			$("#account").val(data.account);
-			$("#expMonth").val(data.expMonth);
-			$("#expYear").val(data.expYear);
-			//$("#type").val(data.type);
+			var firstName=data.firstName;
+			var lastName=data.lastName;
+			var account=data.account;
+			var expMonth=data.expMonth;
+			var expYear=data.expYear;
+			var type=data.type;
+			var fullName=firstName+' '+lastName;
+			document.getElementById('{!$Component.thepage.theform.j_id3.CRNUM}').value = account;
+			document.getElementById('{!$Component.thepage.theform.j_id3.lastName}').value = fullName;
+			document.getElementById('{!$Component.thepage.theform.j_id3.expMonth}').value = expMonth;
+			document.getElementById('{!$Component.thepage.theform.j_id3.expYear}').value = expYear;
+			
+			
 
 		};
 
@@ -158,6 +167,7 @@ font-size:20px;
 				if (data.hasOwnProperty(key)) {
 					var text = key + ': ' + data[key];
 					$("#properties").append('<div class="property">' + text + '</div>');
+					
 				}
 			}
 
