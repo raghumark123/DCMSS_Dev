@@ -101,7 +101,7 @@ font-size:20px;
 <apex:pagemessages id="showErrorMsg"></apex:pagemessages>
 <!-- End of error message -->
 </apex:pageblock>
-<!-- A modal-style message that appears while scanning -->
+<!-- A modal-style message that appears while scanning 
  	<div id="overlay">
 		<div id="scanning" class="dialog">
 			<p>Scanning...</p>
@@ -118,7 +118,7 @@ font-size:20px;
 		<div id="properties">
 
 		</div>
-	</div> 
+	</div> -->
 </apex:form>
 
 <script type="text/javascript">
