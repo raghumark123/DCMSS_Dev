@@ -3,6 +3,9 @@
     <fullName>Release 1%2E0 Sprint 1</fullName>
     <types>
         <members>SearchContactControllerExtn</members>
+        <members>TestSearchContactControllerExtn</members>
+        <members>TestSearchContactControllerExtn2</members>
+        <members>TestSearchContactControllerExtn3</members>
         <name>ApexClass</name>
     </types>
     <types>
@@ -58,7 +61,9 @@
         <name>Layout</name>
     </types>
     <types>
+        <members>cardreader</members>
         <members>jQuery</members>
+        <members>jquery1_7</members>
         <members>posimages</members>
         <members>sairam</members>
         <name>StaticResource</name>
