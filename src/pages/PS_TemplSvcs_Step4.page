@@ -1,0 +1,211 @@
+<apex:page standardcontroller="Contact" extensions="SearchContactControllerExtn" id="thepage" sidebar="false" showHeader="false">
+<script src="{!URLFOR($Resource.jquery1_7, 'js/jquery-1.7.2.min.js')}"/>
+<script src="{!URLFOR($Resource.cardreader, 'dist/jquery.cardswipe.js')}"/>
+<apex:form id="theform">
+<head>
+<style>
+div.pbSubheader{
+font-size:20px;
+}
+</style>
+</head>
+<apex:sectionHeader title="Step 4" subtitle="Capture Credit Card Information"/>
+ <apex:pageblock >
+ <!-- Div to give a colored box effect -->
+
+<div style="border-width:2px;border-style:solid;border-color:orange;">
+    <!-- Panel grid to display boxes o accept user input values -->
+    <apex:panelGrid columns="4" rendered="{!IF(CONTAINS(UserType,'Member'),true,false)}">
+        <apex:outputLabel style="font-weight:bold;" value="E-mail" ></apex:outputLabel>
+       <apex:outputText value="{!userinput}"/>
+        <apex:outputLabel style="font-weight:bold;" value="Full Name" ></apex:outputLabel>
+        <apex:outputText value="{!name}"/> 
+     </apex:panelGrid>  
+      <apex:panelGrid columns="4" rendered="{!IF(CONTAINS(UserType,'Devotee'),true,false)}">
+        <apex:outputLabel style="font-weight:bold;" value="E-mail" ></apex:outputLabel>
+       <apex:outputText value="{!userinput}"/>
+        <apex:outputLabel style="font-weight:bold;" value="Last Name" ></apex:outputLabel>
+        <apex:outputText value="{!userinp}"/> 
+        </apex:panelGrid>
+       <apex:panelGrid columns="4" rendered="{!IF(Donor==true,true,false)}"> 
+       <apex:outputLabel style="font-weight:bold;" value="Donation Amount" ></apex:outputLabel>
+       <apex:outputText value="{!DonationAmt}"/>
+       <apex:outputLabel style="font-weight:bold;" value="Payment Type : " ></apex:outputLabel>
+        <apex:outputText value="{!selectedPT}"/>
+       </apex:panelGrid>
+       
+     <apex:panelGrid columns="4" rendered="{!IF(Donor==false,true,false)}">   
+        <apex:outputLabel style="font-weight:bold;" value="In-temple service Selected: " ></apex:outputLabel>
+        <apex:outputText value="{!selectedServices}"/>
+        <apex:outputLabel style="font-weight:bold;" value="Select Quantity : " ></apex:outputLabel>
+        <apex:outputText value="{!selectedQty}"/>
+        <apex:outputLabel style="font-weight:bold;" value="Payment Type : " ></apex:outputLabel>
+        <apex:outputText value="{!selectedPT}"/>
+    </apex:panelGrid>
+</div>
+<apex:pageblock rendered="{!IF(Donor==false,true,false)}">
+      <apex:pageblocktable value="{!PricebookEntryList}" var="pbe" id="outptText">
+        <apex:column headervalue="Selected Service">
+                <apex:outputtext value="{!pbe.ProductCode}"/>
+            </apex:column>
+         <apex:column headervalue="Unit Price">
+                <apex:outputtext value="{!pbe.UnitPrice}"/>
+            </apex:column>   
+          <apex:column headervalue="Total Price">
+          	<apex:outputtext value="{!pbe.TotPrice__c}"/>
+          </apex:column>
+      </apex:pageblocktable>
+</apex:pageblock>
+
+<apex:pageBlockSection title="Enter CREDIT CARD INFORMATION" columns="1" rendered="{!IF(CONTAINS(selectedPT,'Credit'),true,false)}"></apex:pageBlockSection>
+<apex:pageBlockSection title="Enter CHECK INFORMATION" columns="1" rendered="{!IF(CONTAINS(selectedPT,'Check'),true,false)}"></apex:pageBlockSection>
+
+  
+<apex:panelgrid id="CC" columns="4" rendered="{!IF(CONTAINS(selectedPT,'Credit'),true,false)}">
+ <!-- rendered="{IF(!selectedPT == 'CREDIT CARD', true, false)}" -->
+      <apex:outputLabel style="font-weight:bold;" value="Name as in Credit Card"></apex:outputLabel>
+       <apex:inputText value="{!CCName}" id="lastName"/>
+       <!-- required="{!IF(CONTAINS(selectedPT,'CREDIT'),true,false)}" -->
+      <apex:outputLabel style="font-weight:bold;" value="Card Number (16 Digits):"></apex:outputLabel>
+       <apex:inputText value="{!CCNum}" id="CRNUM" maxlength="19"/>
+     <!--    <apex:outputText value="{!JSStart}account{!JSEnd}" escape="false"/>-->
+       
+      <apex:outputLabel style="font-weight:bold;" value="Card Exp Month : "></apex:outputLabel>
+      <apex:selectList value="{!selectedExpMnth}" id="expMonth" multiselect="false" size="1">
+           <apex:selectOptions value="{!TmplCEM}"/>
+          <!--   <apex:actionSupport action="{!getPaymentFields}" event="" reRender="" />-->
+      </apex:selectList> 
+      <apex:outputLabel style="font-weight:bold;" value="Card Exp Year : "></apex:outputLabel>
+     <apex:selectList value="{!selectedExpYr}" id="expYear" multiselect="false" size="1">
+           <apex:selectOptions value="{!TmplCEYOptions}"/>
+         <!--    <apex:actionSupport action="{!getPaymentFields}" event="" reRender="" />-->
+      </apex:selectList>    
+     <apex:outputLabel style="font-weight:bold;" value="3 Digit Card CVC Code"></apex:outputLabel>
+       <apex:inputText value="{!CCCVC}" maxlength="3"/>
+ </apex:panelgrid> 
+ 
+<apex:panelgrid id="CHK" columns="4" rendered="{!IF(CONTAINS(selectedPT,'Check'),true,false)}">
+ <!-- rendered="{IF(!selectedPT == 'CREDIT CARD', true, false)}" -->
+      <apex:outputLabel style="font-weight:bold;" value="Check Number : "></apex:outputLabel>
+       <apex:inputText value="{!CHKNum}"/>
+       <!-- required="{!IF(CONTAINS(selectedPT,'CREDIT'),true,false)}" -->
+      <apex:outputLabel style="font-weight:bold;" value="Check Date (mm/dd/yyyy) :"></apex:outputLabel>
+       <apex:inputText value="{!CHKDate}"/> 
+     <apex:outputLabel style="font-weight:bold;" value="Bank Name :"></apex:outputLabel>
+       <apex:inputText value="{!BankName}"/>
+ </apex:panelgrid> 
+ 
+  <!-- Commandbutton to proceed to next screen -->
+  <div style="position:relative;left:75px;">
+      <apex:commandButton value="Submit Payment Information" action="{!processPayment}"/>
+      <!-- rerender="showErrorMsg" -->
+      <apex:commandbutton value="Previous" action="{!processStep3}"/>
+      <!-- rendered="{!IF(CONTAINS(selectedPT,'Credit'),true,false)}" -->
+      <apex:commandbutton value="Cancel" action="{!gotoStep0}"/>
+  </div>
+  <!-- End of Commandbutton -->
+   <!-- Display error message -->
+<apex:pagemessages id="showErrorMsg"></apex:pagemessages>
+<!-- End of error message -->
+</apex:pageblock>
+<!-- A modal-style message that appears while scanning 
+ 	<div id="overlay">
+		<div id="scanning" class="dialog">
+			<p>Scanning...</p>
+		</div>
+	</div>
+
+	<div id="failure" class="dialog">
+		<p>Unrecognized card.</p>
+	</div>
+
+	<div id="success" class="dialog">
+		<p>Successful scan!</p>
+
+		<div id="properties">
+
+		</div>
+	</div> -->
+</apex:form>
+
+<script type="text/javascript">
+
+		// Called by plugin on a successful scan.
+		var complete = function (data) {
+
+			// Is it a payment card?
+			if (data.type == "generic")
+				return;
+
+			// Copy data fields to form
+			var firstName=data.firstName;
+			var lastName=data.lastName;
+			var account=data.account;
+			var expMonth=data.expMonth;
+			var expYear=data.expYear;
+			var type=data.type;
+			var fullName=firstName+' '+lastName;
+			document.getElementById('{!$Component.thepage.theform.j_id3.CRNUM}').value = account;
+			document.getElementById('{!$Component.thepage.theform.j_id3.lastName}').value = fullName;
+			document.getElementById('{!$Component.thepage.theform.j_id3.expMonth}').value = expMonth;
+			document.getElementById('{!$Component.thepage.theform.j_id3.expYear}').value = expYear;
+			
+			
+
+		};
+
+		// Event handler for scanstart.cardswipe.
+		var scanstart = function () {
+			$("#overlay").fadeIn(200);
+		};
+
+		// Event handler for scanend.cardswipe.
+		var scanend = function () {
+			$("#overlay").fadeOut(200);
+		};
+
+		// Event handler for success.cardswipe.  Displays returned data in a dialog
+		var success = function (event, data) {
+
+			$("#properties").empty();
+
+			// Iterate properties of parsed data
+			for (var key in data) {
+				if (data.hasOwnProperty(key)) {
+					var text = key + ': ' + data[key];
+					$("#properties").append('<div class="property">' + text + '</div>');
+					
+				}
+			}
+
+
+			$("#success").fadeIn().delay(3000).fadeOut();
+		}
+
+		var failure = function () {
+			$("#failure").fadeIn().delay(1000).fadeOut();
+		}
+
+		// Initialize the plugin with default parser and callbacks.
+		//
+		// Set debug to true to watch the characters get captured and the state machine transitions
+		// in the javascript console. This requires a browser that supports the console.log function.
+		//
+		// Set firstLineOnly to true to invoke the parser after scanning the first line. This will speed up the
+		// time from the start of the scan to invoking your success callback.
+		$.cardswipe({
+			firstLineOnly: true,
+			success: complete,
+			parsers: ["visa", "amex", "mastercard", "discover", "generic"],
+			debug: false
+		});
+
+		// Bind event listeners to the document
+		$(document)
+			.on("scanstart.cardswipe", scanstart)
+			.on("scanend.cardswipe", scanend)
+			.on("success.cardswipe", success)
+			.on("failure.cardswipe", failure)
+		;
+	</script>
+</apex:page>

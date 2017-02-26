@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Package xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Release 1%2E0 Sprint 1%2E5</fullName>
+    <types>
+        <members>SearchContactControllerExtn</members>
+        <members>TestSearchContactControllerExtn</members>
+        <members>TestSearchContactControllerExtn2</members>
+        <members>TestSearchContactControllerExtn3</members>
+        <name>ApexClass</name>
+    </types>
+    <types>
+        <members>PS_TemplSvcs_Step0</members>
+        <members>PS_TemplSvcs_Step1</members>
+        <members>PS_TemplSvcs_Step10</members>
+        <members>PS_TemplSvcs_Step2</members>
+        <members>PS_TemplSvcs_Step3</members>
+        <members>PS_TemplSvcs_Step4</members>
+        <members>PS_TemplSvcs_Step5</members>
+        <members>PS_TemplSvcs_Step6</members>
+        <members>PS_TemplSvcs_Step7</members>
+        <members>PS_TemplSvcs_Step8</members>
+        <members>PS_TemplSvcs_Step9</members>
+        <name>ApexPage</name>
+    </types>
+    <types>
+        <members>Account.Company_ID__c</members>
+        <members>Account.Customer_ID__c</members>
+        <members>Contact.Customer_ID__c</members>
+        <members>Contact.Gender__c</members>
+        <members>Contact.Membership_ID__c</members>
+        <members>Contact.Spouse_Name__c</members>
+        <members>DCMSS_Devotee__c.Address__c</members>
+        <members>DCMSS_Devotee__c.Comments__c</members>
+        <members>DCMSS_Devotee__c.Email__c</members>
+        <members>DCMSS_Devotee__c.First_Name__c</members>
+        <members>DCMSS_Devotee__c.Last_Name__c</members>
+        <members>DCMSS_Devotee__c.Phone__c</members>
+        <members>DCMSS_Devotee__c.Spouse_Name__c</members>
+        <members>DCMSS_Devotee__c.Spouse_Phone__c</members>
+        <members>Opportunity.DCMSS_Devotee_Id__c</members>
+        <members>Opportunity.Receipt__c</members>
+        <members>Opportunity.Type__c</members>
+        <members>PricebookEntry.Qty__c</members>
+        <members>PricebookEntry.TotPrice__c</members>
+        <members>bt_stripe__Transaction__c.DCMSS_Payment__c</members>
+        <members>npe01__OppPayment__c.DCMSS_Check_Date__c</members>
+        <name>CustomField</name>
+    </types>
+    <types>
+        <members>DCMSS_Devotee__c</members>
+        <name>CustomObject</name>
+    </types>
+    <types>
+        <members>PS_TemplSvcs_Step1</members>
+        <name>HomePageComponent</name>
+    </types>
+    <types>
+        <members>Temple POS</members>
+        <name>HomePageLayout</name>
+    </types>
+    <types>
+        <members>DCMSS_Devotee__c-Devotee Layout</members>
+        <members>OpportunityLineItem-Opportunity Product Layout</members>
+        <members>Pricebook2-Price Book Layout</members>
+        <members>Product2-Product Layout</members>
+        <name>Layout</name>
+    </types>
+    <types>
+        <members>cardreader</members>
+        <members>jQuery</members>
+        <members>jquery1_7</members>
+        <members>posimages</members>
+        <members>sairam</members>
+        <name>StaticResource</name>
+    </types>
+    <version>37.0</version>
+</Package>

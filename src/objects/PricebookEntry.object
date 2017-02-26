@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fields>
+        <fullName>Qty__c</fullName>
+        <description>Quantity</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Quantity</inlineHelpText>
+        <label>Qty</label>
+        <precision>1</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>TotPrice__c</fullName>
+        <defaultValue>1</defaultValue>
+        <description>This flag indicates that this product-price combination is an In-Temple service only.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>This flag indicates that this product-price combination is an In-Temple service only.</inlineHelpText>
+        <label>TotPrice</label>
+        <precision>10</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+</CustomObject>

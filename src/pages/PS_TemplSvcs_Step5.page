@@ -1,0 +1,62 @@
+<apex:page standardcontroller="Contact" extensions="SearchContactControllerExtn">
+<apex:form >
+<apex:sectionHeader title="Step 4" subtitle="Capture Check Information"/>
+ <apex:pageblock >
+ <!-- Div to give a colored box effect -->
+
+<div style="border-width:2px;border-style:solid;border-color:orange;">
+    <!-- Panel grid to display boxes o accept user input values -->
+    <apex:panelGrid columns="4">
+        <apex:outputLabel style="font-weight:bold;" value="E-mail" ></apex:outputLabel>
+       <apex:outputText value="{!userinput}"/>
+        <apex:outputLabel style="font-weight:bold;" value="Full Name" ></apex:outputLabel>
+        <apex:outputText value="{!name}"/> 
+        <apex:outputLabel style="font-weight:bold;" value="In-temple service Selected: " ></apex:outputLabel>
+        <apex:outputText value="{!selectedServices}"/>
+        <apex:outputLabel style="font-weight:bold;" value="Select Quantity : " ></apex:outputLabel>
+        <apex:outputText value="{!selectedQty}"/>
+        <apex:outputLabel style="font-weight:bold;" value="Payment Type : " ></apex:outputLabel>
+        <apex:outputText value="{!selectedPT}"/>
+    </apex:panelGrid>
+</div>
+<apex:pageblock >
+      <apex:pageblocktable value="{!PricebookEntryList}" var="pbe" id="outptText">
+        <apex:column headervalue="Selected Service">
+                <apex:outputtext value="{!pbe.ProductCode}"/>
+            </apex:column>
+         <apex:column headervalue="Unit Price">
+                <apex:outputtext value="{!pbe.UnitPrice}"/>
+            </apex:column>   
+          <apex:column headervalue="Total Price">
+          	<apex:outputtext value="{!pbe.TotPrice__c}"/>
+          </apex:column>
+      </apex:pageblocktable>
+</apex:pageblock>
+
+<apex:pageBlockSection title="Enter CHECK INFORMATION" columns="1"></apex:pageBlockSection>
+<apex:panelgrid id="CHK" columns="4">
+ <!-- rendered="{IF(!selectedPT == 'CREDIT CARD', true, false)}" -->
+      <apex:outputLabel style="font-weight:bold;" value="Check Number : "></apex:outputLabel>
+       <apex:inputText value="{!CHKNum}"/>
+       <!-- required="{!IF(CONTAINS(selectedPT,'CREDIT'),true,false)}" -->
+      <apex:outputLabel style="font-weight:bold;" value="Check Date (mm/dd/yyyy) :"></apex:outputLabel>
+       <apex:inputText value="{!CHKDate}"/> 
+     <apex:outputLabel style="font-weight:bold;" value="Bank Name :"></apex:outputLabel>
+       <apex:inputText value="{!BankName}"/>
+ </apex:panelgrid> 
+
+ 
+  <!-- Commandbutton to proceed to next screen -->
+  <div style="position:relative;left:75px;">
+      <apex:commandButton value="Submit Check Information" action="{!validateCheck}"/>
+      <!-- rerender="showErrorMsg" -->
+      <apex:commandbutton value="Previous" action="{!processStep2}"/>
+  </div>
+  <!-- End of Commandbutton -->
+   <!-- Display error message -->
+<apex:pagemessages id="showErrorMsg"></apex:pagemessages>
+<!-- End of error message -->
+
+</apex:pageblock>
+</apex:form>
+</apex:page>
