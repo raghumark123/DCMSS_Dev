@@ -67,6 +67,16 @@
         <type>TextArea</type>
     </fields>
     <fields>
+        <fullName>Comments__c</fullName>
+        <description>Comments</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Comments</inlineHelpText>
+        <label>Comments</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>TextArea</type>
+    </fields>
+    <fields>
         <fullName>Email__c</fullName>
         <description>Email</description>
         <externalId>false</externalId>
@@ -107,6 +117,29 @@
         <externalId>false</externalId>
         <inlineHelpText>Phone</inlineHelpText>
         <label>Phone</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Phone</type>
+    </fields>
+    <fields>
+        <fullName>Spouse_Name__c</fullName>
+        <caseSensitive>false</caseSensitive>
+        <description>Spouse Name</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Spouse Name</inlineHelpText>
+        <label>Spouse Name</label>
+        <length>25</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>true</unique>
+    </fields>
+    <fields>
+        <fullName>Spouse_Phone__c</fullName>
+        <description>Spouse Phone</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Spouse Phone</inlineHelpText>
+        <label>Spouse Phone</label>
         <required>false</required>
         <trackTrending>false</trackTrending>
         <type>Phone</type>

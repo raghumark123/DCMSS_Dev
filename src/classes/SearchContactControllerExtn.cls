@@ -17,7 +17,8 @@ public Boolean selectAllCheckbox {get; set;}                                  //
 public boolean errormsg=false;                                                  // Error msg. When no contact has been selected.                                            
 String ConId;
 public String userinput;                                                             //Contact Email
-public String userinp;                                                               //Contact Last Name
+public String userinp; 
+public Decimal DonationAmt;                                                              //Contact Last Name
 public String FirstTestContactName;
 String MobilePhone; 
 String Phone;                                                            
@@ -116,6 +117,11 @@ public String getCHKDate(){return CHKDate;}
 public void setCHKDate(String CHKDate){this.CHKDate=CHKDate;}
 public String UserType;
 public String getUserType(){return UserType;}
+public Boolean Donor=false;
+public Boolean getDonor(){return Donor;}
+public void setDonor(Boolean Donor){this.Donor=Donor;}
+public Decimal getDonationAmt(){return DonationAmt;}
+public void setDonationAmt(Decimal DonationAmt){this.DonationAmt=DonationAmt;}
 /*End of Getter and Setter methods */
 public String getReceipt_Num(){return Receipt_Num;}
 public String stripeTransId;
@@ -282,7 +288,13 @@ public PageReference processSelectedContact()
  else
  {
      errormsg=false;
-     Pagereference p=new Pagereference ('/apex/PS_TemplSvcs_Step3');
+     
+     Pagereference p=page.PS_TemplSvcs_Step3;
+     
+
+    /* if(Donor==true){
+    	p=page.PS_TemplSvcs_Step4;
+     }*/
      p.setRedirect(false);
      return p;
  }
@@ -395,6 +407,8 @@ public PageReference submitPayment()
             bt_stripe.P360_API_v1.Tra t = bt_stripe.P360_API_v1.transactionFactory();
             t.paymentGatewayId = pgList[0].Id;
             t.pm = pm;
+            if (Donor==true)
+            Pymnt_Amt=DonationAmt;
             t.amount = Pymnt_Amt;
             if(testrun==false)
             t.capture();
@@ -614,7 +628,7 @@ public PageReference genReceipt()
 public PageReference capturePayment()
 {
     errormsg=false;
-     if(selectedServices == null || selectedQty == null) {
+     if(Donor==false && (selectedServices == null || selectedQty == null)) {
 
         errormsg=true; 
 
@@ -639,6 +653,24 @@ public PageReference gotoMemberReg()
 {
     UserType='Member';
     Pagereference p=new Pagereference ('/apex/PS_TemplSvcs_Step2');
+    //Pagereference p=page.PS_TemplSvcs_Step3;
+    p.setRedirect(false);
+     return p;
+}
+
+public PageReference gotoTemplSvcs()
+{
+    //UserType='Member';
+    Pagereference p=new Pagereference ('/apex/PS_TemplSvcs_Step1');
+    //Pagereference p=page.PS_TemplSvcs_Step3;
+    p.setRedirect(false);
+     return p;
+}
+
+public PageReference gotoRecvDonation()
+{
+    Donor=true;
+    Pagereference p=new Pagereference ('/apex/PS_TemplSvcs_Step1');
     //Pagereference p=page.PS_TemplSvcs_Step3;
     p.setRedirect(false);
      return p;
@@ -691,6 +723,14 @@ public PageReference gotoStep1()
 {
      //String id=System.currentpagereference().getparameters().get('id');
      Pagereference p=new Pagereference ('/apex/PS_TemplSvcs_Step1');
+     p.setRedirect(true);
+     return p;
+
+}   
+public PageReference gotoStep0()
+{
+     //String id=System.currentpagereference().getparameters().get('id');
+     Pagereference p=new Pagereference ('/apex/PS_TemplSvcs_Step0');
      p.setRedirect(true);
      return p;
 

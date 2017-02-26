@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>Release 1%2E0 Sprint 1</fullName>
+    <fullName>Release 1%2E0 Sprint 1%2E5</fullName>
     <types>
         <members>SearchContactControllerExtn</members>
         <members>TestSearchContactControllerExtn</members>
@@ -9,6 +9,7 @@
         <name>ApexClass</name>
     </types>
     <types>
+        <members>PS_TemplSvcs_Step0</members>
         <members>PS_TemplSvcs_Step1</members>
         <members>PS_TemplSvcs_Step10</members>
         <members>PS_TemplSvcs_Step2</members>
@@ -29,13 +30,17 @@
         <members>Contact.Membership_ID__c</members>
         <members>Contact.Spouse_Name__c</members>
         <members>DCMSS_Devotee__c.Address__c</members>
+        <members>DCMSS_Devotee__c.Comments__c</members>
         <members>DCMSS_Devotee__c.Email__c</members>
         <members>DCMSS_Devotee__c.First_Name__c</members>
         <members>DCMSS_Devotee__c.Last_Name__c</members>
         <members>DCMSS_Devotee__c.Phone__c</members>
+        <members>DCMSS_Devotee__c.Spouse_Name__c</members>
+        <members>DCMSS_Devotee__c.Spouse_Phone__c</members>
         <members>Opportunity.DCMSS_Devotee_Id__c</members>
         <members>Opportunity.Receipt__c</members>
         <members>Opportunity.Type__c</members>
+        <members>PricebookEntry.Qty__c</members>
         <members>PricebookEntry.TotPrice__c</members>
         <members>bt_stripe__Transaction__c.DCMSS_Payment__c</members>
         <members>npe01__OppPayment__c.DCMSS_Check_Date__c</members>

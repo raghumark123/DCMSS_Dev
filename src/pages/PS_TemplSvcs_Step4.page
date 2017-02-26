@@ -27,7 +27,14 @@ font-size:20px;
         <apex:outputLabel style="font-weight:bold;" value="Last Name" ></apex:outputLabel>
         <apex:outputText value="{!userinp}"/> 
         </apex:panelGrid>
-     <apex:panelGrid columns="4">   
+       <apex:panelGrid columns="4" rendered="{!IF(Donor==true,true,false)}"> 
+       <apex:outputLabel style="font-weight:bold;" value="Donation Amount" ></apex:outputLabel>
+       <apex:outputText value="{!DonationAmt}"/>
+       <apex:outputLabel style="font-weight:bold;" value="Payment Type : " ></apex:outputLabel>
+        <apex:outputText value="{!selectedPT}"/>
+       </apex:panelGrid>
+       
+     <apex:panelGrid columns="4" rendered="{!IF(Donor==false,true,false)}">   
         <apex:outputLabel style="font-weight:bold;" value="In-temple service Selected: " ></apex:outputLabel>
         <apex:outputText value="{!selectedServices}"/>
         <apex:outputLabel style="font-weight:bold;" value="Select Quantity : " ></apex:outputLabel>
@@ -36,7 +43,7 @@ font-size:20px;
         <apex:outputText value="{!selectedPT}"/>
     </apex:panelGrid>
 </div>
-<apex:pageblock >
+<apex:pageblock rendered="{!IF(Donor==false,true,false)}">
       <apex:pageblocktable value="{!PricebookEntryList}" var="pbe" id="outptText">
         <apex:column headervalue="Selected Service">
                 <apex:outputtext value="{!pbe.ProductCode}"/>
@@ -94,7 +101,7 @@ font-size:20px;
       <!-- rerender="showErrorMsg" -->
       <apex:commandbutton value="Previous" action="{!processStep3}"/>
       <!-- rendered="{!IF(CONTAINS(selectedPT,'Credit'),true,false)}" -->
-      <apex:commandbutton value="Cancel" action="{!gotoStep1}"/>
+      <apex:commandbutton value="Cancel" action="{!gotoStep0}"/>
   </div>
   <!-- End of Commandbutton -->
    <!-- Display error message -->

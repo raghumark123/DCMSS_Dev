@@ -117,7 +117,7 @@ font-size:20px;
      		  &nbsp;
      		  &nbsp;
    			  &nbsp;
-      <apex:commandbutton value="Cancel" action="{!gotoStep1}"/>
+      <apex:commandbutton value="Cancel" action="{!gotoStep0}"/>
       <!-- CONTAINS(UserSelected,'yes') -->
      <!-- <apex:commandbutton value="Cancel" action="{!Cancel}"/>-->
   </div>

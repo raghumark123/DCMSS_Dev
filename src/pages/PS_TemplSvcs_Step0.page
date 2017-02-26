@@ -24,44 +24,18 @@ font-size:20px;
 }
 </style>
 </head>
-<apex:pageBlockSection title="Are you a Member or a Guest ? " columns="1"></apex:pageBlockSection>
+<apex:pageBlockSection title="Choose one of the options ! " columns="1"></apex:pageBlockSection>
 
    <!-- Commandbutton to proceed to next screen -->
   <div style="position:relative;left:75px;">
   <br/><br/>
      <!-- <apex:commandButton value="Member" action="{!gotoMemberReg}" style="bgcolor:white;background-image:url({!URLFOR($Resource.posimages,'images/Member.jpg')});height:35px;width:155px;border-width:0px;background-repeat:no-repeat;cursor:pointer;"/> --> 
-     <apex:commandButton value="Member" action="{!gotoMemberReg}" image="{!URLFOR($Resource.posimages,'images/Member.jpg')}"/>
+     <apex:commandButton value="Member" action="{!gotoTemplSvcs}" image="{!URLFOR($Resource.posimages,'images/Services.jpg')}"/>
      &nbsp;
      &nbsp;
      &nbsp;
      &nbsp;
-      <apex:commandbutton value="Non-Member" action="{!gotoWalkIn}" image="{!URLFOR($Resource.posimages,'images/Non-Member.jpg')}"/>
-      &nbsp;
-      &nbsp;
-      &nbsp;
-   	 &nbsp;
-   	  &nbsp;
-      &nbsp;
-      &nbsp;
-   	 &nbsp;
-  </div>
-  
-  <!-- Commandbutton to proceed to next screen -->
-  <div style="position:relative;left:75px;">
-  <br/><br/>
-  &nbsp;
-   	  &nbsp;
-      &nbsp;
-      &nbsp;
-   	 &nbsp;
-      <apex:commandButton value="Back" action="{!gotoStep0}"/>
-              &nbsp;
-     		  &nbsp;
-     		  &nbsp;
-   			  &nbsp;
-      <apex:commandbutton value="Cancel" action="{!gotoStep0}"/>
-      <!-- CONTAINS(UserSelected,'yes') -->
-     <!-- <apex:commandbutton value="Cancel" action="{!Cancel}"/>-->
+      <apex:commandbutton value="Non-Member" action="{!gotoRecvDonation}" image="{!URLFOR($Resource.posimages,'images/Donate.jpg')}"/>
   </div>
 <!-- End of Commandbutton -->
  </apex:pageblock>

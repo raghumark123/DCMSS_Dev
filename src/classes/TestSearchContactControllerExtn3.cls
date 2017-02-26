@@ -68,12 +68,24 @@ public class TestSearchContactControllerExtn3 {
         SearchContactControllerExtn ext = new SearchContactControllerExtn(stdCont); 
         
         //Member Navigation Tests
+        pref=Page.PS_TemplSvcs_Step0;
+        Test.setCurrentPage(pref);
+        ext.gotoTemplSvcs();
+        string surl=pref.getUrl();
+        system.assertEquals(surl.substringBefore('?'),'/apex/ps_templsvcs_step0');
+        system.assertEquals(ext.Donor,false);
+        
+        ext.gotoRecvDonation();
+        surl=pref.getUrl();
+        system.assertEquals(surl.substringBefore('?'),'/apex/ps_templsvcs_step0');
+        system.assertEquals(ext.Donor,true);
+        
         pref=Page.PS_TemplSvcs_Step1;
         Test.setCurrentPage(pref);
         
         ext.gotoMemberReg();
         system.assertEquals(ext.UserType,'Member');
-        string surl=pref.getUrl();
+        surl=pref.getUrl();
         system.assertEquals(surl.substringBefore('?'),'/apex/ps_templsvcs_step1');
         
         pref=Page.PS_TemplSvcs_Step2;
@@ -143,7 +155,12 @@ public class TestSearchContactControllerExtn3 {
         surl=pref.getUrl();
         system.assertEquals(surl.substringBefore('?'),'/apex/ps_templsvcs_step8');
         
+        pref=Page.PS_TemplSvcs_Step8;
+        Test.setCurrentPage(pref);
         
+        ext.gotoStep0();
+        surl=pref.getUrl();
+        system.assertEquals(surl.substringBefore('?'),'/apex/ps_templsvcs_step8');
         //Devotee Navigation Testing
         
         pref=Page.PS_TemplSvcs_Step1;
