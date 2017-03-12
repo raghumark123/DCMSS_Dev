@@ -58,7 +58,7 @@ font-size:20px;
 </apex:pageblock>
 
 <apex:pageBlockSection title="Enter CREDIT CARD INFORMATION" columns="1" rendered="{!IF(CONTAINS(selectedPT,'Credit'),true,false)}"></apex:pageBlockSection>
-<apex:pageBlockSection title="Enter CHECK INFORMATION" columns="1" rendered="{!IF(CONTAINS(selectedPT,'Check'),true,false)}"></apex:pageBlockSection>
+<apex:pageBlockSection title="Enter CHECK INFORMATION. Contact Volunteer for code entry. If not present then we accept only Credit Card Payments." columns="1" rendered="{!IF(CONTAINS(selectedPT,'Check'),true,false)}"></apex:pageBlockSection>
 
   
 <apex:panelgrid id="CC" columns="4" rendered="{!IF(CONTAINS(selectedPT,'Credit'),true,false)}">
@@ -93,6 +93,14 @@ font-size:20px;
        <apex:inputText value="{!CHKDate}"/> 
      <apex:outputLabel style="font-weight:bold;" value="Bank Name :"></apex:outputLabel>
        <apex:inputText value="{!BankName}"/>
+       <apex:outputLabel style="font-weight:bold;" value=" " ></apex:outputLabel>
+       <apex:outputLabel style="font-weight:bold;" value=" " ></apex:outputLabel>
+     <apex:outputLabel style="font-weight:bold;" value="Volunteers enter 5 Digit code here."></apex:outputLabel>
+     <apex:outputLabel style="font-weight:bold;" value=" " ></apex:outputLabel>
+     <apex:outputLabel style="font-weight:bold;" value=" " ></apex:outputLabel>
+     <apex:outputLabel style="font-weight:bold;" value=" " ></apex:outputLabel>
+       <apex:inputSecret value="{!VolunteerCode}" maxlength="5"/>
+     
  </apex:panelgrid> 
  
   <!-- Commandbutton to proceed to next screen -->

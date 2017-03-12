@@ -75,12 +75,11 @@ font-size:20px;
      <apex:outputLabel style="font-weight:bold;" value="3 Digit Card CVC Code"></apex:outputLabel>
        <apex:outputText value="{!CCCVC}"/>
  </apex:panelgrid>
- <!--  <apex:panelgrid>
-  	<apex:outputLabel style="font-weight:bold;" value="Transaction Id"></apex:outputLabel>
-       <apex:outputText value="{!TransactionId}"/>
-    <apex:outputLabel style="font-weight:bold;" value="Receipt No."></apex:outputLabel>
-       <apex:outputText value="{!ReceiptNo}"/>
- </apex:panelgrid>-->
+ <apex:pageBlockSection title="Contact Volunteer for code entry. If not then we accept only Credit Card Payments." columns="1" rendered="{!IF(CONTAINS(selectedPT,'Cash'),true,false)}"></apex:pageBlockSection>
+ <apex:panelgrid id="Cash" columns="1" rendered="{!IF(CONTAINS(selectedPT,'Cash'),true,false)}" >
+  	<apex:outputLabel style="font-weight:bold;" value="Volunteers enter 5 Digit code here."></apex:outputLabel>
+  	<apex:inputSecret value="{!VolunteerCode}" maxlength="5"/>
+ </apex:panelgrid>
   <!-- Commandbutton to proceed to next screen -->
   <div style="position:relative;left:75px;">
       <apex:commandButton value="Generate Receipt" action="{!genReceipt}"/>

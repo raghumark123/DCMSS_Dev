@@ -103,24 +103,22 @@ font-size:20px;
         <apex:commandButton value="ANNAPRAASANAM" action="{!getPriceMethod}" image="{!URLFOR($Resource.posimages,'images/Annapraasanam.jpg')}" reRender="outptText">
         <apex:param name="posselect" value="ANNAPRAASANAM"/>
         	</apex:commandButton>
-       
-       <!--<apex:commandButton value="NIRA PARA" action="{!getPriceMethod}" image="{!URLFOR($Resource.posimages,'images/Nirapara.jpg')}" reRender="outptText">
-        <apex:param name="posselect" value="NIRA PARA"/> 
-        	</apex:commandButton>-->
         	<apex:outputLabel style="font-weight:bold;" value=" " ></apex:outputLabel>
-       <apex:outputLabel style="font-weight:bold;" value=" " ></apex:outputLabel>
-       <apex:outputLabel style="font-weight:bold;" value=" " ></apex:outputLabel>
-       <apex:outputLabel style="font-weight:bold;" value=" " ></apex:outputLabel>
-      <!--<apex:commandButton value="NISHCHITARTHAM" action="{!getPriceMethod}" image="{!URLFOR($Resource.posimages,'images/Nischitartham.jpg')}" reRender="outptText">
-        <apex:param name="posselect" value="NISHCHITARTHAM"/> 
+            <apex:outputLabel style="font-weight:bold;" value=" " ></apex:outputLabel>
+            <apex:outputLabel style="font-weight:bold;" value=" " ></apex:outputLabel>
+            <apex:outputLabel style="font-weight:bold;" value=" " ></apex:outputLabel>
+        <apex:commandButton value="BABA VASTRA" action="{!getPriceMethod}" image="{!URLFOR($Resource.posimages,'images/BabaVastra.jpg')}" reRender="outptText">
+        <apex:param name="posselect" value="BABA VASTRA"/> 
         	</apex:commandButton>
-        <apex:commandButton value="PANNA PARA" action="{!getPriceMethod}" image="{!URLFOR($Resource.posimages,'images/Pannapara.jpg')}" reRender="outptText">
-        <apex:param name="posselect" value="PANNA PARA"/> 
-        	</apex:commandButton>-->
-        
-       <!--   <apex:commandButton value="TEMPLE VIDYAARAMBAM" action="{!getPriceMethod}" image="{!URLFOR($Resource.posimages,'images/TempleVidya.jpg')}" reRender="outptText">
-        <apex:param name="posselect" value="TEMPLE VIDYAARAMBAM"/> 
-        	</apex:commandButton>-->
+        <apex:commandButton value="GARLAND DONATION" action="{!getPriceMethod}" image="{!URLFOR($Resource.posimages,'images/GarlandDonation.jpg')}" reRender="outptText">
+        <apex:param name="posselect" value="GARLAND DONATION"/> 
+        	</apex:commandButton>
+        <apex:commandButton value="FRUIT DONATION" action="{!getPriceMethod}" image="{!URLFOR($Resource.posimages,'images/FruitDonation.jpg')}" reRender="outptText">
+        <apex:param name="posselect" value="FRUIT DONATION"/> 
+        	</apex:commandButton>
+        <apex:commandButton value="ANNA DAANAM" action="{!getPriceMethod}" image="{!URLFOR($Resource.posimages,'images/Annadanam.jpg')}" reRender="outptText">
+        <apex:param name="posselect" value="ANNA DAANAM"/> 
+        	</apex:commandButton>
         
         	<apex:outputLabel style="font-weight:bold;" value=" " ></apex:outputLabel>
        <apex:outputLabel style="font-weight:bold;" value=" " ></apex:outputLabel>

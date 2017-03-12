@@ -109,6 +109,10 @@ public String BankName;
 public String getBankName(){
     return BankName;}
 public void setBankName(String BankName){this.BankName=BankName;}
+public String VolunteerCode;
+public String getVolunteerCode(){
+    return VolunteerCode;}
+public void setVolunteerCode(String VolunteerCode){this.VolunteerCode=VolunteerCode;}
 public String CHKNum; 
 public String getCHKNum(){return CHKNum;}
 public void setCHKNum(String CHKNum){this.CHKNum=CHKNum;}
@@ -315,6 +319,7 @@ public List<SelectOption> getTmplPTOptions()
   TmplPTOptions.add(new SelectOption('NONE','-None-',true));
   TmplPTOptions.add(new SelectOption('Credit Card','CREDIT CARD'));
   TmplPTOptions.add(new SelectOption('Check','CHECK'));
+  TmplPTOptions.add(new SelectOption('Cash','CASH'));
  return TmplPTOptions;
 }
 
@@ -502,8 +507,18 @@ public PageReference processPayment()
        ApexPages.addmessage(new ApexPages.message(ApexPages.severity.FATAL,'Check date is back dated or front dated more than 6 months. Please correct the date'));
       }
       }
+      List<DCMSS_POS_Set__c> mcs = DCMSS_POS_Set__c.getall().values();
+      boolean textField = null;
+      if (mcs[0].POS_Verification_Code__c == VolunteerCode) {
+        textField = true;
+      }
+      //system.assertEquals(textField, true);
+      if(textField == null){
+          errormsg=true;
+         ApexPages.addmessage(new ApexPages.message(ApexPages.severity.FATAL,'Volunteer Code is empty or incorrect. Please contact a Front Desk Volunteer to enter the corect code. If Volunteer is not present then we accept only Credit Card payment for now.'));
+        }
       
-      if(errormsg==false){
+      if(errormsg==false && textField == true){
      Pagereference p=new Pagereference ('/apex/PS_TemplSvcs_Step8');
      p.setRedirect(false);
      return p;
@@ -517,6 +532,24 @@ public PageReference processPayment()
 public PageReference genReceipt()
 {
     Id RecId = [Select Id, Name from RecordType where name = 'Membership' limit 1].Id;
+    if (Donor==true)
+        Pymnt_Amt=DonationAmt;
+   // if(VolunteerCode != null || VolunteerCode !='' ){
+    	if (SelectedPT =='Cash') {
+    	List<DCMSS_POS_Set__c> mcs = DCMSS_POS_Set__c.getall().values();
+    	boolean textField = null;
+    	    if (mcs[0].POS_Verification_Code__c == VolunteerCode) {
+    	      textField = true;
+    	    }
+    	    //system.assertEquals(textField, true);
+    	    if(textField == null){
+    	        errormsg=true;
+    	       ApexPages.addmessage(new ApexPages.message(ApexPages.severity.FATAL,'Volunteer Code is empty or incorrect. Please contact a Front Desk Volunteer to enter the corect code. If Volunteer is not present then we accept only Credit Card payment for now.'));
+    	       Pagereference p=new Pagereference ('/apex/PS_TemplSvcs_Step8');
+    	       p.setRedirect(false);
+    	       return p; 
+    	      }
+    	}//if(VolunteerCode != null || VolunteerCode !='' ){
     if(UserType=='Devotee'){
         
         if(DevoteeId==null){
@@ -621,7 +654,7 @@ public PageReference genReceipt()
     Pagereference p=new Pagereference ('/apex/PS_TemplSvcs_Step9');
      p.setRedirect(false);
      return p;  
-}
+    }
         
 
 /* Method to fetch the selected records from Step 2 */
@@ -734,5 +767,5 @@ public PageReference gotoStep0()
      p.setRedirect(true);
      return p;
 
-}   
+}  
 }
