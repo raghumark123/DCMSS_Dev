@@ -485,19 +485,30 @@ public PageReference processPayment()
      }
     } //End of if(selectedPT == 'Credit Card')
    if(selectedPT == 'Check') {
-    if(BankName == '' || CHKNum == '' || CHKDate == ''){
+	   List<DCMSS_POS_Set__c> mcs = DCMSS_POS_Set__c.getall().values();
+	   system.debug('POS CUSTOM SETTINGS is ::'+mcs[0].POS_Verification_Code__c);
+	      boolean textField = false;
+	      if (mcs[0].POS_Verification_Code__c == VolunteerCode) {
+	        textField = true;
+	      }
+	    //system.assertEquals(textField, true);
+	      if(textField == false){
+	          errormsg=true;
+	         ApexPages.addmessage(new ApexPages.message(ApexPages.severity.FATAL,'Volunteer Code is empty or incorrect. Please contact a Front Desk Volunteer to enter the corect code. If Volunteer is not present then we accept only Credit Card payment for now.'));
+	        }
+    if((BankName == '' || CHKNum == '' || CHKDate == '') && textField == true){
     errormsg=true;
      ApexPages.addmessage(new ApexPages.message(ApexPages.severity.ERROR,'One or more of the required check fields are blank. Please provide complete information'));
     
    }
   Pattern p1 = Pattern.compile('(0?[1-9]|1[012])/(0?[1-9]|[12][0-9]|3[01])/((19|20)\\d\\d)');
       Matcher pm1 = p1.matcher(CHKDate);
-      if(!pm1.matches() && CHKDate != ''){
+      if(!pm1.matches() && CHKDate != '' && textField == true){
         errormsg=true;
        ApexPages.addmessage(new ApexPages.message(ApexPages.severity.ERROR,'Please provide the date with the format MM/DD/YYYY'));
       }
       
-      if(CHKDate != '') {
+      if(CHKDate != '' && textField == true) {
       dt_CHKDt=setStringToDateFormat(CHKDate);
       Integer daysahead=Date.today().daysBetween(dt_CHKDt);
       Integer daysbehind=dt_CHKDt.daysBetween(Date.today());
@@ -507,16 +518,8 @@ public PageReference processPayment()
        ApexPages.addmessage(new ApexPages.message(ApexPages.severity.FATAL,'Check date is back dated or front dated more than 6 months. Please correct the date'));
       }
       }
-      List<DCMSS_POS_Set__c> mcs = DCMSS_POS_Set__c.getall().values();
-      boolean textField = null;
-      if (mcs[0].POS_Verification_Code__c == VolunteerCode) {
-        textField = true;
-      }
-      //system.assertEquals(textField, true);
-      if(textField == null){
-          errormsg=true;
-         ApexPages.addmessage(new ApexPages.message(ApexPages.severity.FATAL,'Volunteer Code is empty or incorrect. Please contact a Front Desk Volunteer to enter the corect code. If Volunteer is not present then we accept only Credit Card payment for now.'));
-        }
+      
+      
       
       if(errormsg==false && textField == true){
      Pagereference p=new Pagereference ('/apex/PS_TemplSvcs_Step8');
@@ -537,12 +540,12 @@ public PageReference genReceipt()
    // if(VolunteerCode != null || VolunteerCode !='' ){
     	if (SelectedPT =='Cash') {
     	List<DCMSS_POS_Set__c> mcs = DCMSS_POS_Set__c.getall().values();
-    	boolean textField = null;
+    	boolean textField = false;
     	    if (mcs[0].POS_Verification_Code__c == VolunteerCode) {
     	      textField = true;
     	    }
     	    //system.assertEquals(textField, true);
-    	    if(textField == null){
+    	    if(textField == false){
     	        errormsg=true;
     	       ApexPages.addmessage(new ApexPages.message(ApexPages.severity.FATAL,'Volunteer Code is empty or incorrect. Please contact a Front Desk Volunteer to enter the corect code. If Volunteer is not present then we accept only Credit Card payment for now.'));
     	       Pagereference p=new Pagereference ('/apex/PS_TemplSvcs_Step8');

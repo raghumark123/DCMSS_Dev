@@ -4,6 +4,9 @@
     <description>This includes the Garland, Fruit, Vastra and Anna Daanam services and enable of Check and Cash options with Verification code of volunteer required.</description>
     <types>
         <members>SearchContactControllerExtn</members>
+        <members>TestSearchContactControllerExtn</members>
+        <members>TestSearchContactControllerExtn2</members>
+        <members>TestSearchContactControllerExtn3</members>
         <name>ApexClass</name>
     </types>
     <types>

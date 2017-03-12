@@ -195,18 +195,27 @@ public class TestSearchContactControllerExtn {
         ext.BankName='';
         ext.CHKNum='';
         ext.CHKDate='05/01/2017';
+        //insert new DCMSS_POS_Set__c(POS_Verification_Code__c = '77777');
+      //Initialize custom settings to prevent test failures
+        	DCMSS_POS_Set__c settingsInstance = new DCMSS_POS_Set__c();
+        	settingsInstance.Name='POS Code';
+    		settingsInstance.POS_Verification_Code__c = '77777';
+    		insert settingsInstance;
+    	
+        ext.VolunteerCode='77777';
             
         try {
         ext.processPayment();
         }
         catch(Exception e){
              Boolean expectedExceptionThrown =  e.getMessage().contains('One or more of the required check fields are blank.') ? true : false;
+             system.debug(e.getMessage());
              system.assertEquals(expectedExceptionThrown,true);  
              }
         
         ext.CHKNum='12345678';
         ext.CHKDate='15/05/2017';
-            
+           
         try {
         ext.processPayment();
         }
@@ -224,7 +233,16 @@ public class TestSearchContactControllerExtn {
              Boolean expectedExceptionThrown =  e.getMessage().contains('Check date is back dated') ? true : false;
              system.assertEquals(expectedExceptionThrown,true);  
              }  
-                
+        
+        ext.VolunteerCode='55555';
+        try {
+            ext.processPayment();
+            }
+            catch(Exception e){
+                 Boolean expectedExceptionThrown =  e.getMessage().contains('Volunteer Code is empty or incorrect.') ? true : false;
+                 system.assertEquals(expectedExceptionThrown,true);  
+                 }  
+        
         ext.CHKDate='05/01/2017';
         ext.processPayment();
         System.assertEquals(pref.getUrl(),'/apex/ps_templsvcs_step4');
@@ -237,7 +255,7 @@ public class TestSearchContactControllerExtn {
         System.assertEquals(ext.getTmplCEM().size(),13);
         
         ext.getTmplPTOptions();
-        System.assertEquals(ext.getTmplPTOptions().size(),3);
+        System.assertEquals(ext.getTmplPTOptions().size(),4);
         
         ext.getTmplCEYOptions();
         System.assertEquals(ext.getTmplCEYOptions().size(),8);
@@ -363,6 +381,7 @@ public class TestSearchContactControllerExtn {
         ext.BankName='';
         ext.CHKNum='';
         ext.CHKDate='05/01/2017';
+        ext.VolunteerCode='77777';
             
         try {
         ext.processPayment();
@@ -392,7 +411,16 @@ public class TestSearchContactControllerExtn {
              Boolean expectedExceptionThrown =  e.getMessage().contains('Check date is back dated') ? true : false;
              system.assertEquals(expectedExceptionThrown,true);  
              }  
-                
+        
+        ext.VolunteerCode='55555';
+        try {
+            ext.processPayment();
+            }
+            catch(Exception e){
+                 Boolean expectedExceptionThrown =  e.getMessage().contains('Volunteer Code is empty or incorrect.') ? true : false;
+                 system.assertEquals(expectedExceptionThrown,true);  
+                 }
+        
         ext.CHKDate='05/01/2017';
         ext.processPayment();
         System.assertEquals(pref.getUrl(),'/apex/ps_templsvcs_step4');
