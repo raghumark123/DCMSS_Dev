@@ -1,27 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>DCMSS Ver 2%2E0</fullName>
-    <description>This includes the Garland, Fruit, Vastra and Anna Daanam services and enable of Check and Cash options with Verification code of volunteer required.</description>
-    <types>
-        <members>SearchContactControllerExtn</members>
-        <members>TestSearchContactControllerExtn</members>
-        <members>TestSearchContactControllerExtn2</members>
-        <members>TestSearchContactControllerExtn3</members>
-        <name>ApexClass</name>
-    </types>
-    <types>
-        <members>PS_TemplSvcs_Step3</members>
-        <members>PS_TemplSvcs_Step4</members>
-        <members>PS_TemplSvcs_Step8</members>
-        <name>ApexPage</name>
-    </types>
-    <types>
-        <members>DCMSS_POS_Set__c</members>
-        <name>CustomObject</name>
-    </types>
-    <types>
-        <members>posimages</members>
-        <name>StaticResource</name>
-    </types>
+    <fullName>Blank Payment Method</fullName>
+    <description>Blank Payment Method fields process builder</description>
     <version>37.0</version>
 </Package>
