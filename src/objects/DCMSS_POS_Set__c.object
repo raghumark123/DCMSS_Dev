@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <customSettingsType>List</customSettingsType>
+    <description>This setting is used by POS module</description>
+    <enableFeeds>false</enableFeeds>
+    <fields>
+        <fullName>Current_Event__c</fullName>
+        <description>Current Event in focus for Event Services</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Current Event in focus for Event Services</inlineHelpText>
+        <label>Current Event</label>
+        <length>25</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>POS_Verification_Code__c</fullName>
+        <description>5 Digit verification code to be entered by the Front Desk Volunteer for Check and Cash payments only.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>5 Digit verification code to be entered by the Front Desk Volunteer for Check and Cash payments only.</inlineHelpText>
+        <label>POS Verification Code</label>
+        <length>5</length>
+        <required>true</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <label>DCMSS POS Settings</label>
+    <visibility>Public</visibility>
+</CustomObject>

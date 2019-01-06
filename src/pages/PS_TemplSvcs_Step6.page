@@ -1,0 +1,101 @@
+<apex:page standardcontroller="Contact" extensions="SearchContactControllerExtn" sidebar="false" showHeader="false">
+ <apex:form >
+ <head>
+<style>
+div.pbSubheader{
+font-size:20px;
+}
+</style>
+</head>
+ <apex:sectionHeader title="Step 5" subtitle="Credit Card Payment - Please confirm to process the charge"/>
+  <apex:pageblock >
+  <!-- Div to give a colored box effect -->
+
+<div style="border-width:2px;border-style:solid;border-color:orange;">
+    <!-- Panel grid to display boxes o accept user input values -->
+    <apex:panelGrid columns="4" rendered="{!IF(CONTAINS(UserType,'Member'),true,false)}">
+        <apex:outputLabel style="font-weight:bold;" value="E-mail" ></apex:outputLabel>
+       <apex:outputText value="{!userinput}"/>
+        <apex:outputLabel style="font-weight:bold;" value="Full Name" ></apex:outputLabel>
+        <apex:outputText value="{!name}"/> 
+    </apex:panelGrid>
+    <apex:panelGrid columns="4" rendered="{!IF(Donor==true,true,false)}">
+        <apex:outputLabel style="font-weight:bold;" value="E-mail" ></apex:outputLabel>
+       <apex:outputText value="{!userinput}"/>
+        <apex:outputLabel style="font-weight:bold;" value="Full Name" ></apex:outputLabel>
+        <apex:outputText value="{!userinp}"/> 
+    </apex:panelGrid>
+     <apex:panelGrid columns="1" rendered="{!IF(Donor==true,true,false)}"> 
+       <apex:outputLabel style="font-weight:bold;" value="Donation Amount" ></apex:outputLabel>
+       <apex:outputText value="{!DonationAmt}"/>
+       <apex:outputLabel style="font-weight:bold;" value="Payment Type : " ></apex:outputLabel>
+        <apex:outputText value="{!selectedPT}"/>
+       </apex:panelGrid>
+    
+    <apex:panelGrid columns="4" rendered="{!IF(Donor==false,true,false)}">
+        <apex:outputLabel style="font-weight:bold;" value="Payment Type : " ></apex:outputLabel>
+        <apex:outputText value="{!selectedPT}"/>
+    </apex:panelGrid>
+</div>
+<apex:pageBlockSection title="Services Shopping Cart" columns="1" rendered="{!IF(Donor==false,true,false)}"></apex:pageBlockSection>
+<apex:pageblock rendered="{!IF(Donor==false,true,false)}">
+      <apex:pageblocktable value="{!OptyItem}" var="opl" id="outptText1">
+        <apex:column headervalue="Selected Service">
+                <apex:outputtext value="{!opl.ProductCode}"/>
+            </apex:column>
+        <apex:column headervalue="Description">
+            <apex:outputtext value="{!opl.Product_Desc__c}"/>
+          </apex:column>
+         <apex:column headervalue="Unit Price">
+                <apex:outputtext value="{!opl.UnitPrice}"/>
+            </apex:column>  
+         <apex:column headervalue="Qty">
+                <apex:outputtext value="{!opl.Qty__c}"/>
+            </apex:column>    
+          <apex:column headervalue="Total Price">
+            <apex:outputtext value="{!opl.TotPrice__c}"/>
+          </apex:column>
+      </apex:pageblocktable>
+</apex:pageblock>
+<apex:panelGrid columns="6" rendered="{!IF(Donor==false,true,false)}">
+        <apex:outputLabel style="font-weight:bold;" value=" " ></apex:outputLabel>
+       <apex:outputLabel style="font-weight:bold;" value=" " ></apex:outputLabel>
+       <apex:outputLabel style="font-weight:bold;" value=" " ></apex:outputLabel>
+       <apex:outputLabel style="font-weight:bold;" value=" " ></apex:outputLabel>
+       <apex:outputLabel style="font-weight:bold;font-size: 20px;" value="Grand Total :" ></apex:outputLabel>
+       <apex:outputText value="{!GrandTotal}"/>
+</apex:panelGrid>
+
+<apex:pageBlockSection title="CREDIT CARD INFORMATION ENTERED" columns="1"></apex:pageBlockSection>
+<apex:panelgrid id="CC" columns="4">
+ <!-- rendered="{IF(!selectedPT == 'CREDIT CARD', true, false)}" -->
+      <apex:outputLabel style="font-weight:bold;" value="Name as in Credit Card"></apex:outputLabel>
+       <apex:outputText value="{!CCName}"/>
+       <!-- required="{!IF(CONTAINS(selectedPT,'CREDIT'),true,false)}" -->
+      <apex:outputLabel style="font-weight:bold;" value="Card Number (16 Digits):"></apex:outputLabel>
+       <apex:outputText value="{!CCNum}"/>
+       
+      <apex:outputLabel style="font-weight:bold;" value="Card Exp Month : "></apex:outputLabel>
+      <apex:outputText value="{!selectedExpMnth}"/>
+
+      <apex:outputLabel style="font-weight:bold;" value="Card Exp Year : "></apex:outputLabel>
+     <apex:outputText value="{!selectedExpYr}"/>
+              
+     <apex:outputLabel style="font-weight:bold;" value="3 Digit Card CVC Code"></apex:outputLabel>
+       <apex:outputText value="{!CCCVC}"/>
+ </apex:panelgrid> 
+  <!-- Commandbutton to proceed to next screen -->
+  <div style="position:relative;left:75px;">
+      <apex:outputLabel style="font-weight:bold;" value="By clicking on the - Confirm and Process button-, I hereby authorize DC Metro Sai Samsthan to charge my Credit Card."></apex:outputLabel>
+      <br/>
+      <apex:commandButton value="Confirm & Process Payment" onclick="return confirm('Do you want to process the credit card? Please do not press the Confirm and Process button again!!');" action="{!submitPayment}"/>
+      <apex:commandbutton value="Previous" action="{!processStep4}"/>
+      <apex:commandbutton value="Cancel" action="{!gotoStep0}"/>
+  </div>
+<!-- End of Commandbutton -->
+   <!-- Display error message -->
+<apex:pagemessages id="showErrorMsg"></apex:pagemessages>
+<!-- End of error message -->
+</apex:pageblock>
+</apex:form>
+</apex:page>

@@ -1,0 +1,352 @@
+<apex:page standardcontroller="Contact" extensions="SearchContactControllerExtn" sidebar="false" showHeader="false">
+
+<apex:form >
+<style>
+        
+        
+        .bPageTitle h2 {
+            font-family: arial,"Times New Roman", Georgia, Serif;
+            font-size: 20px !important;
+        }
+        
+        .bPageTitle h1{
+            font-style: italic;
+            font-size: 40px !important;
+        }
+        
+ </style>
+<!--<apex:sectionHeader title="Step 3" subtitle="Ganesha Chaturthi Sponsorships"/>-->
+<apex:sectionHeader title="Step 3" subtitle="Centennial Celeberations"/>
+<apex:pageblock >
+<head>
+<style>
+div.pbSubheader{
+font-size:20px;
+}
+</style>
+</head>
+<apex:pageBlockSection title="Choose a Service and enter Payment Type" columns="1"></apex:pageBlockSection>
+
+<!-- Div to give a colored box effect -->
+
+<div style="border-width:2px;border-style:solid;border-color:orange;">
+    <!--<apex:outputLabel style="font-weight:bold;" value="For priest services in DC Metro Area, please contact xxx-xxx-xxxx" ></apex:outputLabel>  -->
+    <!-- Panel grid to display boxes o accept user input values -->
+    <apex:panelGrid columns="4" rendered="{!IF(CONTAINS(UserType,'Member'),true,false)}">
+        <apex:outputLabel style="font-weight:bold;" value=" " ></apex:outputLabel>
+       <apex:outputLabel style="font-weight:bold;" value=" " ></apex:outputLabel>
+       <apex:outputLabel style="font-weight:bold;" value=" " ></apex:outputLabel>
+       <apex:outputLabel style="font-weight:bold;" value=" " ></apex:outputLabel>
+        <apex:outputLabel style="font-weight:bold;font-size: 20px;" value="E-mail :" ></apex:outputLabel>
+       <apex:outputText value="{!userinput}"/>
+        <apex:outputLabel style="font-weight:bold;font-size: 20px;" value="Full Name :" ></apex:outputLabel>
+        <apex:outputText value="{!name}"/> 
+        <apex:outputLabel style="font-weight:bold;" value=" " ></apex:outputLabel>
+       <apex:outputLabel style="font-weight:bold;" value=" " ></apex:outputLabel>
+       <apex:outputLabel style="font-weight:bold;" value=" " ></apex:outputLabel>
+       <apex:outputLabel style="font-weight:bold;" value=" " ></apex:outputLabel>
+        </apex:panelGrid>
+        <apex:panelGrid columns="4" rendered="{!IF(CONTAINS(UserType,'Devotee'),true,false)}">
+        <apex:outputLabel style="font-weight:bold;" value=" " ></apex:outputLabel>
+       <apex:outputLabel style="font-weight:bold;" value=" " ></apex:outputLabel>
+       <apex:outputLabel style="font-weight:bold;" value=" " ></apex:outputLabel>
+       <apex:outputLabel style="font-weight:bold;" value=" " ></apex:outputLabel>
+        <apex:outputLabel style="font-weight:bold;font-size: 20px;" value="E-mail :" ></apex:outputLabel>
+       <apex:outputText value="{!userinput}"/>
+        <apex:outputLabel style="font-weight:bold;font-size: 20px;" value="Last Name :" ></apex:outputLabel>
+        <apex:outputText value="{!userinp}"/> 
+        <apex:outputLabel style="font-weight:bold;" value=" " ></apex:outputLabel>
+       <apex:outputLabel style="font-weight:bold;" value=" " ></apex:outputLabel>
+       <apex:outputLabel style="font-weight:bold;" value=" " ></apex:outputLabel>
+       <apex:outputLabel style="font-weight:bold;" value=" " ></apex:outputLabel>
+        </apex:panelGrid>
+     <apex:panelGrid columns="4" rendered="{!IF(Donor==false,true,false)}">
+        <apex:outputLabel style="font-weight:bold;font-size: 20px;" value="Select a service : " ></apex:outputLabel>
+        <apex:outputLabel style="font-weight:bold;" value=" " ></apex:outputLabel>
+       <apex:outputLabel style="font-weight:bold;" value=" " ></apex:outputLabel>
+       <apex:outputLabel style="font-weight:bold;" value=" " ></apex:outputLabel>
+     <!--     <apex:selectList value="{!selectedServices}" multiselect="false" size="1">
+                <apex:selectOptions value="{!TmplServOptions}"/>
+                <apex:actionSupport action="{!getPriceMethod}" event="onclick" reRender="outptText" />
+            </apex:selectList>
+       <apex:commandButton value="KALYANAM GRAND SPONSOR" action="{!getPriceMethod}" image="{!URLFOR($Resource.posimages,'images/KalyanamGrand.jpg')}" reRender="outptText">
+            <apex:param name="posselect" value="KALYANAM GRAND SPONSOR"/> 
+            </apex:commandButton>
+      <apex:commandButton value="GANESHA IDOL MAKING AND PUJA" action="{!getPriceMethod}" image="{!URLFOR($Resource.posimages,'images/KidsGaneshaIdolMakingAndPuja.jpg')}" reRender="outptText">
+            <apex:param name="posselect" value="GANESHA IDOL MAKING AND PUJA"/> 
+            </apex:commandButton>
+            <apex:commandButton value="GANESHA ASHTOTHARAM ARCHANA" action="{!getPriceMethod}" image="{!URLFOR($Resource.posimages,'images/GanapathiAshtotramArchana.jpg')}" reRender="outptText">
+            <apex:param name="posselect" value="GANESHA ASHTOTHARAM ARCHANA"/> 
+            </apex:commandButton>
+            <apex:commandButton value="GANESHA SAHASRANAMA ARCHANA" action="{!getPriceMethod}" image="{!URLFOR($Resource.posimages,'images/GanapathiSahasranamaArchana.jpg')}" reRender="outptText">
+            <apex:param name="posselect" value="GANESHA SAHASRANAMA ARCHANA"/> 
+            </apex:commandButton>
+            <apex:commandButton value="GANESHA NINE DAYS ARCHANA" action="{!getPriceMethod}" image="{!URLFOR($Resource.posimages,'images/NineDaysArchana.jpg')}" reRender="outptText">
+            <apex:param name="posselect" value="GANESHA NINE DAYS ARCHANA"/> 
+            </apex:commandButton>
+            <apex:commandButton value="GANESHA ABHISHEKAM AND ARCHANA" action="{!getPriceMethod}" image="{!URLFOR($Resource.posimages,'images/AbhishekamandAshtothram.jpg')}" reRender="outptText">
+            <apex:param name="posselect" value="GANESHA ABHISHEKAM AND ARCHANA"/> 
+            </apex:commandButton>
+            <apex:commandButton value="GANESHA PRASADAM SPONSORSHIP" action="{!getPriceMethod}" image="{!URLFOR($Resource.posimages,'images/GaneshPrasadamSponsorship.jpg')}" reRender="outptText">
+            <apex:param name="posselect" value="GANESHA PRASADAM SPONSORSHIP"/> 
+            </apex:commandButton>
+            <apex:commandButton value="GANESHA NINEDAY PRASADAM SPONSORSHIP" action="{!getPriceMethod}" image="{!URLFOR($Resource.posimages,'images/NineDayPrasadam.jpg')}" reRender="outptText">
+            <apex:param name="posselect" value="GANESHA NINEDAY PRASADAM SPONSORSHIP"/> 
+            </apex:commandButton>
+            <apex:commandButton value="GANESHA HOMAM AND PUJA" action="{!getPriceMethod}" image="{!URLFOR($Resource.posimages,'images/AgniMukaGanapathiHomam.jpg')}" reRender="outptText">
+            <apex:param name="posselect" value="GANESHA HOMAM AND PUJA"/> 
+            </apex:commandButton>
+            <apex:commandButton value="GANESHA PRANA PRATHISHTA" action="{!getPriceMethod}" image="{!URLFOR($Resource.posimages,'images/MahaGanapathiPranaPrathishta.jpg')}" reRender="outptText">
+            <apex:param name="posselect" value="GANESHA PRANA PRATHISHTA"/> 
+            </apex:commandButton>
+            <apex:commandButton value="GANESHA ONE DAY EVENT SPONSOR" action="{!getPriceMethod}" image="{!URLFOR($Resource.posimages,'images/OneDayEventSponsorship.jpg')}" reRender="outptText">
+            <apex:param name="posselect" value="GANESHA ONE DAY EVENT SPONSOR"/> 
+            </apex:commandButton>
+            <apex:commandButton value="GANESHA NINE DAY EVENT SPONSOR" action="{!getPriceMethod}" image="{!URLFOR($Resource.posimages,'images/NineDayEventSponsorship.jpg')}" reRender="outptText">
+            <apex:param name="posselect" value="GANESHA NINE DAY EVENT SPONSOR"/> 
+            </apex:commandButton>-->
+      <!--   <apex:commandButton value="MAKE YOUR GANESHA" action="{!getPriceMethod}" image="{!URLFOR($Resource.posimages,'images/GaneshaIdolMaking.jpg')}" reRender="outptText">
+            <apex:param name="posselect" value="MAKE YOUR GANESHA"/> 
+            </apex:commandButton>
+            <apex:commandButton value="GANAPATI ABHISHEKAM" action="{!getPriceMethod}" image="{!URLFOR($Resource.posimages,'images/GanapathiAbhishekam.jpg')}" reRender="outptText">
+            <apex:param name="posselect" value="GANAPATI ABHISHEKAM"/> 
+            </apex:commandButton>
+            <apex:commandButton value="DHANAKARSHANA HOMAM" action="{!getPriceMethod}" image="{!URLFOR($Resource.posimages,'images/DhanakarshanaHomam.jpg')}" reRender="outptText">
+            <apex:param name="posselect" value="DHANAKARSHANA HOMAM"/> 
+            </apex:commandButton>
+            <apex:commandButton value="GANAPATI MODAKA HOMAM" action="{!getPriceMethod}" image="{!URLFOR($Resource.posimages,'images/GanapathiModakaHomam.jpg')}" reRender="outptText">
+            <apex:param name="posselect" value="GANAPATI MODAKA HOMAM"/> 
+            </apex:commandButton>
+            <apex:commandButton value="GARIKA ARCHANA" action="{!getPriceMethod}" image="{!URLFOR($Resource.posimages,'images/GarikaArchana.jpg')}" reRender="outptText">
+            <apex:param name="posselect" value="GARIKA ARCHANA"/> 
+            </apex:commandButton> --> 
+            <apex:commandButton value="CENTENNIAL GOLD SPONSOR" action="{!getPriceMethod}" image="{!URLFOR($Resource.posimages,'images/CentGoldSponsor.jpg')}" reRender="outptText">
+            <apex:param name="posselect" value="CENTENNIAL GOLD SPONSOR"/> 
+            </apex:commandButton>
+            <apex:commandButton value="GRAND SPONSOR" action="{!getPriceMethod}" image="{!URLFOR($Resource.posimages,'images/GrandSponsor.jpg')}" reRender="outptText">
+            <apex:param name="posselect" value="GRAND SPONSOR"/> 
+            </apex:commandButton>
+            <apex:commandButton value="BABA ABHISHEKAM 100 RIVERS" action="{!getPriceMethod}" image="{!URLFOR($Resource.posimages,'images/BabaAbhishekham.jpg')}" reRender="outptText">
+            <apex:param name="posselect" value="BABA ABHISHEKAM 100 RIVERS"/> 
+            </apex:commandButton>
+            <apex:commandButton value="CHANDI HOMAM" action="{!getPriceMethod}" image="{!URLFOR($Resource.posimages,'images/ChandiHomama.jpg')}" reRender="outptText">
+            <apex:param name="posselect" value="CHANDI HOMAM"/> 
+            </apex:commandButton>
+         <apex:commandButton value="DURGA HOMAM" action="{!getPriceMethod}" image="{!URLFOR($Resource.posimages,'images/DurgaHomam.jpg')}" reRender="outptText">
+            <apex:param name="posselect" value="DURGA HOMAM"/> 
+            </apex:commandButton>
+            <apex:commandButton value="AKSHARABHYASAM" action="{!getPriceMethod}" image="{!URLFOR($Resource.posimages,'images/Aksharabhyasam.jpg')}" reRender="outptText">
+            <apex:param name="posselect" value="AKSHARABHYASAM"/> 
+            </apex:commandButton>
+            <apex:commandButton value="SUMANGALI POOJA" action="{!getPriceMethod}" image="{!URLFOR($Resource.posimages,'images/SumangaliPooja.jpg')}" reRender="outptText">
+            <apex:param name="posselect" value="SUMANGALI POOJA"/> 
+            </apex:commandButton>
+            <apex:commandButton value="KANYA POOJA" action="{!getPriceMethod}" image="{!URLFOR($Resource.posimages,'images/KanyaPooja.jpg')}" reRender="outptText">
+            <apex:param name="posselect" value="KANYA POOJA"/> 
+            </apex:commandButton>
+            <apex:commandButton value="SAHASRANAMA KUMKUMARCHANA" action="{!getPriceMethod}" image="{!URLFOR($Resource.posimages,'images/SahasranamaKumkum.jpg')}" reRender="outptText">
+            <apex:param name="posselect" value="SAHASRANAMA KUMKUMARCHANA"/> 
+            </apex:commandButton> 
+            <apex:commandButton value="KUMKUMARCHANA" action="{!getPriceMethod}" image="{!URLFOR($Resource.posimages,'images/KumkumArchana10.jpg')}" reRender="outptText">
+            <apex:param name="posselect" value="KUMKUMARCHANA"/> 
+            </apex:commandButton>
+        <apex:outputLabel style="font-weight:bold;" value=" " ></apex:outputLabel>
+       <apex:outputLabel style="font-weight:bold;" value=" " ></apex:outputLabel>
+       <apex:outputLabel style="font-weight:bold;" value=" " ></apex:outputLabel>
+       <apex:outputLabel style="font-weight:bold;" value=" " ></apex:outputLabel> 
+   </apex:panelGrid>
+   <apex:panelGrid columns="5" rendered="{!IF(Donor==false,true,false)}">
+    <apex:outputLabel style="font-weight:bold;font-size: 20px;" value="Select Quantity : " ></apex:outputLabel>
+    <!--  <apex:selectList value="{!selectedQty}" multiselect="false" size="1">
+                <apex:selectOptions value="{!ServQty}"/>
+                <apex:actionSupport action="{!getPriceMethod2}" event="onclick" reRender="outptText" />
+            </apex:selectList>-->
+     <apex:outputLabel style="font-weight:bold;" value=" " ></apex:outputLabel>
+       <apex:outputLabel style="font-weight:bold;" value=" " ></apex:outputLabel>
+       <apex:outputLabel style="font-weight:bold;" value=" " ></apex:outputLabel>
+       <apex:outputLabel style="font-weight:bold;" value=" " ></apex:outputLabel> 
+     <apex:commandButton value="1" action="{!getPriceMethod2}" style="height:50px; width:50px;" image="{!URLFOR($Resource.posimages,'images/One.jpg')}" reRender="outptText">
+        <apex:param name="selq" value="1"/>
+        </apex:commandButton>
+        <apex:commandButton value="2" action="{!getPriceMethod2}" style="height:50px; width:50px;" image="{!URLFOR($Resource.posimages,'images/two.jpg')}" reRender="outptText">
+        <apex:param name="selq" value="2"/> 
+        </apex:commandButton>
+      <apex:commandButton value="3" action="{!getPriceMethod2}" style="height:50px; width:50px;" image="{!URLFOR($Resource.posimages,'images/three.jpg')}" reRender="outptText">
+        <apex:param name="selq" value="3"/> 
+        </apex:commandButton>
+      <apex:commandButton value="4" action="{!getPriceMethod2}" style="height:50px; width:50px;" image="{!URLFOR($Resource.posimages,'images/Four.jpg')}" reRender="outptText">
+        <apex:param name="selq" value="4"/> 
+        </apex:commandButton>
+      <apex:commandButton value="5" action="{!getPriceMethod2}" style="height:50px; width:50px;" image="{!URLFOR($Resource.posimages,'images/Five.jpg')}" reRender="outptText">
+        <apex:param name="selq" value="5"/> 
+        </apex:commandButton>
+         <apex:outputLabel style="font-weight:bold;" value=" " ></apex:outputLabel>
+       <apex:outputLabel style="font-weight:bold;" value=" " ></apex:outputLabel>
+       <apex:outputLabel style="font-weight:bold;" value=" " ></apex:outputLabel>
+       <apex:outputLabel style="font-weight:bold;" value=" " ></apex:outputLabel> 
+       <apex:outputLabel style="font-weight:bold;" value=" " ></apex:outputLabel> 
+    </apex:panelGrid>
+</div>
+<apex:pageBlockSection title="Selected Service" columns="1"></apex:pageBlockSection>
+<div style="border-width:2px;border-style:solid;border-color:red;">
+<apex:outputLabel style="font-weight:bold;" value=" " ></apex:outputLabel>
+       <apex:outputLabel style="font-weight:bold;" value=" " ></apex:outputLabel>
+       <apex:outputLabel style="font-weight:bold;" value=" " ></apex:outputLabel>
+       <apex:outputLabel style="font-weight:bold;" value=" " ></apex:outputLabel>
+<apex:pageblock rendered="{!IF(Donor==false,true,false)}">
+      <apex:pageblocktable value="{!PricebookEntryList}" var="pbe" id="outptText">
+        <apex:column headervalue="Selected Service">
+                <apex:outputtext value="{!pbe.ProductCode}"/>
+            </apex:column>
+        <apex:column headervalue="Description">
+            <apex:outputtext value="{!pbe.Description__c}"/>
+        </apex:column>
+         <apex:column headervalue="Unit Price">
+                <apex:outputtext value="{!pbe.UnitPrice}"/>
+            </apex:column>   
+          <apex:column headervalue="Qty">
+            <apex:outputtext value="{!pbe.Qty__c}"/>
+          </apex:column>
+          <apex:column headervalue="Total Price">
+            <apex:outputtext value="{!pbe.TotPrice__c}"/>
+          </apex:column>
+      </apex:pageblocktable>
+</apex:pageblock>
+ <!-- Commandbutton to add to cart -->
+  <div style="position:relative;left:75px;">
+      <apex:commandButton value="Add to Cart" action="{!Add2Cart}"/>
+           &nbsp;
+     &nbsp;
+     &nbsp;
+     &nbsp;
+      <apex:commandbutton value="Delete from Cart" action="{!DelFmCart}"/>
+           &nbsp;
+     &nbsp;
+     &nbsp;
+     &nbsp;
+     <apex:commandbutton value="Select Temple Services" action="{!gobacktoPage3}"/>
+           &nbsp;
+     &nbsp;
+     &nbsp;
+     &nbsp;
+     <apex:commandbutton value="Select Offsite Services" action="{!gotoOffsiteSvcs}"/>
+           &nbsp;
+     &nbsp;
+     &nbsp;
+     &nbsp;
+  </div>
+<!-- End of Commandbutton -->
+</div>
+<apex:pageBlockSection title="Services Shopping Cart" columns="1"></apex:pageBlockSection>
+<div style="border-width:2px;border-style:solid;border-color:green;">
+<!-- Start of Cart table display -->
+<apex:outputLabel style="font-weight:bold;" value=" " ></apex:outputLabel>
+       <apex:outputLabel style="font-weight:bold;" value=" " ></apex:outputLabel>
+       <apex:outputLabel style="font-weight:bold;" value=" " ></apex:outputLabel>
+       <apex:outputLabel style="font-weight:bold;" value=" " ></apex:outputLabel>
+<apex:pageblock rendered="{!IF(Donor==false,true,false)}">
+      <apex:pageblocktable value="{!OptyItem}" var="opl" id="outptText1">
+        <apex:column headervalue="Selected Service">
+                <apex:outputtext value="{!opl.ProductCode}"/>
+            </apex:column>
+        <apex:column headervalue="Description">
+            <apex:outputtext value="{!opl.Product_Desc__c}"/>
+        </apex:column>
+         <apex:column headervalue="Unit Price">
+                <apex:outputtext value="{!opl.UnitPrice}"/>
+            </apex:column>   
+          <apex:column headervalue="Qty">
+            <apex:outputtext value="{!opl.Qty__c}"/>
+          </apex:column>
+          <apex:column headervalue="Total Price">
+            <apex:outputtext value="{!opl.TotPrice__c}"/>
+          </apex:column>
+      </apex:pageblocktable>
+</apex:pageblock>
+<apex:panelGrid columns="6">
+        <apex:outputLabel style="font-weight:bold;" value=" " ></apex:outputLabel>
+       <apex:outputLabel style="font-weight:bold;" value=" " ></apex:outputLabel>
+       <apex:outputLabel style="font-weight:bold;" value=" " ></apex:outputLabel>
+       <apex:outputLabel style="font-weight:bold;" value=" " ></apex:outputLabel>
+       <apex:outputLabel style="font-weight:bold;font-size: 20px;" value="Grand Total :" ></apex:outputLabel>
+       <apex:outputText value="{!GrandTotal}"/>
+</apex:panelGrid>
+<!-- End of Cart table display -->
+</div>
+
+<div style="border-width:2px;border-style:solid;border-color:blue;">
+<apex:panelGrid columns="4" rendered="{!IF(Donor==false,true,false)}">
+<apex:outputLabel style="font-weight:bold;" value=" " ></apex:outputLabel>
+       <apex:outputLabel style="font-weight:bold;" value=" " ></apex:outputLabel>
+       <apex:outputLabel style="font-weight:bold;" value=" " ></apex:outputLabel>
+       <apex:outputLabel style="font-weight:bold;" value=" " ></apex:outputLabel>
+ <apex:outputLabel style="font-weight:bold;font-size: 20px;" value="How do you want to pay for this service ?" ></apex:outputLabel>
+    <!-- Panel grid to display boxes to accept user Payment Type -->
+    <apex:outputLabel style="font-weight:bold;" value=" " ></apex:outputLabel>
+       <apex:outputLabel style="font-weight:bold;" value=" " ></apex:outputLabel>
+       <apex:outputLabel style="font-weight:bold;" value=" " ></apex:outputLabel>
+
+        <apex:outputLabel style="font-weight:bold;font-size: 20px;" value="Select Payment Type : " ></apex:outputLabel>
+        <apex:selectList value="{!selectedPT}" multiselect="false" size="1">
+                <apex:selectOptions value="{!TmplPTOptions}"/>
+               <!--    <apex:actionSupport action="{!dispPaymentFields}" event="onclick" reRender="CC,CHQDet" />-->
+                  
+            </apex:selectList>
+       <apex:outputLabel style="font-weight:bold;" value=" " ></apex:outputLabel>
+       <apex:outputLabel style="font-weight:bold;" value=" " ></apex:outputLabel>
+       <apex:outputLabel style="font-weight:bold;" value=" " ></apex:outputLabel>
+       <apex:outputLabel style="font-weight:bold;" value=" " ></apex:outputLabel> 
+</apex:panelGrid>
+<apex:panelGrid columns="4" rendered="{!IF(Donor==true,true,false)}">
+<apex:outputLabel style="font-weight:bold;" value=" " ></apex:outputLabel>
+       <apex:outputLabel style="font-weight:bold;" value=" " ></apex:outputLabel>
+       <apex:outputLabel style="font-weight:bold;" value=" " ></apex:outputLabel>
+       <apex:outputLabel style="font-weight:bold;" value=" " ></apex:outputLabel>
+ <apex:outputLabel style="font-weight:bold;font-size: 20px;" value="Donation details." ></apex:outputLabel>
+    <!-- Panel grid to display boxes to accept user Payment Type -->
+    <apex:outputLabel style="font-weight:bold;" value=" " ></apex:outputLabel>
+       <apex:outputLabel style="font-weight:bold;" value=" " ></apex:outputLabel>
+       <apex:outputLabel style="font-weight:bold;" value=" " ></apex:outputLabel>
+
+        <apex:outputLabel style="font-weight:bold;font-size: 20px;" value="Select Payment Type : " ></apex:outputLabel>
+        <apex:selectList value="{!selectedPT}" multiselect="false" size="1">
+                <apex:selectOptions value="{!TmplPTOptions}"/>
+               <!--    <apex:actionSupport action="{!dispPaymentFields}" event="onclick" reRender="CC,CHQDet" />-->
+                  
+            </apex:selectList>
+       <apex:outputLabel style="font-weight:bold;" value=" " ></apex:outputLabel>
+       <apex:outputLabel style="font-weight:bold;" value=" " ></apex:outputLabel>
+       <apex:outputLabel style="font-weight:bold;font-size: 20px;" value="Donation Amount" ></apex:outputLabel>
+       <apex:inputText value="{!DonationAmt}"/>
+</apex:panelGrid>
+</div>
+
+<!-- Display error message
+<apex:pagemessage strength="2" title="Error!!" severity="error" detail="Please select a contact or enter email address to proceed" rendered="{!errormsg}"/>
+<!-- End of error message -->
+
+<!-- Display error message -->
+<apex:pagemessages id="showErrorMsg"></apex:pagemessages>
+<!-- End of error message -->
+<apex:outputLabel style="font-weight:bold;" value=" " ></apex:outputLabel>
+       <apex:outputLabel style="font-weight:bold;" value=" " ></apex:outputLabel>
+       <apex:outputLabel style="font-weight:bold;" value=" " ></apex:outputLabel>
+       <apex:outputLabel style="font-weight:bold;" value=" " ></apex:outputLabel>
+  <!-- Commandbutton to proceed to next screen -->
+  <div style="position:relative;left:75px;">
+      <apex:commandButton value="Enter Payment Information" action="{!capturePayment}"/>
+           &nbsp;
+     &nbsp;
+     &nbsp;
+     &nbsp;
+      <apex:commandbutton value="Back" action="{!gobacktoPage3}"/>
+           &nbsp;
+     &nbsp;
+     &nbsp;
+     &nbsp;
+      <apex:commandbutton value="Cancel" action="{!gotoStep0}"/>
+  </div>
+<!-- End of Commandbutton -->
+</apex:pageblock>
+</apex:form>
+</apex:page>

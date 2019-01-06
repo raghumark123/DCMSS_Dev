@@ -1,0 +1,52 @@
+<apex:page standardcontroller="Contact" extensions="SearchContactControllerExtn" sidebar="false" showHeader="false">
+<apex:form >
+<style>
+        
+        
+        .bPageTitle h2 {
+            font-family: arial,"Times New Roman", Georgia, Serif;
+            font-size: 20px !important;
+        }
+        
+        .bPageTitle h1{
+            font-style: italic;
+            font-size: 40px !important;
+        }
+        
+ </style>
+ <apex:image id="theImage" value="{!$Resource.sairam}" width="150" height="100"/>
+ <apex:sectionHeader title="Welcome to DC Metro Sai Samsthan" subtitle="Temple POS"/>
+<apex:pageblock >
+<head>
+<style>
+div.pbSubheader{
+font-size:20px;
+}
+</style>
+</head>
+<apex:pageBlockSection title="Choose one of the options ! " columns="1"></apex:pageBlockSection>
+
+   <!-- Commandbutton to proceed to next screen -->
+  <div style="position:relative;left:75px;">
+  <br/><br/> 
+     <apex:commandButton value="TemplSvcs" action="{!gotoTemplSvcs}" image="{!URLFOR($Resource.posimages,'images/Services.jpg')}"/>
+     &nbsp;
+     &nbsp;
+     &nbsp;
+     &nbsp;
+     <apex:commandbutton value="Donation" action="{!gotoRecvDonation}" image="{!URLFOR($Resource.posimages,'images/Donate.jpg')}"/>
+      &nbsp;
+      &nbsp;
+      &nbsp;
+      &nbsp;
+    <!-- <apex:commandbutton value="EventSvcs" action="{!gotoEventSvcs}" image="{!URLFOR($Resource.posimages,'images/EventServices.jpg')}"/>-->
+     &nbsp;
+     &nbsp;
+     &nbsp;
+     &nbsp;
+  <!--  <apex:commandbutton value="GuestSignBook" action="{!gotoGuestBook}" image="{!URLFOR($Resource.posimages,'images/GuestSignbook.jpg')}"/>-->
+  </div>
+<!-- End of Commandbutton -->
+ </apex:pageblock>
+ </apex:form>
+</apex:page>

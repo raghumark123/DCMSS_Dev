@@ -1,0 +1,67 @@
+<apex:page standardcontroller="Contact" extensions="SearchContactControllerExtn" sidebar="false" showHeader="false">
+
+<apex:form >
+<style>
+        
+        
+        .bPageTitle h2 {
+            font-family: arial,"Times New Roman", Georgia, Serif;
+            font-size: 20px !important;
+        }
+        
+        .bPageTitle h1{
+            font-style: italic;
+            font-size: 40px !important;
+        }
+        
+ </style>
+
+<head>
+<style>
+div.pbSubheader{
+font-size:20px;
+}
+</style>
+</head>
+
+
+<div style="border-width:2px;border-style:solid;border-color:blue;">
+<apex:pageblock ><apex:pageBlockSection title="Enter Donation Amount and Description" columns="1"></apex:pageBlockSection>
+<apex:panelGrid columns="4">
+<apex:outputLabel style="font-weight:bold;" value=" " ></apex:outputLabel>
+       <apex:outputLabel style="font-weight:bold;" value=" " ></apex:outputLabel>
+       <apex:outputLabel style="font-weight:bold;" value=" " ></apex:outputLabel>
+       <apex:outputLabel style="font-weight:bold;" value=" " ></apex:outputLabel>
+       <apex:outputLabel style="font-weight:bold;" value=" " ></apex:outputLabel>
+    <!-- Panel grid to display boxes to accept user Payment Type -->
+       <apex:outputLabel style="font-weight:bold;" value=" " ></apex:outputLabel>
+       <apex:outputLabel style="font-weight:bold;" value=" " ></apex:outputLabel>
+       <apex:outputLabel style="font-weight:bold;" value=" " ></apex:outputLabel>
+       <apex:outputLabel style="font-weight:bold;font-size: 20px;" value="Donation Amount" ></apex:outputLabel>
+       <apex:inputText value="{!DonationAmt}"/>
+       <apex:outputLabel style="font-weight:bold;" value=" " ></apex:outputLabel>
+       <apex:outputLabel style="font-weight:bold;" value=" " ></apex:outputLabel>
+       <apex:outputLabel style="font-weight:bold;font-size: 20px;" value="Donation Description" ></apex:outputLabel>
+       <apex:inputTextarea value="{!DonationDesc}"/>
+</apex:panelGrid>
+
+  <!-- Commandbutton to proceed to next screen -->
+  <div style="position:relative;left:75px;">
+      <apex:commandButton value="Add Donation to Cart" action="{!AddDonationToCart}"/>
+           &nbsp;
+     &nbsp;
+     &nbsp;
+     &nbsp;
+      <apex:commandbutton value="Back to Temple Service" action="{!gobacktoPage3}"/>
+           &nbsp;
+     &nbsp;
+     &nbsp;
+     &nbsp;
+      <apex:commandbutton value="Cancel" action="{!gotoStep0}"/>
+  </div>
+ 
+<!-- End of Commandbutton -->
+</apex:pageblock>
+</div>
+</apex:form>
+</apex:page>
